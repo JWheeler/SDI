@@ -49,6 +49,10 @@
      Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
+    
+    // SB 접속 종료.
+    TRGenerator *tr =  [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -72,6 +76,10 @@
      Save data if appropriate.
      See also applicationDidEnterBackground:.
      */
+    
+    // SB 접속 종료.
+    TRGenerator *tr =  [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
 }
 
 - (void)dealloc

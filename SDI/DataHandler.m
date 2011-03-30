@@ -52,7 +52,7 @@ static DataHandler *sharedDataHandler = nil;
 		[webSocket open];
 		
 		// 아이폰의 맥어드레스.
-		self.macAddress = [Utils getMacAddress];
+		self.macAddress = [LPUtils getMacAddress];
 	}
 	
 	return self;
@@ -133,6 +133,10 @@ static DataHandler *sharedDataHandler = nil;
 		// 에러.
 		Debug(@"Error");
     }
+    
+    // TODO: 예외처리!
+    // 얼럿.
+    [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"서버 접속에 실패했습니다."];
 }
 
 
@@ -230,12 +234,12 @@ static DataHandler *sharedDataHandler = nil;
         if (self.MID != nil && self.GID != nil && self.MGL != nil && self.SID != nil) 
         {
             // 2 단계: SB 최초 접속 등록.
-            TRGenerator *tr =  [[TRGenerator alloc] init];
+            TRGenerator *tr = [[TRGenerator alloc] init];
             [self sendMessage:[tr genInitOrFinishSB:TRCD_MAINSTRT andCMD:SB_CMD_INIT_OR_FINISH]];
         }
         else
         {
-            // 에러 처리.  얼럿 등...
+            // TODO: 에러 처리.  얼럿 등...
         }
     }
     else
@@ -247,8 +251,12 @@ static DataHandler *sharedDataHandler = nil;
             Debug(@"trCode: %@", trCode);
             
             // trCode에 따른 데이터 노티피케이션.
-            NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-            [nc postNotificationName:trCode object:self userInfo:dic];
+            //NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+            //[nc postNotificationName:trCode object:self userInfo:dic];
+            
+            // trCode에 따른 데이터 노티피케이션큐.
+            NSNotificationQueue *nq = [NSNotificationQueue defaultQueue];
+            [nq enqueueNotification:[NSNotification notificationWithName:trCode object:self userInfo:dic] postingStyle:NSPostWhenIdle];
         }
     }
 }

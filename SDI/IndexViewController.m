@@ -12,6 +12,7 @@
 @implementation IndexViewController
 
 @synthesize ribbonImageView;
+@synthesize webView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +26,7 @@
 - (void)dealloc
 {
     [ribbonImageView release];
+    [webView release];
     [super dealloc];
 }
 
@@ -44,6 +46,20 @@
     
     // 리본 용 제스처 등록.
     [self registerGestureForRibbon];
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SHNNREAL object:nil];
+    
+    // 자바스크립트 실행 테스트.
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.200.2.47/test/fn/webStorage.html"]]];
+}
+
+- (void)viewText:(NSNotification *)notification 
+{
+    //self.trCode.text = [[notification userInfo] objectForKey:@"TRCD"];
+    Debug(@">>>>>>>>>>>>>>>>>");
+    NSString *jsCmd = [NSString stringWithFormat:@"getWriter('%@');", [[notification userInfo] objectForKey:@"title"]];
+    [self.webView stringByEvaluatingJavaScriptFromString:jsCmd];
 }
 
 - (void)viewDidUnload

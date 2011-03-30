@@ -51,7 +51,7 @@
      */
     
     // SB 접속 종료.
-    TRGenerator *tr =  [[TRGenerator alloc] init];
+    TRGenerator *tr = [[TRGenerator alloc] init];
     [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
 }
 
@@ -60,6 +60,10 @@
     /*
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
+    
+    // SB 최초 접속 등록.
+    TRGenerator *tr = [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINSTRT andCMD:SB_CMD_INIT_OR_FINISH]];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -78,7 +82,7 @@
      */
     
     // SB 접속 종료.
-    TRGenerator *tr =  [[TRGenerator alloc] init];
+    TRGenerator *tr = [[TRGenerator alloc] init];
     [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
 }
 

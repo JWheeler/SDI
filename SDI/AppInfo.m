@@ -111,11 +111,19 @@ static AppInfo *sharedAppInfo = nil;
     NSURL *url = [NSURL URLWithString:STOCK_CODE_MASTER_URL];
     NSString *stringFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     END_TIMER(@"loadStockCodeMaster");
+    
     //[self writeToMasterFile:STOCK_CODE_MASTER_FILE_NAME withContent:stringFile];
     //Debug(@"%@", stringFile);
     
     // TODO: 예외처리!
-    if (nil == stringFile) return;
+    // 얼럿.
+    
+    if (nil == stringFile) 
+    {
+        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"서버 접속에 실패했습니다."];
+        return;
+    }
+        
     
     StockCode *stockCode = [[StockCode alloc] init];
     NSArray *headers = stockCode.headers;

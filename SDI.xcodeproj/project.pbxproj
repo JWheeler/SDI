@@ -18,6 +18,7 @@
 		1D02C91F13388D1100B5415B /* LPDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D02C91D13388D1100B5415B /* LPDebug.m */; };
 		1D02C92213388E0900B5415B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D02C92113388E0900B5415B /* QuartzCore.framework */; };
 		1D02C9401338907C00B5415B /* AppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D02C93F1338907C00B5415B /* AppInfo.m */; };
+		1D2318D3134305530029B6ED /* SDI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318D1134305530029B6ED /* SDI.xcdatamodeld */; };
 		1D239C271340017C00A9DA45 /* SBRegBodyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D239C261340017C00A9DA45 /* SBRegBodyHeader.m */; };
 		1D4FE0FB133B280500AB63A4 /* AsyncSocket Documentation.html in Resources */ = {isa = PBXBuildFile; fileRef = 1D4FE0DF133B280500AB63A4 /* AsyncSocket Documentation.html */; };
 		1D4FE0FC133B280500AB63A4 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4FE0E1133B280500AB63A4 /* AsyncSocket.m */; };
@@ -43,7 +44,7 @@
 		1D975F6F133B370B000E74FB /* SBBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D975F6D133B370B000E74FB /* SBBody.m */; };
 		1D975F74133B3772000E74FB /* CommHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D975F71133B3772000E74FB /* CommHeader.m */; };
 		1D975F75133B3772000E74FB /* DataHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D975F73133B3772000E74FB /* DataHeader.m */; };
-		1DA0D66F133C0A2600787FB2 /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA0D66E133C0A2600787FB2 /* Utils.m */; };
+		1DA0D66F133C0A2600787FB2 /* LPUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA0D66E133C0A2600787FB2 /* LPUtils.m */; };
 		1DA0D672133C0D0B00787FB2 /* LPPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA0D671133C0D0B00787FB2 /* LPPageControl.m */; };
 		1DA0D675133C203600787FB2 /* ribbon.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA0D673133C203600787FB2 /* ribbon.png */; };
 		1DA0D676133C203600787FB2 /* ribbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA0D674133C203600787FB2 /* ribbon@2x.png */; };
@@ -95,6 +96,7 @@
 		1D02C92113388E0900B5415B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D02C93E1338907C00B5415B /* AppInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInfo.h; sourceTree = "<group>"; };
 		1D02C93F1338907C00B5415B /* AppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfo.m; sourceTree = "<group>"; };
+		1D2318D2134305530029B6ED /* SDI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SDI.xcdatamodel; sourceTree = "<group>"; };
 		1D239C251340017C00A9DA45 /* SBRegBodyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBRegBodyHeader.h; sourceTree = "<group>"; };
 		1D239C261340017C00A9DA45 /* SBRegBodyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBRegBodyHeader.m; sourceTree = "<group>"; };
 		1D4FE0DF133B280500AB63A4 /* AsyncSocket Documentation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "AsyncSocket Documentation.html"; sourceTree = "<group>"; };
@@ -144,8 +146,8 @@
 		1D975F71133B3772000E74FB /* CommHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommHeader.m; sourceTree = "<group>"; };
 		1D975F72133B3772000E74FB /* DataHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataHeader.h; sourceTree = "<group>"; };
 		1D975F73133B3772000E74FB /* DataHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataHeader.m; sourceTree = "<group>"; };
-		1DA0D66D133C0A2600787FB2 /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
-		1DA0D66E133C0A2600787FB2 /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
+		1DA0D66D133C0A2600787FB2 /* LPUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPUtils.h; sourceTree = "<group>"; };
+		1DA0D66E133C0A2600787FB2 /* LPUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPUtils.m; sourceTree = "<group>"; };
 		1DA0D670133C0D0B00787FB2 /* LPPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPageControl.h; sourceTree = "<group>"; };
 		1DA0D671133C0D0B00787FB2 /* LPPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPageControl.m; sourceTree = "<group>"; };
 		1DA0D673133C203600787FB2 /* ribbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ribbon.png; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 		1D02C8F8133871C800B5415B /* SDI */ = {
 			isa = PBXGroup;
 			children = (
+				1D2318CF134304E10029B6ED /* Data */,
 				1D4FE117133B28CA00AB63A4 /* DataHandler */,
 				1D013FF01339600B00B1F81F /* Common */,
 				1DA0D686133C2A3500787FB2 /* Help */,
@@ -279,8 +282,8 @@
 		1D02C9121338729300B5415B /* LPLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				1DA0D66D133C0A2600787FB2 /* Utils.h */,
-				1DA0D66E133C0A2600787FB2 /* Utils.m */,
+				1DA0D66D133C0A2600787FB2 /* LPUtils.h */,
+				1DA0D66E133C0A2600787FB2 /* LPUtils.m */,
 				1D4FE10A133B283900AB63A4 /* Categories */,
 				1DC543761339C1BA00ADBDC4 /* Controls */,
 				1DCC5AE213398BB5004E366F /* External */,
@@ -294,6 +297,14 @@
 				1D4FE10F133B286500AB63A4 /* LPWebSocket.m */,
 			);
 			path = LPLibrary;
+			sourceTree = "<group>";
+		};
+		1D2318CF134304E10029B6ED /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				1D2318D1134305530029B6ED /* SDI.xcdatamodeld */,
+			);
+			name = Data;
 			sourceTree = "<group>";
 		};
 		1D4FE0DE133B280500AB63A4 /* AsyncSocket */ = {
@@ -607,11 +618,12 @@
 				1D975F6F133B370B000E74FB /* SBBody.m in Sources */,
 				1D975F74133B3772000E74FB /* CommHeader.m in Sources */,
 				1D975F75133B3772000E74FB /* DataHeader.m in Sources */,
-				1DA0D66F133C0A2600787FB2 /* Utils.m in Sources */,
+				1DA0D66F133C0A2600787FB2 /* LPUtils.m in Sources */,
 				1DA0D672133C0D0B00787FB2 /* LPPageControl.m in Sources */,
 				1DA0D681133C29A900787FB2 /* IndexViewController.m in Sources */,
 				1D239C271340017C00A9DA45 /* SBRegBodyHeader.m in Sources */,
 				1DC8DC5B13419E42002E758F /* SBRegBody.m in Sources */,
+				1D2318D3134305530029B6ED /* SDI.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,6 +731,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1D2318D1134305530029B6ED /* SDI.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1D2318D2134305530029B6ED /* SDI.xcdatamodel */,
+			);
+			currentVersion = 1D2318D2134305530029B6ED /* SDI.xcdatamodel */;
+			path = SDI.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 1D02C8E5133871C800B5415B /* Project object */;
 }

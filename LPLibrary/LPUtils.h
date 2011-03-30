@@ -9,12 +9,21 @@
 #import <Foundation/Foundation.h>
 #import "IPAddress.h"
 
+enum 
+{
+    LPAlertTypeFirst = 0,
+    LPAlertTypeSecond = 1
+};
 
-@interface Utils : NSObject {
+
+@interface LPUtils : NSObject 
+{
 
 }
 
++ (NSString *)formatNumber:(int)num;
 + (NSString *)getIPAdress;
 + (NSString *)getMacAddress;
++ (void)showAlert:(int)type andTag:(int)tag withTitle:(NSString *)title andMessage:(NSString *)message;
 
 @end

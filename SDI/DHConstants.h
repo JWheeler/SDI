@@ -38,10 +38,27 @@
 #define TRCD_ESTSREAL @"ESTSREAL"       // 예상체결.
 #define TRCD_EXCHREAL @"EXCHREAL"       // 환율.
 #define TRCD_MEMBREAL @"MEMBREAL"       // 거래원.
-#define TRCD_ELWVREAL @"ELWVREAL"       // ELW투자지표.
-#define TRCD_ELWHREAL @"ELWHREAL"       // ELW호가.
-#define TRCD_ELWOREAL @"ELWOREAL"       // ELW외국인.
-#define TRCD_ELWMREA @"ELWMREA"         // ELW거래원.
+#define TRCD_ELWSREAL @"ELWSREAL"       // ELW종홥: ELW시세.
+#define TRCD_ELWVREAL @"ELWVREAL"       // ELW종홥: ELW투자지표.
+#define TRCD_ELWHREAL @"ELWHREAL"       // ELW종홥: ELW호가.
+#define TRCD_ELWHREAL @"ELWHREAL"       // ELW종홥: ELW호가.
+#define TRCD_ELWOREAL @"ELWOREAL"       // ELW종홥: ELW외국인.
+#define TRCD_ELWMREA @"ELWMREA"         // ELW종홥: ELW거래원.
+#define TRCD_SS03REAL @"SS03REAL"       // 선물: 선물시세.
+#define TRCD_HG03REAL @"HG03REAL"       // 선물: 선물지표
+#define TRCD_FM03REAL @"FM03REAL"       // 선물: 선물미결제.
+#define TRCD_FS03REAL @"FS03REAL"       // 선물: 선물시세2.
+#define TRCD_SS05REAL @"SS05REAL"       // 선물스프레드.
+#define TRCD_SS04REAL @"SS04REAL"       // 옵션: 옵션시세.
+#define TRCD_OM04REAL @"OM04REAL"       // 옵션: 옵션미결제약정.
+#define TRCD_OV04REAL @"OV04REAL"       // 옵션: 옵션변동성.
+#define TRCD_JANGREAL @"JANGREAL"       // 장운영: 시세.
+#define TRCD_ROIKUKSE @"ROIKUKSE"       // 외국계증권사 매매동향.
+#define TRCD_IV01REAL @"IV01REAL"       // 주체별매매동향: 주식주체별매매동향.
+#define TRCD_IV02REAL @"IV02REAL"       // 주체별매매동향: 선물옵션주체별매매동향.
+#define TRCD_HWUIREAL @"HWUIREAL"       // 해외지수리얼.
+#define TRCD_PG01REAL @"PG01REAL"       // 프로그램매매종합.
+#define TRCD_PG02REAL @"PG02REAL"       // 프로그램매매종목별.
 
 // TR 포맷 길이.
 #define COMM_HEADER_LEN 22

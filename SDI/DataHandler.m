@@ -240,6 +240,9 @@ static DataHandler *sharedDataHandler = nil;
         else
         {
             // TODO: 에러 처리.  얼럿 등...
+            // 얼럿.
+            [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"서버 접속에 실패했습니다."];
+            return;
         }
     }
     else

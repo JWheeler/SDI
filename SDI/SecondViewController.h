@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SecondViewController : UIViewController 
+@interface SecondViewController : UIViewController
 {
     UILabel *trCode;
     UILabel *price;
@@ -25,5 +25,8 @@
 - (IBAction)close:(id)sender;
 - (IBAction)sendTR:(id)sender;
 - (void)viewText:(NSNotification *)notification;
+
+// 코어데이터 테스트.
+- (IBAction)save:(id)sender;
 
 @end

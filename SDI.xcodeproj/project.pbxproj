@@ -28,6 +28,8 @@
 		1D2318EE134313E60029B6ED /* SBJsonStreamWriterState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318E3134313E60029B6ED /* SBJsonStreamWriterState.m */; };
 		1D2318EF134313E60029B6ED /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318E5134313E60029B6ED /* SBJsonTokeniser.m */; };
 		1D2318F0134313E60029B6ED /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318E7134313E60029B6ED /* SBJsonWriter.m */; };
+		1D2318F3134319910029B6ED /* SBCount.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318F2134319910029B6ED /* SBCount.m */; };
+		1D2318F613431A460029B6ED /* SBCountController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318F513431A460029B6ED /* SBCountController.m */; };
 		1D239C271340017C00A9DA45 /* SBRegBodyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D239C261340017C00A9DA45 /* SBRegBodyHeader.m */; };
 		1D4FE0FB133B280500AB63A4 /* AsyncSocket Documentation.html in Resources */ = {isa = PBXBuildFile; fileRef = 1D4FE0DF133B280500AB63A4 /* AsyncSocket Documentation.html */; };
 		1D4FE0FC133B280500AB63A4 /* AsyncSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4FE0E1133B280500AB63A4 /* AsyncSocket.m */; };
@@ -58,6 +60,7 @@
 		1DC8DC5B13419E42002E758F /* SBRegBody.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC8DC5A13419E42002E758F /* SBRegBody.m */; };
 		1DCC5AE113398926004E366F /* StockCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC5AE013398926004E366F /* StockCode.m */; };
 		1DCC5AE513398BD5004E366F /* CSVParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC5AE413398BD5004E366F /* CSVParser.m */; };
+		1DD82A441343EB4000B1ADE8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD82A431343EB4000B1ADE8 /* CoreData.framework */; };
 		1DF60F00133AC55000A809B5 /* ContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF60EFF133AC55000A809B5 /* ContentController.m */; };
 		1DF60F05133AC99F00A809B5 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF60F03133AC99E00A809B5 /* MainViewController.m */; };
 		1DF60F06133AC99F00A809B5 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF60F04133AC99F00A809B5 /* MainViewController.xib */; };
@@ -116,6 +119,10 @@
 		1D2318E5134313E60029B6ED /* SBJsonTokeniser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonTokeniser.m; sourceTree = "<group>"; };
 		1D2318E6134313E60029B6ED /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		1D2318E7134313E60029B6ED /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		1D2318F1134319910029B6ED /* SBCount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBCount.h; sourceTree = "<group>"; };
+		1D2318F2134319910029B6ED /* SBCount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBCount.m; sourceTree = "<group>"; };
+		1D2318F413431A460029B6ED /* SBCountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBCountController.h; sourceTree = "<group>"; };
+		1D2318F513431A460029B6ED /* SBCountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBCountController.m; sourceTree = "<group>"; };
 		1D239C251340017C00A9DA45 /* SBRegBodyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBRegBodyHeader.h; sourceTree = "<group>"; };
 		1D239C261340017C00A9DA45 /* SBRegBodyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBRegBodyHeader.m; sourceTree = "<group>"; };
 		1D4FE0DF133B280500AB63A4 /* AsyncSocket Documentation.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "AsyncSocket Documentation.html"; sourceTree = "<group>"; };
@@ -167,6 +174,7 @@
 		1DCC5AE013398926004E366F /* StockCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StockCode.m; sourceTree = "<group>"; };
 		1DCC5AE313398BD5004E366F /* CSVParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSVParser.h; sourceTree = "<group>"; };
 		1DCC5AE413398BD5004E366F /* CSVParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSVParser.m; sourceTree = "<group>"; };
+		1DD82A431343EB4000B1ADE8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		1DF60EFE133AC55000A809B5 /* ContentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentController.h; sourceTree = "<group>"; };
 		1DF60EFF133AC55000A809B5 /* ContentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ContentController.m; sourceTree = "<group>"; };
 		1DF60F02133AC99E00A809B5 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -192,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DD82A441343EB4000B1ADE8 /* CoreData.framework in Frameworks */,
 				1D975F5C133B36A5000E74FB /* CFNetwork.framework in Frameworks */,
 				1D02C92213388E0900B5415B /* QuartzCore.framework in Frameworks */,
 				1D02C8F3133871C800B5415B /* UIKit.framework in Frameworks */,
@@ -211,6 +220,10 @@
 				1D013FF11339602B00B1F81F /* SDIConstants.h */,
 				1DCC5ADF13398926004E366F /* StockCode.h */,
 				1DCC5AE013398926004E366F /* StockCode.m */,
+				1D2318F1134319910029B6ED /* SBCount.h */,
+				1D2318F2134319910029B6ED /* SBCount.m */,
+				1D2318F413431A460029B6ED /* SBCountController.h */,
+				1D2318F513431A460029B6ED /* SBCountController.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -236,6 +249,7 @@
 		1D02C8F1133871C800B5415B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DD82A431343EB4000B1ADE8 /* CoreData.framework */,
 				1D975F5B133B36A5000E74FB /* CFNetwork.framework */,
 				1D02C92113388E0900B5415B /* QuartzCore.framework */,
 				1D02C8F2133871C800B5415B /* UIKit.framework */,
@@ -625,6 +639,8 @@
 				1D2318EE134313E60029B6ED /* SBJsonStreamWriterState.m in Sources */,
 				1D2318EF134313E60029B6ED /* SBJsonTokeniser.m in Sources */,
 				1D2318F0134313E60029B6ED /* SBJsonWriter.m in Sources */,
+				1D2318F3134319910029B6ED /* SBCount.m in Sources */,
+				1D2318F613431A460029B6ED /* SBCountController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

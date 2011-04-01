@@ -109,11 +109,12 @@ static AppInfo *sharedAppInfo = nil;
 {
     START_TIMER;
     NSURL *url = [NSURL URLWithString:STOCK_CODE_MASTER_URL];
+    // 인코딩 확인할 것!
     NSString *stringFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     END_TIMER(@"loadStockCodeMaster");
     
     //[self writeToMasterFile:STOCK_CODE_MASTER_FILE_NAME withContent:stringFile];
-    //Debug(@"%@", stringFile);
+    Debug(@"%@", stringFile);
     
     // TODO: 예외처리!
     // 얼럿.

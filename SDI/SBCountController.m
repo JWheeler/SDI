@@ -6,6 +6,7 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 모든 엔티티에 사용할 수 있도록 수정할 것!
+//
 
 #import "SBCountController.h"
 #import "SDIAppDelegate.h"

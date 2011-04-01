@@ -146,9 +146,24 @@
     SBCount *sbCount = [[SBCount alloc] init];
     sbCount.trCode = @"SS01REAL";
     sbCount.idx = @"0";
-    sbCount.code = @"005930";
+    sbCount.code = @"003450";
     sbCount.regCount = [NSNumber numberWithInt:1];
     [sbCountController insertNewObject:sbCount];
+    [sbCountController release];
+}
+
+// 데이터 삭제.
+- (IBAction)remove:(id)sender
+{
+    Debug(@"Remove test!");
+    
+    SBCountController *sbCountController = [[SBCountController alloc] init];
+    SBCount *sbCount = [[SBCount alloc] init];
+    sbCount.trCode = @"SS01REAL";
+    sbCount.idx = @"0";
+    sbCount.code = @"003450";
+    sbCount.regCount = [NSNumber numberWithInt:1];
+    [sbCountController deleteObject:sbCount];
     [sbCountController release];
 }
 

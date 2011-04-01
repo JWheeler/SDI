@@ -26,7 +26,8 @@
 - (IBAction)sendTR:(id)sender;
 - (void)viewText:(NSNotification *)notification;
 
-// 코어데이터 테스트.
+// 코어 데이터 SB 등록, 해제 테스트.
 - (IBAction)save:(id)sender;
+- (IBAction)remove:(id)sender;
 
 @end

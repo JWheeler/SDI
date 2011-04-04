@@ -105,10 +105,10 @@ static AppInfo *sharedAppInfo = nil;
 }
 
 // TODO: 종목코드를 파일 또는 DB에 저장해야함!
-- (void)loadStockCodeMaster
+- (void)loadStockCodeMaster:(NSString *)masterName
 {
     START_TIMER;
-    NSURL *url = [NSURL URLWithString:STOCK_CODE_MASTER_URL];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:STOCK_CODE_MASTER_URL, masterName]];
     // 인코딩 확인할 것!
     NSString *stringFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
     END_TIMER(@"loadStockCodeMaster");

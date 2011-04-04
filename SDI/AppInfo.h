@@ -18,6 +18,6 @@
 + (AppInfo *)sharedAppInfo;
 
 - (void)writeToMasterFile:(NSString *)fileName withContent:(NSString *)content;
-- (void)loadStockCodeMaster;
+- (void)loadStockCodeMaster:(NSString *)masterName;
 
 @end

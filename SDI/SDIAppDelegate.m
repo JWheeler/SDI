@@ -30,7 +30,8 @@
     
     // 앱 정보.
     [AppInfo sharedAppInfo];
-    [[AppInfo sharedAppInfo] loadStockCodeMaster];
+    // 마스터 코드 로드.
+    [[AppInfo sharedAppInfo] loadStockCodeMaster:JONGMOK_MASTER];
     
     // 데이터핸들러.
     [DataHandler sharedDataHandler];

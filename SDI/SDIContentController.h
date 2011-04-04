@@ -32,5 +32,6 @@
 - (IBAction)changePage:(id)sender;
 - (void)registerGestureForRibbon;
 - (void)openDaily:(UISwipeGestureRecognizer *)recognizer;
+- (IBAction)openMyMenu:(id)sender;
 
 @end

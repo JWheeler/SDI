@@ -11,6 +11,7 @@
 #import "MainViewController.h"
 #import "SecondViewController.h"
 #import "IndexViewController.h"
+#import "MyMenuViewController.h"
 
 static NSUInteger kNumberOfPages = 2;
 
@@ -204,6 +205,7 @@ static NSUInteger kNumberOfPages = 2;
         [self.view.superview addSubview:indexViewController.view];
         [indexViewController.view release];
         
+        // TODO: iOS 버전 별로 애니메이션 코드 분기 처리할 것!
         // iOS4-
 //        UIView *modalView = indexViewController.view;
 //        
@@ -240,12 +242,38 @@ static NSUInteger kNumberOfPages = 2;
                              slideView.center = offScreenCenter;
                              slideView.center = middleCenter;
                          } 
-                         completion:^(BOOL finished){
+                         completion:^(BOOL finished) {
                              Debug(@"Animation done!");
                          }];
 	}
     
     
+}
+
+// 마이메뉴 열기.
+- (IBAction)openMyMenu:(id)sender
+{
+    MyMenuViewController *myMenuViewController = [[MyMenuViewController alloc] initWithNibName:@"MyMenuViewController" bundle:nil];    
+    [self.view.superview addSubview:myMenuViewController.view];
+    [myMenuViewController.view release];
+    
+    
+    // 전체메뉴를 모달로 띄움.
+    UIView *modalView = myMenuViewController.view;
+    modalView.frame = [UIScreen mainScreen].bounds;
+    
+    CGPoint middleCenter = modalView.center;
+    CGSize offSize = [UIScreen mainScreen].bounds.size;
+    CGPoint offScreenCenter = CGPointMake(offSize.width / 2.0, offSize.height * 2.0);
+    modalView.center = offScreenCenter;
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.5];
+    modalView.center = middleCenter;
+    [UIView commitAnimations];
+    
+    Debug(@"MyMenu frame: %@", NSStringFromCGRect(modalView.frame));
+    Debug(@"MyMenu frame: %@", NSStringFromCGRect([UIScreen mainScreen].bounds));
 }
 
 @end

@@ -38,6 +38,7 @@
     // 데이터핸들러.
     [DataHandler sharedDataHandler];
     
+    // TODO: SB 등록 프로세스 추가.
     // SB 등록 관리.
     [SBManager sharedSBManager];
     
@@ -68,6 +69,9 @@
     // SB 접속 종료.
     TRGenerator *tr = [[TRGenerator alloc] init];
     [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
+    
+    // SB 등록 테이블 초기화.
+    [SBManager sharedSBManager].sbTable = nil;
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -75,6 +79,8 @@
     /*
      Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
      */
+    
+    // TODO: SB 등록 프로세스 추가.
     
     // SB 최초 접속 등록.
     TRGenerator *tr = [[TRGenerator alloc] init];

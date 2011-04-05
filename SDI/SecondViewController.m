@@ -158,7 +158,7 @@
     SBCount *sbCount = [[SBCount alloc] init];
     sbCount.trCode = @"SS01REAL";
     sbCount.idx = @"0";
-    sbCount.code = @"003450";
+    sbCount.code = @"000660";
     sbCount.regCount = [NSNumber numberWithInt:1];
     [[SBManager sharedSBManager] insertNewObject:sbCount];
     [sbCount release];

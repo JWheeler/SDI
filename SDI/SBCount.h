@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 
 
-@interface SBCount : NSManagedObject {
+@interface SBCount : NSObject { //NSManagedObject {
 @private
 }
 

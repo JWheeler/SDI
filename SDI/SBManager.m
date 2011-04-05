@@ -16,7 +16,6 @@
 
 @synthesize sbTable;
 @synthesize currentObject;
-@synthesize updateObject;
 
 static SBManager *sharedSBManager = nil;
 
@@ -91,10 +90,12 @@ static SBManager *sharedSBManager = nil;
 {
     if (![self isObjectExistence:obj]) 
     {
+        // 신규 등록.
         [self.sbTable addObject:obj];
     }
     else
     {
+        // regCount +1 증가.
         [self updateObject:obj withType:RegCountIncrease];
     }
 }
@@ -106,19 +107,30 @@ static SBManager *sharedSBManager = nil;
     {
         // regCount +1 증가.
         self.currentObject = [self searchObjet:obj];
-        NSInteger currentIndex = [self.sbTable indexOfObject:self.currentObject];
-        [self.currentObject increaseRegCount];
-        [self.sbTable replaceObjectAtIndex:currentIndex withObject:self.currentObject];
+        if (self.currentObject) {
+            NSInteger currentIndex = [self.sbTable indexOfObject:self.currentObject];
+            [self.currentObject increaseRegCount];
+            [self.sbTable replaceObjectAtIndex:currentIndex withObject:self.currentObject];
+        }
+        else
+        {
+            // TODO: 에러 처리!
+        }
     }
     else
     {
         // regCount -1 감소.
         self.currentObject = [self searchObjet:obj];
-        NSInteger currentIndex = [self.sbTable indexOfObject:self.currentObject];
-        [self.currentObject decreaseRegCount];
-        [self.sbTable replaceObjectAtIndex:currentIndex withObject:self.currentObject];
+        if (self.currentObject) {
+            NSInteger currentIndex = [self.sbTable indexOfObject:self.currentObject];
+            [self.currentObject decreaseRegCount];
+            [self.sbTable replaceObjectAtIndex:currentIndex withObject:self.currentObject];
+        }
+        else
+        {
+            // TODO: 에러 처리!
+        }
     }
-    
 }
 
 // 삭제: regCount의 값을 -1 감소 시킨다..
@@ -146,10 +158,8 @@ static SBManager *sharedSBManager = nil;
             }
         }
     }
-    else
-    {
-        return nil;
-    }
+    
+    return nil;
 }
 
 // 확인.
@@ -171,10 +181,8 @@ static SBManager *sharedSBManager = nil;
             }
         }
     }
-    else
-    {
-        return nil;
-    }
+   
+    return nil;
 }
 
 @end

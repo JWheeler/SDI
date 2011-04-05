@@ -23,12 +23,10 @@ enum
 {
     NSMutableArray *sbTable;
     SBCount *currentObject;
-    SBCount *updateObject;
 }
 
 @property (nonatomic, retain) NSMutableArray *sbTable;
 @property (nonatomic, retain) SBCount *currentObject;
-@property (nonatomic, retain) SBCount *updateObject;
 
 + (SBManager *)sharedSBManager;
 

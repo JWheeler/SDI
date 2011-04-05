@@ -71,10 +71,10 @@
 -(void)setMyMenu
 {
     // TODO: DB또는 파일에서 정보 로딩하도록 수정!
-    // 세로 스크롤 메뉴에 사용할 버튼 생성(20 개).
+    // 세로 스크롤 메뉴에 사용할 버튼 생성(21 개).
 	NSMutableArray *buttonArray = [[NSMutableArray alloc] init];
     
-	for (int i = 0; i < 20; i++) 
+	for (int i = 0; i < 21; i++) 
     {
 		// 커스텀 타입의 버튼 생성.
 		UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];

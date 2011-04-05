@@ -8,21 +8,26 @@
 
 #import "MyMenuView.h"
 
+#define LEFT_MARGIN 10
+#define TOP_MARGIN 10
+#define BOTTOM_MARGIN 10
+#define BUTTON_WIDTH 100
+#define BUTTON_HEIGHT 30
 
 @implementation MyMenuView
 
 @synthesize menuScrollView;
 @synthesize menuButtons;
 
-//- (id)initWithFrame:(CGRect)frame
-//{
-//    self = [super initWithFrame:frame];
-//    if (self) 
-//    {
-//        // Initialization code
-//    }
-//    return self;
-//}
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) 
+    {
+        // Initialization code
+    }
+    return self;
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.
@@ -83,6 +88,9 @@
 		// 스클롤뷰에 추가할 버튼들.
 		self.menuButtons = buttonArray;
 		
+        // 중앙에 위치할 버튼 설정을 위해.
+        int halfButton = floor([menuButtons count] / 2);
+        
 		float totalButtonHeight = 0.0;
         float positionX = 10.0;
         float positionY = 0.0;
@@ -90,9 +98,17 @@
 		for (int i = 0; i < [menuButtons count]; i++) 
         {
 			UIButton *btn = [menuButtons objectAtIndex:i];
-			
-			// 버튼 위치 이동(가로로 x, 세로로 y).
+            
+            // 버튼 위치 이동(가로로 x, 세로로 y).
 			CGRect btnRect = btn.frame;
+            
+            // 중앙에 위치한 버튼을 기준으로 좌표 설정.
+//            if (i == halfButton) 
+//            {
+//                <#statements#>
+//            }
+			
+			
             btnRect.origin.x = positionX;
 			btnRect.origin.y = positionY;
 			[btn setFrame:btnRect];

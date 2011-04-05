@@ -10,6 +10,7 @@
 #import "ContentController.h"
 #import "SBCountController.h"
 #import "DataHandler.h"
+#import "SBManager.h"
 
 
 @implementation SDIAppDelegate
@@ -30,11 +31,15 @@
     
     // 앱 정보.
     [AppInfo sharedAppInfo];
+    
     // 마스터 코드 로드.
     [[AppInfo sharedAppInfo] loadStockCodeMaster:JONGMOK_MASTER];
     
     // 데이터핸들러.
     [DataHandler sharedDataHandler];
+    
+    // SB 등록 관리.
+    [SBManager sharedSBManager];
     
     NSString *nibTitle = @"SDIContent";
     [[NSBundle mainBundle] loadNibNamed:nibTitle owner:self options:nil];

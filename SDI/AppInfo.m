@@ -72,18 +72,15 @@ static AppInfo *sharedAppInfo = nil;
     return UINT_MAX;  
 } 
 
-
 - (void)release 
 {
     // 아무일도 안함.
 }
 
-
 - (id)autorelease 
 {
     return self;
 }
-
 
 #pragma mark - 커스텀 메서드
 

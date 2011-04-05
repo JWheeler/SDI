@@ -11,6 +11,7 @@
 #import "TRGenerator.h"
 #import "SBCountController.h"
 #import "SBCount.h"
+#import "SBManager.h"
 
 
 @implementation SecondViewController
@@ -142,14 +143,25 @@
 {
     Debug(@"Save test!");
     
-    SBCountController *sbCountController = [[SBCountController alloc] init];
+    // DB를 사용하는 경우.
+//    SBCountController *sbCountController = [[SBCountController alloc] init];
+//    SBCount *sbCount = [[SBCount alloc] init];
+//    sbCount.trCode = @"SS01REAL";
+//    sbCount.idx = @"0";
+//    sbCount.code = @"003450";
+//    sbCount.regCount = [NSNumber numberWithInt:1];
+//    [sbCountController insertNewObject:sbCount];
+//    [sbCount release];
+//    [sbCountController release];
+    
+    // 메모리를 사용하는 경우.
     SBCount *sbCount = [[SBCount alloc] init];
     sbCount.trCode = @"SS01REAL";
     sbCount.idx = @"0";
     sbCount.code = @"003450";
     sbCount.regCount = [NSNumber numberWithInt:1];
-    [sbCountController insertNewObject:sbCount];
-    [sbCountController release];
+    [[SBManager sharedSBManager] insertNewObject:sbCount];
+    [sbCount release];
 }
 
 // 데이터 삭제.
@@ -157,14 +169,25 @@
 {
     Debug(@"Remove test!");
     
-    SBCountController *sbCountController = [[SBCountController alloc] init];
+    // DB를 사용하는 경우.
+//    SBCountController *sbCountController = [[SBCountController alloc] init];
+//    SBCount *sbCount = [[SBCount alloc] init];
+//    sbCount.trCode = @"SS01REAL";
+//    sbCount.idx = @"0";
+//    sbCount.code = @"003450";
+//    sbCount.regCount = [NSNumber numberWithInt:1];
+//    [sbCountController deleteObject:sbCount];
+//    [sbCount release];
+//    [sbCountController release];
+    
+    // 메모리를 사용하는 경우.
     SBCount *sbCount = [[SBCount alloc] init];
     sbCount.trCode = @"SS01REAL";
     sbCount.idx = @"0";
     sbCount.code = @"003450";
     sbCount.regCount = [NSNumber numberWithInt:1];
-    [sbCountController deleteObject:sbCount];
-    [sbCountController release];
+    [[SBManager sharedSBManager] deleteObject:sbCount];
+    [sbCount release];
 }
 
 @end

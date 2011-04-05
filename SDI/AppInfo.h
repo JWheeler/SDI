@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface AppInfo : NSObject {
+@interface AppInfo : NSObject 
+{
     
 }
 

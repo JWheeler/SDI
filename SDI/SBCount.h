@@ -14,9 +14,14 @@
 @private
 }
 
-@property (nonatomic, retain) NSString * trCode;
-@property (nonatomic, retain) NSString * code;
-@property (nonatomic, retain) NSNumber * regCount;
-@property (nonatomic, retain) NSString * idx;
+@property (nonatomic, retain) NSString *trCode;
+@property (nonatomic, retain) NSString *code;
+@property (nonatomic, retain) NSNumber *regCount;
+@property (nonatomic, retain) NSString *idx;
+
+- (void)increaseRegCount;
+- (void)decreaseRegCount;
+- (void)clearSB;
+- (void)debugRegCount;
 
 @end

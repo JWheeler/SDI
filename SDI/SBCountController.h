@@ -5,6 +5,8 @@
 //  Created by Jong Pil Park on 11. 3. 30..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  !!!: SB 등록 관리를 DB로 할 경우.
+//
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>

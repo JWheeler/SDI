@@ -18,6 +18,9 @@
 		1D02C91F13388D1100B5415B /* LPDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D02C91D13388D1100B5415B /* LPDebug.m */; };
 		1D02C92213388E0900B5415B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D02C92113388E0900B5415B /* QuartzCore.framework */; };
 		1D02C9401338907C00B5415B /* AppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D02C93F1338907C00B5415B /* AppInfo.m */; };
+		1D0C2E0B134A82130000E88F /* UIView+Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E0A134A82130000E88F /* UIView+Position.m */; };
+		1D0C2E16134A84150000E88F /* UIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E15134A84150000E88F /* UIView+Hierarchy.m */; };
+		1D0C2E21134AA2D40000E88F /* SBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E20134AA2D40000E88F /* SBManager.m */; };
 		1D2318D3134305530029B6ED /* SDI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318D1134305530029B6ED /* SDI.xcdatamodeld */; };
 		1D2318E8134313E60029B6ED /* NSObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318D7134313E60029B6ED /* NSObject+JSON.m */; };
 		1D2318E9134313E60029B6ED /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318D9134313E60029B6ED /* SBJsonParser.m */; };
@@ -122,6 +125,12 @@
 		1D02C92113388E0900B5415B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D02C93E1338907C00B5415B /* AppInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInfo.h; sourceTree = "<group>"; };
 		1D02C93F1338907C00B5415B /* AppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfo.m; sourceTree = "<group>"; };
+		1D0C2E09134A82130000E88F /* UIView+Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Position.h"; sourceTree = "<group>"; };
+		1D0C2E0A134A82130000E88F /* UIView+Position.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Position.m"; sourceTree = "<group>"; };
+		1D0C2E14134A84150000E88F /* UIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Hierarchy.h"; sourceTree = "<group>"; };
+		1D0C2E15134A84150000E88F /* UIView+Hierarchy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Hierarchy.m"; sourceTree = "<group>"; };
+		1D0C2E1F134AA2D40000E88F /* SBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBManager.h; sourceTree = "<group>"; };
+		1D0C2E20134AA2D40000E88F /* SBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBManager.m; sourceTree = "<group>"; };
 		1D2318D2134305530029B6ED /* SDI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SDI.xcdatamodel; sourceTree = "<group>"; };
 		1D2318D5134313E60029B6ED /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		1D2318D6134313E60029B6ED /* NSObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSON.h"; sourceTree = "<group>"; };
@@ -272,6 +281,8 @@
 				1D2318F2134319910029B6ED /* SBCount.m */,
 				1D2318F413431A460029B6ED /* SBCountController.h */,
 				1D2318F513431A460029B6ED /* SBCountController.m */,
+				1D0C2E1F134AA2D40000E88F /* SBManager.h */,
+				1D0C2E20134AA2D40000E88F /* SBManager.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -414,6 +425,10 @@
 			children = (
 				1D4FE10B133B285A00AB63A4 /* NSData+NSDataStrings.h */,
 				1D4FE10C133B285A00AB63A4 /* NSData+NSDataStrings.m */,
+				1D0C2E09134A82130000E88F /* UIView+Position.h */,
+				1D0C2E0A134A82130000E88F /* UIView+Position.m */,
+				1D0C2E14134A84150000E88F /* UIView+Hierarchy.h */,
+				1D0C2E15134A84150000E88F /* UIView+Hierarchy.m */,
 			);
 			name = Categories;
 			path = categories;
@@ -737,6 +752,9 @@
 				1D2318F613431A460029B6ED /* SBCountController.m in Sources */,
 				1DF4A1DA13497D4300BC587C /* MyMenuViewController.m in Sources */,
 				1DF4A1DF13497D6800BC587C /* MyMenuView.m in Sources */,
+				1D0C2E0B134A82130000E88F /* UIView+Position.m in Sources */,
+				1D0C2E16134A84150000E88F /* UIView+Hierarchy.m in Sources */,
+				1D0C2E21134AA2D40000E88F /* SBManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

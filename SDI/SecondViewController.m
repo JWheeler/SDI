@@ -143,23 +143,8 @@
 {
     Debug(@"Save test!");
     
-    // DB를 사용하는 경우.
-//    SBCountController *sbCountController = [[SBCountController alloc] init];
-//    SBCount *sbCount = [[SBCount alloc] init];
-//    sbCount.trCode = @"SS01REAL";
-//    sbCount.idx = @"0";
-//    sbCount.code = @"003450";
-//    sbCount.regCount = [NSNumber numberWithInt:1];
-//    [sbCountController insertNewObject:sbCount];
-//    [sbCount release];
-//    [sbCountController release];
-    
     // 메모리를 사용하는 경우.
-    SBCount *sbCount = [[SBCount alloc] init];
-    sbCount.trCode = @"SS01REAL";
-    sbCount.idx = @"0";
-    sbCount.code = @"000660";
-    sbCount.regCount = [NSNumber numberWithInt:1];
+    SBCount *sbCount = [[SBCount alloc] initWithTRCode:@"SS01REAL" idx:@"0" code:@"000660"];
     [[SBManager sharedSBManager] insertNewObject:sbCount];
     [sbCount release];
 }
@@ -169,23 +154,8 @@
 {
     Debug(@"Remove test!");
     
-    // DB를 사용하는 경우.
-//    SBCountController *sbCountController = [[SBCountController alloc] init];
-//    SBCount *sbCount = [[SBCount alloc] init];
-//    sbCount.trCode = @"SS01REAL";
-//    sbCount.idx = @"0";
-//    sbCount.code = @"003450";
-//    sbCount.regCount = [NSNumber numberWithInt:1];
-//    [sbCountController deleteObject:sbCount];
-//    [sbCount release];
-//    [sbCountController release];
-    
     // 메모리를 사용하는 경우.
-    SBCount *sbCount = [[SBCount alloc] init];
-    sbCount.trCode = @"SS01REAL";
-    sbCount.idx = @"0";
-    sbCount.code = @"003450";
-    sbCount.regCount = [NSNumber numberWithInt:1];
+    SBCount *sbCount = [[SBCount alloc] initWithTRCode:@"SS01REAL" idx:@"0" code:@"000660"];
     [[SBManager sharedSBManager] deleteObject:sbCount];
     [sbCount release];
 }

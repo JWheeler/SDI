@@ -11,23 +11,23 @@
 
 @implementation SBCount
 
-//@dynamic code;
-//@dynamic regCount;
-//@dynamic idx;
-//@dynamic trCode;
+@synthesize trCode = _trCode;
+@synthesize idx = _idx;
+@synthesize code = _code;
+@synthesize regCount = _regCount;
 
-@synthesize code;
-@synthesize regCount;
-@synthesize idx;
-@synthesize trCode;
-
-- (id)init
+// 초기화.
+- (id)initWithTRCode:(NSString *)trCode idx:(NSString *)idx code:(NSString *)code
 {
     self = [super init];
-    if (self) 
+    if (self)
     {
         // SB 등록 카운트 초기화.
         self.regCount = [NSNumber numberWithInt:1];
+        
+        self.trCode = trCode;
+        self.idx = idx;
+        self.code = code;
     }
     
     return self;
@@ -59,7 +59,7 @@
 // SB 등록 해제.
 - (void)clearSB
 {
-    // TODO: SB 해제 TR 전송.
+    // TODO: SB 등록해제 TR 전송.
     Debug(@"SB 등록해제!");
 }
 

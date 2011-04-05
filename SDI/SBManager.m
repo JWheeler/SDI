@@ -22,7 +22,8 @@ static SBManager *sharedSBManager = nil;
 + (SBManager *)sharedSBManager 
 {
 	// 객체에 락을 걸고, 동시에 멀티 스레드에서 메소드에 접근하기 위해 synchronized 사용. 
-	@synchronized(self) {
+	@synchronized(self) 
+    {
 		if(sharedSBManager == nil) 
         {
 			[[self alloc] init];

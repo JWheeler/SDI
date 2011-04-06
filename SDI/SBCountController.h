@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+// !!!: SB 등록관리에 DB를 사용하려면, SBCount.h/m 클래스 수정해야함!
 @class SBCount;
 
 enum 

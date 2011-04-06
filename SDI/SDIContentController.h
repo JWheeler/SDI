@@ -10,6 +10,16 @@
 #import "ContentController.h"
 #import "LPPageControl.h"
 
+// 툴바 메뉴.
+enum 
+{
+    Home = 0,
+    MyMenu = 1,
+    Login = 2,
+    Finish = 3,
+    Help = 4
+};
+
 
 @interface SDIContentController : ContentController <UIScrollViewDelegate> 
 {   
@@ -21,6 +31,11 @@
     
     // UIPageControl로 부터 originate로 스크롤할 때 사용.
     BOOL pageControlUsed;
+    
+    // 현재, 뷰에 추가한 하위 메뉴 뷰의 인덱스.
+    int currentAddedSubviewIndex;
+    // 현재, 뷰에 추가한 하위 메뉴 뷰의 태그: 뷰 삭제를 위해 사용, 화면번호를 사용해 설정함.
+    NSInteger currentAddedSubviewTag;
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
@@ -32,6 +47,13 @@
 - (IBAction)changePage:(id)sender;
 - (void)registerGestureForRibbon;
 - (void)openDaily:(UISwipeGestureRecognizer *)recognizer;
+- (void)removeFromSuperviweForAddedView;
+- (void)bringRibbonImageViewToFront;
+- (IBAction)openMenuForToolbar:(id)sender;
+- (void)openMenuForTotalMenu:(id)sender;
+
+// 테스트.
 - (IBAction)openMyMenu:(id)sender;
+- (IBAction)openIRStock:(id)sender;
 
 @end

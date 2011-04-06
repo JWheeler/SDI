@@ -6,10 +6,14 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 싱글톤 클래스(현재...)를 사용할 지 세미 싱클톤 클래스를 사용할 지 결정!
+//  TODO: 관심종목관리 화면과 연계!
 //
 
 #import "SBManager.h"
 #import "SBCount.h"
+#import "DataHandler.h"
+#import "TRGenerator.h"
+#import "SOLogger.h"
 
 
 @implementation SBManager
@@ -89,6 +93,9 @@ static SBManager *sharedSBManager = nil;
 // 추가.
 - (void)insertNewObject:(SBCount *)obj
 {
+    //SOLogger *gLogger = [[SOLogger alloc] init];
+    //[gLogger debug:@"Entering %s", __FUNCTION__];
+
     if (![self isObjectExistence:obj]) 
     {
         // 신규 등록.
@@ -99,6 +106,8 @@ static SBManager *sharedSBManager = nil;
         // regCount +1 증가.
         [self updateObject:obj withType:RegCountIncrease];
     }
+    
+    //[gLogger info:@"I'm doing some stuff: %@", obj];
 }
 
 // 수정.
@@ -108,7 +117,8 @@ static SBManager *sharedSBManager = nil;
     {
         // regCount +1 증가.
         self.currentObject = [self searchObjet:obj];
-        if (self.currentObject) {
+        if (self.currentObject) 
+        {
             NSInteger currentIndex = [self.sbTable indexOfObject:self.currentObject];
             [self.currentObject increaseRegCount];
             [self.sbTable replaceObjectAtIndex:currentIndex withObject:self.currentObject];
@@ -122,7 +132,8 @@ static SBManager *sharedSBManager = nil;
     {
         // regCount -1 감소.
         self.currentObject = [self searchObjet:obj];
-        if (self.currentObject) {
+        if (self.currentObject) 
+        {
             NSInteger currentIndex = [self.sbTable indexOfObject:self.currentObject];
             [self.currentObject decreaseRegCount];
             [self.sbTable replaceObjectAtIndex:currentIndex withObject:self.currentObject];
@@ -134,7 +145,8 @@ static SBManager *sharedSBManager = nil;
     }
 }
 
-// 삭제: regCount의 값을 -1 감소 시킨다..
+// 삭제: regCount의 값을 -1 감소 시킨다.
+// 마지막에 등록된 객체는 실제 삭제하지 않고 regCount = 0으로만 설정함!
 - (void)deleteObject:(SBCount *)obj
 {
     [self updateObject:obj withType:RegCountDecrease];

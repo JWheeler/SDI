@@ -13,5 +13,8 @@
     #import <Foundation/Foundation.h>
     #import <CoreData/CoreData.h>
     #import "LPLibrary.h"
+    #import "SOLogger.h"
     #import "SDIConstants.h"
 #endif
+
+

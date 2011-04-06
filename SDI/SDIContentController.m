@@ -7,11 +7,15 @@
 //
 
 #import "SDIContentController.h"
+#import "UIView+Hierarchy.h"
 #import "SDIAppDelegate.h"
 #import "MainViewController.h"
 #import "SecondViewController.h"
 #import "IndexViewController.h"
 #import "MyMenuViewController.h"
+#import "IRStockListViewController.h"
+
+#define ContentViewFrame CGRectMake(0.0, 20.0, 320.0, 416.0)
 
 static NSUInteger kNumberOfPages = 2;
 
@@ -83,7 +87,7 @@ static NSUInteger kNumberOfPages = 2;
     if (page >= kNumberOfPages)
         return;
     
-    if (page ==0) 
+    if (page == 0) 
     {
         // 필요할 경우 플레이스홀더 교체.
         MainViewController *controller = [viewControllers objectAtIndex:page];
@@ -250,13 +254,76 @@ static NSUInteger kNumberOfPages = 2;
     
 }
 
+// TODO: 화면번호 정의.
+// 현재 화면에서 슈퍼뷰에 추가된 뷰 삭제: 뷰의 태그를 사용함.
+// 뷰의 태그는 화면번호를 설정함.
+- (void)removeFromSuperviweForAddedView
+{
+    Debug(@"Current added view tag: %d",  currentAddedSubviewTag);
+    if (currentAddedSubviewTag != 0) {
+        [[self.view.superview viewWithTag:currentAddedSubviewTag] removeFromSuperview];
+        currentAddedSubviewTag = 0;
+    }
+}
+
+// 리본이미지뷰를 화면의 제일 앞으로 가져옴.
+- (void)bringRibbonImageViewToFront
+{
+    [self.view.superview bringSubviewToFront:self.ribbonImageView];
+}
+
+// TODO: 열릴 메뉴의 화면 닫기 처리 필수!
+// UIToolbar의 메뉴 열기.
+- (IBAction)openMenuForToolbar:(id)sender
+{
+    // 슈퍼뷰에 추가된 뷰 삭제.
+    [self removeFromSuperviweForAddedView];
+    
+    UIBarButtonItem *button = (UIBarButtonItem *)sender;
+    switch (button.tag) 
+    {
+        case Home: // 홈.
+        {
+            // 스크롤 뷰의 두 번째 페이지가 홈이다.
+            pageControl.currentPage = 1;
+            [self changePage:sender];
+        }
+            break;
+        case MyMenu: // 마이메뉴.
+        {
+            [self openMyMenu:sender];
+        }
+            break;
+        case Login: // 로그인.
+            break;
+        case Finish: // 종료.
+        {
+            exit(0);
+        }
+            break;
+        case Help: // 도움말.
+        {
+            // 관심종목 테스트.
+            [self openIRStock:sender];
+        }
+            break;
+        default:
+            break;
+    }
+}
+
+// TODO: 열릴 메뉴의 화면 닫기 처리 필수!
+// 전체메뉴의 메뉴 열기.
+- (void)openMenuForTotalMenu:(id)sender
+{
+    
+}
+
 // 마이메뉴 열기.
 - (IBAction)openMyMenu:(id)sender
 {
     MyMenuViewController *myMenuViewController = [[MyMenuViewController alloc] initWithNibName:@"MyMenuViewController" bundle:nil];    
     [self.view.superview addSubview:myMenuViewController.view];
-    [myMenuViewController.view release];
-    
     
     // 전체메뉴를 모달로 띄움.
     UIView *modalView = myMenuViewController.view;
@@ -272,8 +339,24 @@ static NSUInteger kNumberOfPages = 2;
     modalView.center = middleCenter;
     [UIView commitAnimations];
     
+    //[myMenuViewController release];
+    
     Debug(@"MyMenu frame: %@", NSStringFromCGRect(modalView.frame));
     Debug(@"MyMenu frame: %@", NSStringFromCGRect([UIScreen mainScreen].bounds));
+}
+
+// 관심종목 열기.
+- (IBAction)openIRStock:(id)sender
+{
+    IRStockListViewController *irStrockListViewController = [[IRStockListViewController alloc] initWithNibName:@"IRStockListViewController" bundle:nil];
+    irStrockListViewController.view.frame = ContentViewFrame ;
+    irStrockListViewController.view.tag = 100101;
+    [self.view.superview addSubview:irStrockListViewController.view];
+    // 현재 추가되는 뷰의 태그 설정!
+    currentAddedSubviewTag = irStrockListViewController.view.tag;
+    
+    // 리본 이미지 뷰를 화면의 맨 앞으로..
+    [self bringRibbonImageViewToFront];
 }
 
 @end

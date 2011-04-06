@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface ContentController : NSObject 
+@interface ContentController : UIViewController //NSObject 
 {
     NSArray *contentList;
 }

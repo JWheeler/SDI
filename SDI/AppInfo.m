@@ -34,9 +34,10 @@ static AppInfo *sharedAppInfo = nil;
 // 초기화.
 - (id)init 
 {
-	if ((self = [super init])) 
+    self = [super init];
+	if (self) 
     {
-        
+
 	}
 	
 	return self;
@@ -112,7 +113,7 @@ static AppInfo *sharedAppInfo = nil;
     END_TIMER(@"loadStockCodeMaster");
     
     //[self writeToMasterFile:STOCK_CODE_MASTER_FILE_NAME withContent:stringFile];
-    Debug(@"%@", stringFile);
+    //Debug(@"%@", stringFile);
     
     // TODO: 예외처리!
     // 얼럿.
@@ -123,7 +124,7 @@ static AppInfo *sharedAppInfo = nil;
         return;
     }
         
-    
+    // 파싱.
     StockCode *stockCode = [[StockCode alloc] init];
     NSArray *headers = stockCode.headers;
     CSVParser *parser = [[CSVParser alloc] initWithString:stringFile    

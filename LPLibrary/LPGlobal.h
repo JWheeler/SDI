@@ -38,7 +38,7 @@
 
 // 벤치마킹.
 #define START_TIMER NSTimeInterval start = [NSDate timeIntervalSinceReferenceDate];
-#define END_TIMER(msg) 	NSTimeInterval stop = [NSDate timeIntervalSinceReferenceDate]; LPLog([NSString stringWithFormat:@"%@ Time = %f", msg, stop-start]);
+#define END_TIMER(msg) NSTimeInterval stop = [NSDate timeIntervalSinceReferenceDate]; LPLog([NSString stringWithFormat:@"%@ Time = %f", msg, stop-start]);
 
 // 사용법.
 //- (void)loadStockCodeMaster

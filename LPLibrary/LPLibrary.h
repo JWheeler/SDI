@@ -6,6 +6,9 @@
 //  Copyright 2010 Lilac Studio. All rights reserved.
 //
 
+// 로그.
+//#import "SOLogger.h"
+
 // 디버그.
 #import "LPDebug.h"
 

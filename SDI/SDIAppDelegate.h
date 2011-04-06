@@ -10,6 +10,7 @@
 
 @class ContentController;
 
+
 @interface SDIAppDelegate : NSObject <UIApplicationDelegate> {
 
 }

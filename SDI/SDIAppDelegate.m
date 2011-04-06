@@ -23,11 +23,19 @@
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
+//+ (void)initialize
+//{
+//    gLogger = [[SOLogger alloc] init];
+//}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // 코어 데이터 관리 객체 컨텍스트 설정.
 //    SBCountController *sbCountController = [[SBCountController alloc] init];
 //    SBCountController.managedObjectContext = self.managedObjectContext;
+    
+    // 로그.
+    //gLogger = [[SOLogger alloc] init];
     
     // 앱 정보.
     [AppInfo sharedAppInfo];

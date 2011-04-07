@@ -107,6 +107,7 @@ static AppInfo *sharedAppInfo = nil;
 - (void)loadStockCodeMaster:(NSString *)masterName
 {
     START_TIMER;
+    // TODO: 마스터 파일이 매일 오전 7시에 갱신되므로 체크 루틴 추가할 것!
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:STOCK_CODE_MASTER_URL, masterName]];
     // 인코딩 확인할 것!
     NSString *stringFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];

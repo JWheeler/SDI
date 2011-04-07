@@ -5,6 +5,8 @@
 //  Created by Jong Pil Park on 11. 3. 24..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  TODO: 뷰의 추가 삭제 시, 노티피케이션 사용 고려.
+//
 
 #import "SDIContentController.h"
 #import "UIView+Hierarchy.h"
@@ -348,13 +350,14 @@ static NSUInteger kNumberOfPages = 2;
 // 관심종목 열기.
 - (IBAction)openIRStock:(id)sender
 {
-    IRStockListViewController *irStrockListViewController = [[IRStockListViewController alloc] initWithNibName:@"IRStockListViewController" bundle:nil];
-    irStrockListViewController.view.frame = ContentViewFrame ;
-    irStrockListViewController.view.tag = 100101;
-    [self.view.superview addSubview:irStrockListViewController.view];
+    IRStockListViewController *viewController = [[IRStockListViewController alloc] initWithNibName:@"IRStockListViewController" bundle:nil];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController]; 
+    navigationController.view.frame = ContentViewFrame ;
+    navigationController.view.tag = 1010;
+    // !!!: 스크롤을 할 경우에는 self.view에 추가하면 됨!
+    [self.view.superview addSubview:navigationController.view];
     // 현재 추가되는 뷰의 태그 설정!
-    currentAddedSubviewTag = irStrockListViewController.view.tag;
-    
+    currentAddedSubviewTag = navigationController.view.tag;
     // 리본 이미지 뷰를 화면의 맨 앞으로..
     [self bringRibbonImageViewToFront];
 }

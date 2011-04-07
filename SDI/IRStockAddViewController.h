@@ -13,4 +13,6 @@
     
 }
 
+- (IBAction)regIRStock:(id)sender;
+
 @end

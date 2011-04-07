@@ -38,7 +38,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.title = @"관심종목 편집";
+    
+    // 완료 버튼.
+    UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithTitle:@"완료" style:UIBarButtonItemStylePlain target:self action:@selector(doneIRStock:)];
+	self.navigationItem.rightBarButtonItem = doneButton;
+    [doneButton release];
 }
 
 - (void)viewDidUnload
@@ -52,6 +58,13 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - 커스텀 메서드
+
+- (IBAction)doneIRStock:(id)sender
+{
+    Debug(@"Done button tapped!");
 }
 
 @end

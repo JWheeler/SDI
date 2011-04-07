@@ -10,7 +10,10 @@
 
 
 @interface IRStockListViewController : UIViewController {
-    
+    UIColor *defaultTintColor;
 }
+
+- (IBAction)backAction:(id)sender;
+- (IBAction)segmentAction:(id)sender;
 
 @end

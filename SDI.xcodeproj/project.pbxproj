@@ -23,8 +23,6 @@
 		1D0C2E21134AA2D40000E88F /* SBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E20134AA2D40000E88F /* SBManager.m */; };
 		1D21CA69134BCE1B00CEF3D9 /* ASLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D21CA66134BCE1B00CEF3D9 /* ASLConnection.m */; };
 		1D21CA6A134BCE1B00CEF3D9 /* SOLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D21CA68134BCE1B00CEF3D9 /* SOLogger.m */; };
-		1D21CA99134BE39700CEF3D9 /* IRStockListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D21CA97134BE39700CEF3D9 /* IRStockListViewController.m */; };
-		1D21CA9A134BE39700CEF3D9 /* IRStockListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D21CA98134BE39700CEF3D9 /* IRStockListViewController.xib */; };
 		1D21CA9E134BE3AB00CEF3D9 /* IRStockEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D21CA9C134BE3AB00CEF3D9 /* IRStockEditViewController.m */; };
 		1D21CA9F134BE3AB00CEF3D9 /* IRStockEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */; };
 		1D21CAA3134BE3BD00CEF3D9 /* IRStockAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D21CAA1134BE3BD00CEF3D9 /* IRStockAddViewController.m */; };
@@ -52,6 +50,8 @@
 		1D4FE11D133B28E500AB63A4 /* DataHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4FE119133B28E500AB63A4 /* DataHandler.m */; };
 		1D4FE11E133B28E500AB63A4 /* TRGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D4FE11C133B28E500AB63A4 /* TRGenerator.m */; };
 		1D5EDF65134C1C5F0011943F /* TransparentToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D5EDF64134C1C5F0011943F /* TransparentToolbar.m */; };
+		1D90231D134C57A500DBCFAF /* IRStockListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D90231B134C57A500DBCFAF /* IRStockListViewController.m */; };
+		1D90231E134C57A500DBCFAF /* IRStockListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D90231C134C57A500DBCFAF /* IRStockListViewController.xib */; };
 		1D975F5C133B36A5000E74FB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D975F5B133B36A5000E74FB /* CFNetwork.framework */; };
 		1D975F69133B3703000E74FB /* SQHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D975F68133B3703000E74FB /* SQHeader.m */; };
 		1D975F6E133B370B000E74FB /* SBHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D975F6B133B370B000E74FB /* SBHeader.m */; };
@@ -144,9 +144,6 @@
 		1D21CA66134BCE1B00CEF3D9 /* ASLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASLConnection.m; sourceTree = "<group>"; };
 		1D21CA67134BCE1B00CEF3D9 /* SOLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOLogger.h; sourceTree = "<group>"; };
 		1D21CA68134BCE1B00CEF3D9 /* SOLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SOLogger.m; sourceTree = "<group>"; };
-		1D21CA96134BE39700CEF3D9 /* IRStockListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRStockListViewController.h; sourceTree = "<group>"; };
-		1D21CA97134BE39700CEF3D9 /* IRStockListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRStockListViewController.m; sourceTree = "<group>"; };
-		1D21CA98134BE39700CEF3D9 /* IRStockListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockListViewController.xib; sourceTree = "<group>"; };
 		1D21CA9B134BE3AB00CEF3D9 /* IRStockEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRStockEditViewController.h; sourceTree = "<group>"; };
 		1D21CA9C134BE3AB00CEF3D9 /* IRStockEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRStockEditViewController.m; sourceTree = "<group>"; };
 		1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockEditViewController.xib; sourceTree = "<group>"; };
@@ -198,6 +195,9 @@
 		1D4FE11C133B28E500AB63A4 /* TRGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TRGenerator.m; sourceTree = "<group>"; };
 		1D5EDF63134C1C5F0011943F /* TransparentToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransparentToolbar.h; sourceTree = "<group>"; };
 		1D5EDF64134C1C5F0011943F /* TransparentToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TransparentToolbar.m; sourceTree = "<group>"; };
+		1D90231A134C57A500DBCFAF /* IRStockListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRStockListViewController.h; sourceTree = "<group>"; };
+		1D90231B134C57A500DBCFAF /* IRStockListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRStockListViewController.m; sourceTree = "<group>"; };
+		1D90231C134C57A500DBCFAF /* IRStockListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockListViewController.xib; sourceTree = "<group>"; };
 		1D975F5B133B36A5000E74FB /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1D975F67133B3703000E74FB /* SQHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQHeader.h; sourceTree = "<group>"; };
 		1D975F68133B3703000E74FB /* SQHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQHeader.m; sourceTree = "<group>"; };
@@ -446,9 +446,9 @@
 		1D4C6643134B0D7500D86135 /* IRStock */ = {
 			isa = PBXGroup;
 			children = (
-				1D21CA96134BE39700CEF3D9 /* IRStockListViewController.h */,
-				1D21CA97134BE39700CEF3D9 /* IRStockListViewController.m */,
-				1D21CA98134BE39700CEF3D9 /* IRStockListViewController.xib */,
+				1D90231A134C57A500DBCFAF /* IRStockListViewController.h */,
+				1D90231B134C57A500DBCFAF /* IRStockListViewController.m */,
+				1D90231C134C57A500DBCFAF /* IRStockListViewController.xib */,
 				1D21CA9B134BE3AB00CEF3D9 /* IRStockEditViewController.h */,
 				1D21CA9C134BE3AB00CEF3D9 /* IRStockEditViewController.m */,
 				1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */,
@@ -754,9 +754,9 @@
 				1DF4A2171349A18800BC587C /* 18.png in Resources */,
 				1DF4A2181349A18800BC587C /* 19.png in Resources */,
 				1DF4A2191349A18800BC587C /* 20.png in Resources */,
-				1D21CA9A134BE39700CEF3D9 /* IRStockListViewController.xib in Resources */,
 				1D21CA9F134BE3AB00CEF3D9 /* IRStockEditViewController.xib in Resources */,
 				1D21CAA4134BE3BD00CEF3D9 /* IRStockAddViewController.xib in Resources */,
+				1D90231E134C57A500DBCFAF /* IRStockListViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,10 +815,10 @@
 				1D0C2E21134AA2D40000E88F /* SBManager.m in Sources */,
 				1D21CA69134BCE1B00CEF3D9 /* ASLConnection.m in Sources */,
 				1D21CA6A134BCE1B00CEF3D9 /* SOLogger.m in Sources */,
-				1D21CA99134BE39700CEF3D9 /* IRStockListViewController.m in Sources */,
 				1D21CA9E134BE3AB00CEF3D9 /* IRStockEditViewController.m in Sources */,
 				1D21CAA3134BE3BD00CEF3D9 /* IRStockAddViewController.m in Sources */,
 				1D5EDF65134C1C5F0011943F /* TransparentToolbar.m in Sources */,
+				1D90231D134C57A500DBCFAF /* IRStockListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

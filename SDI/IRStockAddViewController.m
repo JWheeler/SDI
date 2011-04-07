@@ -14,7 +14,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self) 
+    {
         // Custom initialization
     }
     return self;
@@ -38,7 +39,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    self.title = @"관심종목 등록";
+    
+    // 등록 버튼.
+    UIBarButtonItem *regButton = [[UIBarButtonItem alloc] initWithTitle:@"등록" style:UIBarButtonItemStylePlain target:self action:@selector(regIRStock:)];
+	self.navigationItem.rightBarButtonItem = regButton;
+    [regButton release];
 }
 
 - (void)viewDidUnload
@@ -52,6 +59,13 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - 커스텀 메서드
+
+- (IBAction)regIRStock:(id)sender
+{
+    Debug(@"Register button tapped!");
 }
 
 @end

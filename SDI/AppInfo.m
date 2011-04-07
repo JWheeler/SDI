@@ -37,7 +37,7 @@ static AppInfo *sharedAppInfo = nil;
     self = [super init];
 	if (self) 
     {
-
+        
 	}
 	
 	return self;
@@ -86,6 +86,24 @@ static AppInfo *sharedAppInfo = nil;
 
 #pragma mark - 커스텀 메서드
 
+// 앱의 Documents 디렉토리.
+- (NSString *)applicationDocumentsDirectory
+{
+	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+// 파일 존재 유무 확인.
+- (BOOL)isFileExistence:(NSString *)file
+{
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *documentDirectory = [self applicationDocumentsDirectory];
+	NSString *writableFilePath = [documentDirectory stringByAppendingPathComponent:file];
+	
+	BOOL fileExits = [fileManager fileExistsAtPath:writableFilePath];
+	
+    return fileExits;
+}
+
 // 마스터 파일 저장.
 - (void)writeToMasterFile:(NSString *)file withContent:(NSString *)content 
 {
@@ -103,28 +121,57 @@ static AppInfo *sharedAppInfo = nil;
 				   error:nil];
 }
 
-// TODO: 종목코드를 파일 또는 DB에 저장해야함!
+// 마스터 파일 읽기.
+- (NSString *)readToMasterFile:(NSString *)file
+{
+    // Document 디렉토리.
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	
+	// 데이터를 저장할 파일명 생성.
+	NSString *fileName = [NSString stringWithFormat:@"%@/%@", documentsDirectory, file];
+    
+    // 파일 읽기.
+    NSString *stringFile = [NSString stringWithContentsOfFile:fileName 
+                                                     encoding:NSUTF8StringEncoding 
+                                                        error:nil];
+    
+    return stringFile;
+}
+
+// TODO: 마스터 코드 별 로직 추가!
+// 마스터 코드 로드.
 - (void)loadStockCodeMaster:(NSString *)masterName
 {
-    START_TIMER;
-    // TODO: 마스터 파일이 매일 오전 7시에 갱신되므로 체크 루틴 추가할 것!
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:STOCK_CODE_MASTER_URL, masterName]];
-    // 인코딩 확인할 것!
-    NSString *stringFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
-    END_TIMER(@"loadStockCodeMaster");
+    Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>%@", [self isDownloadTime] ? @"YES": @"NO");
+    Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>%@", [self isFileExistence:masterName] ? @"YES": @"NO");
+    NSString *stringFile;
     
-    //[self writeToMasterFile:STOCK_CODE_MASTER_FILE_NAME withContent:stringFile];
+    // 매일 오전 7시에 마스터 파일 갱신된다. 
+    // 그러므로 앱 실행 시 시간 확인 하여 하루에 한 번씩 마스터 파일을 다운로드 한다.
+    if (![self isFileExistence:masterName] || [self isDownloadTime]) 
+    {
+        //START_TIMER;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:STOCK_CODE_MASTER_URL, masterName]];
+        // 인코딩 확인할 것!
+        stringFile = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:nil];
+        //END_TIMER(@"loadStockCodeMaster");
+        
+        [self writeToMasterFile:masterName withContent:stringFile];
+        
+        if (nil == stringFile) 
+        {
+            [LPUtils showAlert:LPAlertTypeFirst andTag:LPAlertTypeFirst withTitle:@"알림" andMessage:@"서버 접속에 실패했습니다."];
+            return;
+        }
+    }
+    else
+    {
+        stringFile = [self readToMasterFile:masterName];
+    }
+    
     //Debug(@"%@", stringFile);
     
-    // TODO: 예외처리!
-    // 얼럿.
-    
-    if (nil == stringFile) 
-    {
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"서버 접속에 실패했습니다."];
-        return;
-    }
-        
     // 파싱.
     StockCode *stockCode = [[StockCode alloc] init];
     NSArray *headers = stockCode.headers;
@@ -135,11 +182,57 @@ static AppInfo *sharedAppInfo = nil;
     stockCodeMasters = [NSArray array];
     stockCodeMasters = [parser arrayOfParsedRows];
     Debug(@"%d", [stockCodeMasters count]);
+}
+
+// TODO: 좀 더 효율적인 방법으로 수정할 것!
+// 다운로드 시간 확인.
+-(BOOL)isDownloadTime
+{
+    // 현재 날짜와 시간.
+	NSDate *now = [[NSDate alloc] init];
+	
+	// 날짜 포맷.
+	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"yyyy-MM-dd"];
+	
+	// 시간 포맷.
+	NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
+	[timeFormat setDateFormat:@"HH:mm:ss"];
+	
+	// 비교할 시간 생성.
+	NSString *theDate = [dateFormat stringFromDate:now];
+	NSString *theTime = @"07:10:00";
+	NSString *stringDate = @"";
+	stringDate = [stringDate stringByAppendingString:theDate];
+	stringDate = [stringDate stringByAppendingString:@" "];
+	stringDate = [stringDate stringByAppendingString:theTime];
+	
+	NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+	NSDate *compareDate = [formatter dateFromString:stringDate];
+	
+	[now release];
+	[dateFormat release];
+	[timeFormat release];
+	
+	Debug(@"-----------------------------------------------------------------");
+	Debug(@"compareDate: %@", stringDate);
+	Debug(@"-----------------------------------------------------------------");
+	
+	// 시간(날짜) 비교.
+	double inteval = [compareDate timeIntervalSinceNow];
+	
+	Debug(@"-----------------------------------------------------------------");
+	Debug(@"Time inteval: %f", inteval);
+	Debug(@"-----------------------------------------------------------------");
+	
+    // 하루에 한 번만...
+	if (inteval == 0) 
+    { 
+		return YES;
+	}
     
-//    for (NSArray *arr in stockCodeMasters) {
-//        Debug(@"%@", arr);
-//    }
-    
+    return NO;
 }
 
 @end

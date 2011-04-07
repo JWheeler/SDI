@@ -449,12 +449,12 @@
 				1D90231A134C57A500DBCFAF /* IRStockListViewController.h */,
 				1D90231B134C57A500DBCFAF /* IRStockListViewController.m */,
 				1D90231C134C57A500DBCFAF /* IRStockListViewController.xib */,
-				1D21CA9B134BE3AB00CEF3D9 /* IRStockEditViewController.h */,
-				1D21CA9C134BE3AB00CEF3D9 /* IRStockEditViewController.m */,
-				1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */,
 				1D21CAA0134BE3BD00CEF3D9 /* IRStockAddViewController.h */,
 				1D21CAA1134BE3BD00CEF3D9 /* IRStockAddViewController.m */,
 				1D21CAA2134BE3BD00CEF3D9 /* IRStockAddViewController.xib */,
+				1D21CA9B134BE3AB00CEF3D9 /* IRStockEditViewController.h */,
+				1D21CA9C134BE3AB00CEF3D9 /* IRStockEditViewController.m */,
+				1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */,
 			);
 			name = IRStock;
 			sourceTree = "<group>";

@@ -102,6 +102,8 @@
 - (IBAction)backAction:(id)sender
 {
     Debug(@"Back button tapped!");
+    
+    [self.navigationController.view removeFromSuperview];
 }
 
 - (IBAction)segmentAction:(id)sender

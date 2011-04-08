@@ -30,9 +30,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // 코어 데이터 관리 객체 컨텍스트 설정.
-//    SBCountController *sbCountController = [[SBCountController alloc] init];
-//    SBCountController.managedObjectContext = self.managedObjectContext;
+    // DB 복사: 미리 입력된 데이터를 위해...
+    [self createEditableCopyOfDatabaseIfNeeded];
     
     // 로그.
     //gLogger = [[SOLogger alloc] init];
@@ -264,7 +263,7 @@
 
 - (void)createEditableCopyOfDatabaseIfNeeded
 {
-	// First, test for existence - we don't want to wipe out a user's DB
+	// DB가 존재하는 지 확인.
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	NSString *documentDirectory = [self applicationDocumentsDirectoryForString];
 	NSString *writableDBPath = [documentDirectory stringByAppendingPathComponent:@"SDI.sqlite"];

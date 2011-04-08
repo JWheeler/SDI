@@ -12,7 +12,7 @@
 
 
 @interface SDIAppDelegate : NSObject <UIApplicationDelegate> {
-
+    
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

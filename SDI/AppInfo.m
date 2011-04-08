@@ -16,19 +16,26 @@
 
 @synthesize stockCodeMasters;
 
+static dispatch_once_t pred;
 static AppInfo *sharedAppInfo = nil;
 
 + (AppInfo *)sharedAppInfo 
 {
 	// 객체에 락을 걸고, 동시에 멀티 스레드에서 메소드에 접근하기 위해 synchronized 사용. 
-	@synchronized(self) 
-    {
-		if(sharedAppInfo == nil) 
-        {
-			[[self alloc] init];
-		}
-	}
-	return sharedAppInfo;
+//	@synchronized(self) 
+//    {
+//		if(sharedAppInfo == nil) 
+//        {
+//			[[self alloc] init];
+//		}
+//	}
+//	return sharedAppInfo;
+    
+    dispatch_once(&pred, ^{
+        sharedAppInfo = [[self alloc] init];
+    });
+    
+    return sharedAppInfo;
 }
 
 // 초기화.
@@ -70,7 +77,7 @@ static AppInfo *sharedAppInfo = nil;
 
 - (unsigned)retainCount 
 {
-	// 릴리즈되어서는 안될 객체 표시.
+	// 릴리즈되어서는 안될 객체 표시(또는 NSUIntegerMax 사용).
     return UINT_MAX;  
 } 
 
@@ -143,8 +150,6 @@ static AppInfo *sharedAppInfo = nil;
 // 마스터 코드 로드.
 - (void)loadStockCodeMaster:(NSString *)masterName
 {
-    Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>%@", [self isDownloadTime] ? @"YES": @"NO");
-    Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>%@", [self isFileExistence:masterName] ? @"YES": @"NO");
     NSString *stringFile;
     
     // 매일 오전 7시에 마스터 파일 갱신된다. 

@@ -16,7 +16,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) 
     {
-        columns = [NSMutableArray arrayWithCapacity:5];
+        columns = [NSMutableArray arrayWithCapacity:3];
 		[columns retain];
     }
     return self;

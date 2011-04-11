@@ -184,9 +184,14 @@ static AppInfo *sharedAppInfo = nil;
                                                 separator:@"|:"
                                                 hasHeader:NO
                                                fieldNames:headers];
-    stockCodeMasters = [NSArray array];
-    stockCodeMasters = [parser arrayOfParsedRows];
-    Debug(@"%d", [stockCodeMasters count]);
+    self.stockCodeMasters = [NSArray array];
+    self.stockCodeMasters = [parser arrayOfParsedRows];
+//    Debug(@"%d", [stockCodeMasters count]);
+//    
+//    for (int i = 0; i < [stockCodeMasters count]; i++) {
+//        Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %@", [[stockCodeMasters objectAtIndex:i] objectForKey:@"stockName"]);
+//    }
+        
 }
 
 // TODO: 좀 더 효율적인 방법으로 수정할 것!

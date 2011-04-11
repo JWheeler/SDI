@@ -50,8 +50,8 @@
     [super viewDidLoad];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	//[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
-    [nc addObserver:self selector:@selector(viewText:) name:TRCD_SHNNREAL object:nil];
+	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
+    //[nc addObserver:self selector:@selector(viewText:) name:TRCD_SHNNREAL object:nil];
     
     
 //    SBCountController *sbCountController = [[SBCountController alloc] init];
@@ -65,13 +65,13 @@
 
 - (void)viewText:(NSNotification *)notification 
 {
-//    self.trCode.text = [[notification userInfo] objectForKey:@"CODE"];
-//    self.price.text = [NSString stringWithFormat:@"%@", [[notification userInfo] objectForKey:@"nowPrc"]];
-//    self.volume.text = [NSString stringWithFormat:@"%@", [[notification userInfo] objectForKey:@"acmlVlm"]];
+    self.trCode.text = [[notification userInfo] objectForKey:@"CODE"];
+    self.price.text = [NSString stringWithFormat:@"%@", [[notification userInfo] objectForKey:@"nowPrc"]];
+    self.volume.text = [NSString stringWithFormat:@"%@", [[notification userInfo] objectForKey:@"acmlVlm"]];
     
-    self.trCode.text = [[notification userInfo] objectForKey:@"TRCD"];
-    self.price.text = [[notification userInfo] objectForKey:@"mktStUntyKey"];
-    self.volume.text = [[notification userInfo] objectForKey:@"title"];
+//    self.trCode.text = [[notification userInfo] objectForKey:@"TRCD"];
+//    self.price.text = [[notification userInfo] objectForKey:@"mktStUntyKey"];
+//    self.volume.text = [[notification userInfo] objectForKey:@"title"];
 }
 
 - (void)viewDidUnload
@@ -106,36 +106,36 @@
 {
 	// 3 단계: SB 등록.
     // SB 등록 테스트: 종목시세.
-//    NSMutableArray *sbBodies = [NSMutableArray array];
-//    for (int i = 0; i < 3; i++) 
-//    {
-//        SBRegBody *sbRegBody = [[SBRegBody alloc] init];
-//        sbRegBody.idx = @"0";
-//        
-//        if (i == 0) {
-//            sbRegBody.code = @"000660";
-//        }
-//        if (i == 1) {
-//            sbRegBody.code = @"003450";
-//        }
-//        if (i == 2) {
-//            sbRegBody.code = @"005930";
-//        }
-//        
-//        [sbBodies addObject:sbRegBody];
-//    }
-//    TRGenerator *tr =  [[TRGenerator alloc] init];
-//    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:@"SS01REAL" withCodeSet:sbBodies]];
+    NSMutableArray *sbBodies = [NSMutableArray array];
+    for (int i = 0; i < 3; i++) 
+    {
+        SBRegBody *sbRegBody = [[SBRegBody alloc] init];
+        sbRegBody.idx = @"0";
+        
+        if (i == 0) {
+            sbRegBody.code = @"000660";
+        }
+        if (i == 1) {
+            sbRegBody.code = @"003450";
+        }
+        if (i == 2) {
+            sbRegBody.code = @"005930";
+        }
+        
+        [sbBodies addObject:sbRegBody];
+    }
+    TRGenerator *tr =  [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:@"SS01REAL" withCodeSet:sbBodies]];
     
     // 3 단계: SB 등록.
     // SB 등록 테스트: 시황.
-    NSMutableArray *sbBodies = [NSMutableArray array];
-    SBRegBody *sbRegBody = [[SBRegBody alloc] init];
-    sbRegBody.idx = @"N";
-    sbRegBody.code = @"";
-    [sbBodies addObject:sbRegBody];
-    TRGenerator *tr =  [[TRGenerator alloc] init];
-    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:TRCD_SHNNREAL withCodeSet:sbBodies]];
+//    NSMutableArray *sbBodies = [NSMutableArray array];
+//    SBRegBody *sbRegBody = [[SBRegBody alloc] init];
+//    sbRegBody.idx = @"N";
+//    sbRegBody.code = @"";
+//    [sbBodies addObject:sbRegBody];
+//    TRGenerator *tr =  [[TRGenerator alloc] init];
+//    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:TRCD_SHNNREAL withCodeSet:sbBodies]];
 }
 
 // 데이터 저장.

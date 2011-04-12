@@ -70,6 +70,7 @@
 		1DA0D676133C203600787FB2 /* ribbon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA0D674133C203600787FB2 /* ribbon@2x.png */; };
 		1DA0D681133C29A900787FB2 /* IndexViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DA0D67F133C29A900787FB2 /* IndexViewController.m */; };
 		1DA0D682133C29A900787FB2 /* IndexViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DA0D680133C29A900787FB2 /* IndexViewController.xib */; };
+		1DBC17D01355069000B50564 /* NSDate+Timesince.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBC17CF1355069000B50564 /* NSDate+Timesince.m */; };
 		1DC5437C1339C25A00ADBDC4 /* LPSlidePageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC5437B1339C25A00ADBDC4 /* LPSlidePageControl.m */; };
 		1DC543821339C34B00ADBDC4 /* sliderPageControl.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC5437E1339C34B00ADBDC4 /* sliderPageControl.png */; };
 		1DC543831339C34B00ADBDC4 /* sliderPageControl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC5437F1339C34B00ADBDC4 /* sliderPageControl@2x.png */; };
@@ -239,6 +240,8 @@
 		1DA0D67E133C29A900787FB2 /* IndexViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexViewController.h; sourceTree = "<group>"; };
 		1DA0D67F133C29A900787FB2 /* IndexViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexViewController.m; sourceTree = "<group>"; };
 		1DA0D680133C29A900787FB2 /* IndexViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IndexViewController.xib; sourceTree = "<group>"; };
+		1DBC17CE1355069000B50564 /* NSDate+Timesince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timesince.h"; sourceTree = "<group>"; };
+		1DBC17CF1355069000B50564 /* NSDate+Timesince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Timesince.m"; sourceTree = "<group>"; };
 		1DC5437A1339C25A00ADBDC4 /* LPSlidePageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSlidePageControl.h; sourceTree = "<group>"; };
 		1DC5437B1339C25A00ADBDC4 /* LPSlidePageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSlidePageControl.m; sourceTree = "<group>"; };
 		1DC5437E1339C34B00ADBDC4 /* sliderPageControl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sliderPageControl.png; sourceTree = "<group>"; };
@@ -520,6 +523,8 @@
 				1D0C2E0A134A82130000E88F /* UIView+Position.m */,
 				1D0C2E14134A84150000E88F /* UIView+Hierarchy.h */,
 				1D0C2E15134A84150000E88F /* UIView+Hierarchy.m */,
+				1DBC17CE1355069000B50564 /* NSDate+Timesince.h */,
+				1DBC17CF1355069000B50564 /* NSDate+Timesince.m */,
 			);
 			name = Categories;
 			path = categories;
@@ -887,6 +892,7 @@
 				1D0DEAD3134ED80300858B85 /* UIView+FirstResponder.m in Sources */,
 				1D0DEADE134EDE8D00858B85 /* LPGridTabaleCell.m in Sources */,
 				1DC74EF713526BBA00341C47 /* IRStock.m in Sources */,
+				1DBC17D01355069000B50564 /* NSDate+Timesince.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

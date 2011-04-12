@@ -247,27 +247,48 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // ???: 어떤 방식으로 구현할지... 검색결과 리턴 또는 row 이동.
     // 인덱스 선택.
     if (tableView == self.indexTableView)
     {
         NSString *searchString = [[self.indexes objectAtIndex:indexPath.row] objectForKey:@"indexName"];
-        Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", searchString);
         
-        for (NSInteger idx = 0; idx < [self.stockCodes count]; idx++)
+        for (int idx = 0; idx < [self.stockCodes count]; idx++)
         {
-            UITableViewCell *idxCell = nil;
-            idxCell = [self.dataTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
+            NSString *stockName = [[self.stockCodes objectAtIndex:idx] objectForKey:@"stockName"];
+            NSString *substringStockName = [stockName substringWithRange:NSMakeRange(0, 1)];
             
-            NSString *stockName = idxCell.textLabel.text;
-            NSRange rangeName = [stockName rangeOfString:searchString];
-            
-            Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", stockName);
-            
-            if (rangeName.location == 0) 
+            // TODO: 숫자와 알파벳의 경우 세부 검색 조절해야 함.
+            if (indexPath.row == 0) 
             {
-                [self.dataTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
-                return;
+                // 0-9.
+                searchString = @"0123456789";
+                searchString = @"3";
+                NSRange rangeSearch = [searchString rangeOfString:substringStockName];
+                
+                if (rangeSearch.location != NSNotFound) 
+                {
+                    [self.dataTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                }
+            }
+            else if (indexPath.row == 1) 
+            {
+                // A-Z.
+                //searchString = @"ABCDEFGHIZKLMNOPQRSTUVWXYZ";
+                searchString = @"A";
+                NSRange rangeSearch = [[searchString lowercaseString] rangeOfString:[substringStockName lowercaseString]];
+            
+                if (rangeSearch.location != NSNotFound) 
+                {
+                    [self.dataTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                }
+            }
+            else
+            {
+                if ([substringStockName isEqualToString:searchString])
+                {
+                    // 가, 나, 다, 라...
+                    [self.dataTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+                }
             }
         }
     }

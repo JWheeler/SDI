@@ -29,7 +29,6 @@
 		1D21CA9E134BE3AB00CEF3D9 /* IRStockEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D21CA9C134BE3AB00CEF3D9 /* IRStockEditViewController.m */; };
 		1D21CA9F134BE3AB00CEF3D9 /* IRStockEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */; };
 		1D21CAA3134BE3BD00CEF3D9 /* IRStockAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D21CAA1134BE3BD00CEF3D9 /* IRStockAddViewController.m */; };
-		1D21CAA4134BE3BD00CEF3D9 /* IRStockAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D21CAA2134BE3BD00CEF3D9 /* IRStockAddViewController.xib */; };
 		1D2318D3134305530029B6ED /* SDI.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318D1134305530029B6ED /* SDI.xcdatamodeld */; };
 		1D2318E8134313E60029B6ED /* NSObject+JSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318D7134313E60029B6ED /* NSObject+JSON.m */; };
 		1D2318E9134313E60029B6ED /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D2318D9134313E60029B6ED /* SBJsonParser.m */; };
@@ -84,6 +83,8 @@
 		1DD75425134E6FCE003867AE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD75423134E6FCE003867AE /* LoginViewController.xib */; };
 		1DD754B4134E989E003867AE /* SDI.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1DD754B3134E989E003867AE /* SDI.sqlite */; };
 		1DD82A441343EB4000B1ADE8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD82A431343EB4000B1ADE8 /* CoreData.framework */; };
+		1DDF74511353D7F0007FB5F5 /* IRStockAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */; };
+		1DDF748D13540379007FB5F5 /* libLPLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDF748B13540379007FB5F5 /* libLPLibrary.a */; };
 		1DF4A1DA13497D4300BC587C /* MyMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF4A1D813497D4300BC587C /* MyMenuViewController.m */; };
 		1DF4A1DB13497D4300BC587C /* MyMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF4A1D913497D4300BC587C /* MyMenuViewController.xib */; };
 		1DF4A1DF13497D6800BC587C /* MyMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF4A1DE13497D6800BC587C /* MyMenuView.m */; };
@@ -166,7 +167,6 @@
 		1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockEditViewController.xib; sourceTree = "<group>"; };
 		1D21CAA0134BE3BD00CEF3D9 /* IRStockAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRStockAddViewController.h; sourceTree = "<group>"; };
 		1D21CAA1134BE3BD00CEF3D9 /* IRStockAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRStockAddViewController.m; sourceTree = "<group>"; };
-		1D21CAA2134BE3BD00CEF3D9 /* IRStockAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockAddViewController.xib; sourceTree = "<group>"; };
 		1D2318D2134305530029B6ED /* SDI.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SDI.xcdatamodel; sourceTree = "<group>"; };
 		1D2318D5134313E60029B6ED /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		1D2318D6134313E60029B6ED /* NSObject+JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSON.h"; sourceTree = "<group>"; };
@@ -258,6 +258,9 @@
 		1DD75423134E6FCE003867AE /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		1DD754B3134E989E003867AE /* SDI.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SDI.sqlite; sourceTree = SOURCE_ROOT; };
 		1DD82A431343EB4000B1ADE8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockAddViewController.xib; sourceTree = "<group>"; };
+		1DDF748B13540379007FB5F5 /* libLPLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLPLibrary.a; sourceTree = "<group>"; };
+		1DDF748C13540379007FB5F5 /* MathFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathFunctions.h; sourceTree = "<group>"; };
 		1DF4A1D713497D4300BC587C /* MyMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMenuViewController.h; sourceTree = "<group>"; };
 		1DF4A1D813497D4300BC587C /* MyMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMenuViewController.m; sourceTree = "<group>"; };
 		1DF4A1D913497D4300BC587C /* MyMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyMenuViewController.xib; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 				1D02C8F3133871C800B5415B /* UIKit.framework in Frameworks */,
 				1D02C8F5133871C800B5415B /* Foundation.framework in Frameworks */,
 				1D02C8F7133871C800B5415B /* CoreGraphics.framework in Frameworks */,
+				1DDF748D13540379007FB5F5 /* libLPLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,6 +415,7 @@
 		1D02C9121338729300B5415B /* LPLibrary */ = {
 			isa = PBXGroup;
 			children = (
+				1DDF748A13540379007FB5F5 /* lib */,
 				1DA0D66D133C0A2600787FB2 /* LPUtils.h */,
 				1DA0D66E133C0A2600787FB2 /* LPUtils.m */,
 				1D4FE10A133B283900AB63A4 /* Categories */,
@@ -483,7 +488,7 @@
 				1D90231C134C57A500DBCFAF /* IRStockListViewController.xib */,
 				1D21CAA0134BE3BD00CEF3D9 /* IRStockAddViewController.h */,
 				1D21CAA1134BE3BD00CEF3D9 /* IRStockAddViewController.m */,
-				1D21CAA2134BE3BD00CEF3D9 /* IRStockAddViewController.xib */,
+				1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */,
 				1D21CA9B134BE3AB00CEF3D9 /* IRStockEditViewController.h */,
 				1D21CA9C134BE3AB00CEF3D9 /* IRStockEditViewController.m */,
 				1D21CA9D134BE3AB00CEF3D9 /* IRStockEditViewController.xib */,
@@ -692,6 +697,15 @@
 			path = External;
 			sourceTree = "<group>";
 		};
+		1DDF748A13540379007FB5F5 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				1DDF748B13540379007FB5F5 /* libLPLibrary.a */,
+				1DDF748C13540379007FB5F5 /* MathFunctions.h */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
 		1DF60F0E133ADA2700A809B5 /* SmallImages */ = {
 			isa = PBXGroup;
 			children = (
@@ -798,7 +812,6 @@
 				1DF4A2181349A18800BC587C /* 19.png in Resources */,
 				1DF4A2191349A18800BC587C /* 20.png in Resources */,
 				1D21CA9F134BE3AB00CEF3D9 /* IRStockEditViewController.xib in Resources */,
-				1D21CAA4134BE3BD00CEF3D9 /* IRStockAddViewController.xib in Resources */,
 				1D90231E134C57A500DBCFAF /* IRStockListViewController.xib in Resources */,
 				1DD75425134E6FCE003867AE /* LoginViewController.xib in Resources */,
 				1DD754B4134E989E003867AE /* SDI.sqlite in Resources */,
@@ -806,6 +819,7 @@
 				1D7BF3751352D77200FC2759 /* star_off@2x.png in Resources */,
 				1D7BF3761352D77200FC2759 /* star_on.png in Resources */,
 				1D7BF3771352D77200FC2759 /* star_on@2x.png in Resources */,
+				1DDF74511353D7F0007FB5F5 /* IRStockAddViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -939,6 +953,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SDI/SDI-Prefix.pch";
 				INFOPLIST_FILE = "SDI/SDI-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/LPLibrary/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -952,6 +970,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SDI/SDI-Prefix.pch";
 				INFOPLIST_FILE = "SDI/SDI-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/LPLibrary/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;

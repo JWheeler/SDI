@@ -13,14 +13,13 @@
 @class IRStock;
 
 @interface IRStockListViewController : UIViewController <NSFetchedResultsControllerDelegate, 
-UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewDataSource> 
+UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewDataSource, UINavigationControllerDelegate> 
 {
     UIColor *defaultTintColor;
     UIPickerView *pickerView;
     UIToolbar *toolbar;
-    BOOL showPickerVeiw;
+    BOOL isSelectedPicker;
     int currentIndex;       // 현재 선택된 그룹의 인덱스(0부터 시작).
-    
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsControllerForIRGroup;
@@ -28,7 +27,7 @@ UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewD
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) IRGroup *irGroup;
 @property (nonatomic, retain) NSString *currentStockCode;
-@property (nonatomic, retain) NSNumber *currentPrice;       // 현재가.ㄴ
+@property (nonatomic, retain) NSNumber *currentPrice;       // 현재가.
 
 @property (nonatomic, retain) IBOutlet UIButton *previousButton;
 @property (nonatomic, retain) IBOutlet UIButton *nextButton;
@@ -45,6 +44,7 @@ UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewD
 - (IBAction)previousAction:(id)sender;
 - (IBAction)nextAction:(id)sender;
 - (IBAction)selectPicker:(id)sender;
+- (void)togglePicker:(int)type;
 - (void)viewText:(NSNotification *)notification;
 
 @end

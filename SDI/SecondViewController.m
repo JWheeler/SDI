@@ -121,6 +121,9 @@
         if (i == 2) {
             sbRegBody.code = @"005930";
         }
+        if (i == 3) {
+            sbRegBody.code = @"066570";
+        }
         
         [sbBodies addObject:sbRegBody];
     }

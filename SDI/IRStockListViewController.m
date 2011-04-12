@@ -68,6 +68,9 @@
     [currentStockCode release];
     [currentPrice release];
     [stockTableView release];
+    [__fetchedResultsControllerForIRGroup release];
+    [__fetchedResultsControllerForIRStock release];
+    [__managedObjectContext release];
     [super dealloc];
 }
 
@@ -270,6 +273,16 @@
     [self.stockTableView reloadData];
 }
 
+#pragma mark - UINavigationControllerDelegate
+
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    // 관심종목 리스트 가져오기.
+    [self fetchedResultsControllerForIRStock:currentIndex + 1];
+    [self.stockTableView reloadData];
+}
+
+
 #pragma mark - Fetched results controller
 
 // IRGroup 테이블에서 그룹 목록 가져오기.
@@ -327,10 +340,10 @@
 // IRStock 테이블에서 현재 선택된 그룹포함된 주식종목 목록 가져오기.
 - (NSFetchedResultsController *)fetchedResultsControllerForIRStock:(int)searchGroup
 {
-    if (__fetchedResultsControllerForIRStock != nil && searchGroup != 0)
-    {
-        return __fetchedResultsControllerForIRStock;
-    }
+//    if (__fetchedResultsControllerForIRStock != nil && searchGroup != 0)
+//    {
+//        return __fetchedResultsControllerForIRStock;
+//    }
     
     /*
      * fetched results controller 설정.
@@ -412,14 +425,14 @@
     [segmentBarItem release];
     
     // 피커뷰 표시를 위해...
-    showPickerVeiw = NO;
+    isSelectedPicker = NO;
 }
 
 // 백버튼 액션.
 - (IBAction)backAction:(id)sender
 {
     Debug(@"Back button tapped!");
-    [self selectPicker:sender];
+    [self togglePicker:1];
     [self.navigationController.view removeFromSuperview];
 }
 
@@ -456,6 +469,10 @@
         
         currentIndex = currentIndex - 1;
     }
+    else
+    {
+        Debug(@"First index!");
+    }
     
     [self fetchedResultsControllerForIRStock:currentIndex + 1];
     [self.stockTableView reloadData];
@@ -464,15 +481,19 @@
 // 다음 그룹 선택.
 - (IBAction)nextAction:(id)sender
 {
-    if (currentIndex < [[self.fetchedResultsControllerForIRGroup fetchedObjects] count]) 
+    if (currentIndex < [[self.fetchedResultsControllerForIRGroup fetchedObjects] count] - 1) 
     {
         self.irGroup = [[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:(currentIndex + 1)];
         self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
         
         currentIndex = currentIndex + 1;
     }
+    else
+    {
+        Debug(@"Last index!");
+    }
     
-    [self fetchedResultsControllerForIRStock:currentIndex + 1];
+    [self fetchedResultsControllerForIRStock:(currentIndex + 1)];
     [self.stockTableView reloadData];
     
     Debug(@"IRStock row count: %d", [[self.fetchedResultsControllerForIRStock fetchedObjects] count]);
@@ -481,7 +502,22 @@
 // 피커 선택.
 - (IBAction)selectPicker:(id)sender
 {
-    if (!showPickerVeiw) 
+    if (!isSelectedPicker) 
+    {
+        [self togglePicker:0];
+        isSelectedPicker = YES;
+    }
+    else
+    {
+        [self togglePicker:1];
+        isSelectedPicker = NO;
+    }
+}
+
+// 피커 토글.
+- (void)togglePicker:(int)type
+{
+    if (type == 0) 
     {
         // 툴바: 화면 밖에서 생성한다.
         toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 480, self.view.bounds.size.width, 44)];
@@ -512,8 +548,6 @@
         pickerView.transform = CGAffineTransformMakeTranslation(0, -216);
         toolbar.transform = CGAffineTransformMakeTranslation(0, -260);
         [UIView commitAnimations];
-        
-        showPickerVeiw = YES;
     }
     else
     {
@@ -522,8 +556,7 @@
         pickerView.transform = CGAffineTransformMakeTranslation(0, 216);
         toolbar.transform = CGAffineTransformMakeTranslation(0, 260);
         [UIView commitAnimations];
-        
-        showPickerVeiw = NO;
+        [pickerView release];
     }
 }
 

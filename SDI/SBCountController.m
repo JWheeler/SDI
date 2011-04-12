@@ -56,7 +56,7 @@
 {
     if (![self isObjectExistence:obj]) 
     {
-        // 페치 리절트 컨트롤러에 의해 관리되는 엔티티의 새 인스턴스 생성.
+        // 페치드 리절트 컨트롤러에 의해 관리되는 엔티티의 새 인스턴스 생성.
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
         NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
         NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];

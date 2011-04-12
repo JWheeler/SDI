@@ -352,6 +352,7 @@ static NSUInteger kNumberOfPages = 2;
 {
     IRStockListViewController *viewController = [[IRStockListViewController alloc] initWithNibName:@"IRStockListViewController" bundle:nil];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController]; 
+    navigationController.delegate = viewController;
     navigationController.view.frame = ContentViewFrame ;
     navigationController.view.tag = 1010;
     // !!!: 스크롤을 할 경우에는 self.view에 추가하면 됨!

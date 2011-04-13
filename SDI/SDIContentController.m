@@ -355,6 +355,7 @@ static NSUInteger kNumberOfPages = 2;
     navigationController.delegate = viewController;
     navigationController.view.frame = ContentViewFrame ;
     navigationController.view.tag = 1010;
+    
     // !!!: 스크롤을 할 경우에는 self.view에 추가하면 됨!
     [self.view.superview addSubview:navigationController.view];
     // 현재 추가되는 뷰의 태그 설정!

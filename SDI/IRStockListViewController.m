@@ -8,9 +8,8 @@
 
 #import "IRStockListViewController.h"
 #import "IRStockAddViewController.h"
-#import "IRStockEditViewController.h"
 #import "SDIAppDelegate.h"
-#import "LPGridTabaleCell.h"
+#import "HTTPHandler.h"
 
 #define CUSTOM_BUTTON_HEIGHT 30.0
 
@@ -25,6 +24,7 @@
 @synthesize fetchedResultsControllerForIRStock = __fetchedResultsControllerForIRStock;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize irGroup;
+@synthesize responseArray;
 @synthesize currentStockCode;
 @synthesize currentPrice;
 
@@ -65,9 +65,11 @@
     [selectPickerButton release];
     [groupLabel release];
     [irGroup release];
+    [responseArray release];
     [currentStockCode release];
     [currentPrice release];
     [stockTableView release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [__fetchedResultsControllerForIRGroup release];
     [__fetchedResultsControllerForIRStock release];
     [__managedObjectContext release];
@@ -100,6 +102,22 @@
     // 그룹이름 초기화.
     self.irGroup = [[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:0];
     self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
+    
+    // HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
+    self.responseArray = [[NSMutableArray alloc] init];
+    HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
+    for (NSInteger i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++) 
+    {
+        // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
+        NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        [httpHandler searchCurrentPrice:[[managedObject valueForKey:@"stockCode"] description]];
+        if (httpHandler.reponseDict != nil) 
+        {
+            [self.responseArray addObject:httpHandler.reponseDict];
+        }
+    }
+    
+    isReal = NO;
 }
 
 - (void)viewDidUnload
@@ -181,10 +199,24 @@
     NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:indexPath];
     stockLabel.text = [[managedObject valueForKey:@"stockName"] description];
     
-    // TODO: 데이터가 없을 경우 기본값 설정해야 함!
-    if ([[[managedObject valueForKey:@"stockCode"] description] isEqualToString:self.currentStockCode]) 
+    
+    if (isReal) 
     {
-        currentPriceLabel.text = [LPUtils formatNumber:[self.currentPrice intValue]];
+        // 리얼 시세.
+        if ([[[managedObject valueForKey:@"stockCode"] description] isEqualToString:self.currentStockCode]) 
+        {
+            currentPriceLabel.text = [LPUtils formatNumber:[self.currentPrice intValue]];
+        }
+    }
+    else
+    {
+        // 화면에 처음 진입할 경우, RQ로 현재가 등의 데이터를 설정한다.
+        for (NSDictionary *dict in self.responseArray) 
+        {
+            if ([[managedObject valueForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"isNo"]]) {
+                currentPriceLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"nowPrc"] intValue]];
+            }
+        }
     }
     
     return cell;
@@ -199,35 +231,33 @@
  }
  */
 
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) 
+    {
+        // Delete the row from the data source
+        //[self.stockTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        Debug(@">>>>>>>>>>>>>>>>>>>>>");
+    }   
+    else if (editingStyle == UITableViewCellEditingStyleInsert) 
+    {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
 
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    
+}
 
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
+{
  // Return NO if you do not want the item to be re-orderable.
  return YES;
- }
- */
+}
 
 #pragma mark - Table view delegate
 
@@ -452,10 +482,23 @@
     
     if (segmentedControl.selectedSegmentIndex == 1) 
     {
-        // 관심종목 편집.
-        IRStockEditViewController *viewController = [[IRStockEditViewController alloc] initWithNibName:@"IRStockEditViewController" bundle:nil];
-        [self.navigationController pushViewController:viewController animated:YES];
-        [viewController release];
+        if (self.stockTableView.editing == NO) 
+        {
+            // 관심종목 편집.
+            [self.stockTableView setEditing:YES animated:YES];
+            // 백버튼 감추기.
+            self.navigationItem.leftBarButtonItem.enabled = NO;
+            // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 타이트 변경.
+            [sender setTitle:@"완료" forSegmentAtIndex:1];
+        }
+        else
+        {
+            [self.stockTableView setEditing:NO animated:YES];
+            // 백버튼 감추기.
+            self.navigationItem.leftBarButtonItem.enabled = YES;
+            // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 타이트 변경.
+            [sender setTitle:@"편집" forSegmentAtIndex:1];
+        }
     }
 }
 
@@ -560,12 +603,15 @@
     }
 }
 
-// 종목별 데이터.
+// TODO: 관심 종목 필드 설정 및 확인(현재가, 전일비, 등락율, 거래대금 등)!
+// 종목별 실시간 데이터.
 - (void)viewText:(NSNotification *)notification 
 {
+    isReal = YES;
     self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];
-    self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"]; //[NSString stringWithFormat:@"%@", [[notification userInfo] objectForKey:@"nowPrc"]];
+    self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];     
     [self.stockTableView reloadData];
+    isReal = NO;
 }
 
 @end

@@ -20,12 +20,14 @@ UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewD
     UIToolbar *toolbar;
     BOOL isSelectedPicker;
     int currentIndex;       // 현재 선택된 그룹의 인덱스(0부터 시작).
+    BOOL isReal;            // 리얼 시세가 들어 오는지 여부.
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsControllerForIRGroup;
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsControllerForIRStock;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain) IRGroup *irGroup;
+@property (nonatomic, retain) NSMutableArray *responseArray;
 @property (nonatomic, retain) NSString *currentStockCode;
 @property (nonatomic, retain) NSNumber *currentPrice;       // 현재가.
 
@@ -37,7 +39,7 @@ UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewD
 
 - (NSFetchedResultsController *)fetchedResultsControllerForIRGroup;
 - (NSFetchedResultsController *)fetchedResultsControllerForIRStock:(int)searchGroup;
-
+    
 - (void)setLayout;
 - (IBAction)backAction:(id)sender;
 - (IBAction)segmentAction:(id)sender;

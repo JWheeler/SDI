@@ -17,7 +17,7 @@
 	NSNumberFormatter *formatter = [[[NSNumberFormatter alloc] init] autorelease];  
 	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	NSString *formattedOutput = [formatter stringFromNumber:[NSNumber numberWithInt:num]];
-	Debug(@"Formatting number: %@", formattedOutput);
+	//Debug(@"Formatting number: %@", formattedOutput);
 	
 	return formattedOutput;
 }

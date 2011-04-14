@@ -47,6 +47,7 @@ UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewD
 - (IBAction)nextAction:(id)sender;
 - (IBAction)selectPicker:(id)sender;
 - (void)togglePicker:(int)type;
+- (void)initIRStocks;
 - (void)viewText:(NSNotification *)notification;
 
 @end

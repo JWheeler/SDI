@@ -82,10 +82,11 @@
     
     self.title = @"관심종목 등록";
     
+    // 사용 안함!
     // 등록 버튼.
-    UIBarButtonItem *regButton = [[UIBarButtonItem alloc] initWithTitle:@"등록" style:UIBarButtonItemStylePlain target:self action:@selector(regIRStock:)];
-	self.navigationItem.rightBarButtonItem = regButton;
-    [regButton release];
+//    UIBarButtonItem *regButton = [[UIBarButtonItem alloc] initWithTitle:@"등록" style:UIBarButtonItemStylePlain target:self action:@selector(regIRStock:)];
+//	self.navigationItem.rightBarButtonItem = regButton;
+//    [regButton release];
     
     // 인덱스 설정.
     [self setIndex];

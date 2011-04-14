@@ -5,6 +5,8 @@
 //  Created by Jong Pil Park on 11. 4. 6..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  TODO: 성능 개선!
+//
 
 #import "IRStockListViewController.h"
 #import "IRStockAddViewController.h"
@@ -103,20 +105,6 @@
     self.irGroup = [[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:0];
     self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
     
-    // HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
-    self.responseArray = [[NSMutableArray alloc] init];
-    HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
-    for (NSInteger i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++) 
-    {
-        // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
-        NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        [httpHandler searchCurrentPrice:[[managedObject valueForKey:@"stockCode"] description]];
-        if (httpHandler.reponseDict != nil) 
-        {
-            [self.responseArray addObject:httpHandler.reponseDict];
-        }
-    }
-    
     isReal = NO;
 }
 
@@ -137,6 +125,9 @@
 		segmentedControl.tintColor = [UIColor darkGrayColor];
 	else
 		segmentedControl.tintColor = defaultTintColor;
+    
+    // 관심 종목 데이터 초기화.
+    [self initIRStocks];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -197,12 +188,11 @@
     
     // Configure the cell...
     NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:indexPath];
-    stockLabel.text = [[managedObject valueForKey:@"stockName"] description];
-    
+    stockLabel.text = [managedObject valueForKey:@"stockName"]; //[[managedObject valueForKey:@"stockName"] description];
     
     if (isReal) 
     {
-        // 리얼 시세.
+        // 리얼 시세가 들어 오는 경우...
         if ([[[managedObject valueForKey:@"stockCode"] description] isEqualToString:self.currentStockCode]) 
         {
             currentPriceLabel.text = [LPUtils formatNumber:[self.currentPrice intValue]];
@@ -213,7 +203,8 @@
         // 화면에 처음 진입할 경우, RQ로 현재가 등의 데이터를 설정한다.
         for (NSDictionary *dict in self.responseArray) 
         {
-            if ([[managedObject valueForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"isNo"]]) {
+            if ([[managedObject valueForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"isNo"]]) 
+            {
                 currentPriceLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"nowPrc"] intValue]];
             }
         }
@@ -236,27 +227,51 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) 
     {
-        // Delete the row from the data source
-        //[self.stockTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-        Debug(@">>>>>>>>>>>>>>>>>>>>>");
-    }   
+        // Delete the managed object for the given index path
+        NSManagedObjectContext *context = [self.fetchedResultsControllerForIRStock managedObjectContext];
+        [context deleteObject:[self.fetchedResultsControllerForIRStock objectAtIndexPath:indexPath]];
+        // Save the context.
+        NSError *error = nil;
+        if (![context save:&error]) {
+            // TODO: 에러 처리.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }    
     else if (editingStyle == UITableViewCellEditingStyleInsert) 
     {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
 
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-    
-}
-
 // Override to support conditional rearranging of the table view.
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    for (int i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++)
+    {
+        NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:fromIndexPath];
+        [managedObject setValue:[NSNumber numberWithInt:toIndexPath.row] forKey:@"displayOrder"];
+    }
+    
+    NSManagedObjectContext *context = [self.fetchedResultsControllerForIRStock managedObjectContext];
+    
+    // 컨텍스트 저장.
+    NSError *error = nil;
+    if (![context save:&error])
+    {
+        // TODO: 에러 처리.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    [self fetchedResultsControllerForIRStock:currentIndex + 1];
+    [self.stockTableView reloadData];
 }
 
 #pragma mark - Table view delegate
@@ -300,6 +315,7 @@
     self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
     
     [self fetchedResultsControllerForIRStock:currentIndex + 1];
+    [self initIRStocks];
     [self.stockTableView reloadData];
 }
 
@@ -309,6 +325,8 @@
 {
     // 관심종목 리스트 가져오기.
     [self fetchedResultsControllerForIRStock:currentIndex + 1];
+    // 관심 종목 데이터 초기화.
+    [self initIRStocks];
     [self.stockTableView reloadData];
 }
 
@@ -384,7 +402,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"IRStock" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    // 배치 사이즈 설정.
+    // 배치 사이즈 설정: 하나의 그룹에 최대 50개의 주식종목 저장.
     [fetchRequest setFetchBatchSize:50];
     
     // 검색조건.
@@ -392,8 +410,8 @@
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"group == %d", searchGroup];
 	[fetchRequest setPredicate:predicate];
     
-    // 정렬할 키 설정.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"idx" ascending:YES];
+    // 정렬할 키 설정: displayOrder를 ascending 한다..
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"displayOrder" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     
     [fetchRequest setSortDescriptors:sortDescriptors];
@@ -412,17 +430,76 @@
 	NSError *error = nil;
 	if (![self.fetchedResultsControllerForIRStock performFetch:&error])
     {
-	    /*
-	     Replace this implementation with code to handle the error appropriately.
-         
-	     abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-	     */
+	    // TODO: 에러 처리.
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
     
     return __fetchedResultsControllerForIRStock;
 } 
+
+#pragma mark - Fetched results controller delegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.stockTableView beginUpdates];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    switch(type)
+    {
+        case NSFetchedResultsChangeInsert:
+            [self.stockTableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.stockTableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    UITableView *tableView = self.stockTableView;
+    
+    switch(type)
+    {
+            
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            //[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            [tableView reloadData];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.stockTableView endUpdates];
+}
+
+/*
+ // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
+ 
+ - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+ {
+ // In the simplest, most efficient, case, reload the table view.
+ [self.tableView reloadData];
+ }
+ */
 
 #pragma mark - 커스텀 메서드
 
@@ -486,17 +563,38 @@
         {
             // 관심종목 편집.
             [self.stockTableView setEditing:YES animated:YES];
-            // 백버튼 감추기.
+            // 백버튼 비활성.
             self.navigationItem.leftBarButtonItem.enabled = NO;
-            // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 타이트 변경.
+            // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 제목 변경.
             [sender setTitle:@"완료" forSegmentAtIndex:1];
         }
         else
         {
+//            for (int i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++)
+//            {
+//                NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+//                Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", [managedObject valueForKey:@"displayOrder"]);
+//                [managedObject setValue:[NSNumber numberWithInt:i] forKey:@"displayOrder"];
+//                Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", [managedObject valueForKey:@"displayOrder"]);
+//            }
+//            
+//            NSManagedObjectContext *context = [self.fetchedResultsControllerForIRStock managedObjectContext];
+//            
+//            // 컨텍스트 저장.
+//            NSError *error = nil;
+//            if (![context save:&error])
+//            {
+//                // TODO: 에러 처리.
+//                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+//                abort();
+//            }
+//            [self fetchedResultsControllerForIRStock:currentIndex + 1];
+//            [self.stockTableView reloadData];
+             
             [self.stockTableView setEditing:NO animated:YES];
-            // 백버튼 감추기.
+            // 백버튼 활성.
             self.navigationItem.leftBarButtonItem.enabled = YES;
-            // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 타이트 변경.
+            // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 제목 변경.
             [sender setTitle:@"편집" forSegmentAtIndex:1];
         }
     }
@@ -518,6 +616,7 @@
     }
     
     [self fetchedResultsControllerForIRStock:currentIndex + 1];
+    [self initIRStocks];
     [self.stockTableView reloadData];
 }
 
@@ -537,6 +636,7 @@
     }
     
     [self fetchedResultsControllerForIRStock:(currentIndex + 1)];
+    [self initIRStocks];
     [self.stockTableView reloadData];
     
     Debug(@"IRStock row count: %d", [[self.fetchedResultsControllerForIRStock fetchedObjects] count]);
@@ -603,6 +703,24 @@
     }
 }
 
+// 관심 종목 데이터 초기화
+- (void)initIRStocks
+{
+    // HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
+    self.responseArray = [[NSMutableArray alloc] init];
+    HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
+    for (NSInteger i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++) 
+    {
+        // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
+        NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        [httpHandler searchCurrentPrice:[[managedObject valueForKey:@"stockCode"] description]];
+        if (httpHandler.reponseDict != nil) 
+        {
+            [self.responseArray addObject:httpHandler.reponseDict];
+        }
+    }
+}
+
 // TODO: 관심 종목 필드 설정 및 확인(현재가, 전일비, 등락율, 거래대금 등)!
 // 종목별 실시간 데이터.
 - (void)viewText:(NSNotification *)notification 
@@ -611,7 +729,6 @@
     self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];
     self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];     
     [self.stockTableView reloadData];
-    isReal = NO;
 }
 
 @end

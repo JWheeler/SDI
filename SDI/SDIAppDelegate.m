@@ -49,6 +49,9 @@
     // SB 등록 관리.
     [SBManager sharedSBManager];
     
+    // SB 등록.
+    //[[AppInfo sharedAppInfo] regAllSB];
+    
     NSString *nibTitle = @"SDIContent";
     [[NSBundle mainBundle] loadNibNamed:nibTitle owner:self options:nil];
 

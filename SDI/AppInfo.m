@@ -10,6 +10,11 @@
 #import "CSVParser.h"
 #import "SDIConstants.h"
 #import "StockCode.h"
+#import "IRStockController.h"
+#import "DataHandler.h"
+#import "TRGenerator.h"
+#import "SBCount.h"
+#import "SBManager.h"
 
 
 @implementation AppInfo
@@ -243,6 +248,83 @@ static AppInfo *sharedAppInfo = nil;
 	}
     
     return NO;
+}
+
+// IRStock 테이블에 등록된 모든 주식종목에 대한 SB등록.
+- (void)regAllSB:(NSString *)idx trCode:(NSString *)trCode
+{
+    IRStockController *irStockController = [[IRStockController alloc] init];
+    NSMutableArray *irStockList = [[NSMutableArray alloc] init];
+    [irStockList addObjectsFromArray:[irStockController.fetchedResultsController fetchedObjects]];
+    
+    NSMutableArray *sbBodies = [NSMutableArray array];
+    for (NSManagedObject *managedObject in irStockList) 
+    {
+        SBRegBody *sbRegBody = [[SBRegBody alloc] init];
+        sbRegBody.idx = idx;
+        sbRegBody.code = [managedObject valueForKey:@"stockCode"];
+        
+        [sbBodies addObject:sbRegBody];
+        [sbRegBody release];
+        
+        // SBManger.
+        [self saveSBManager:idx trCode:trCode stockCode:[managedObject valueForKey:@"stockCode"]];
+    }
+    
+    TRGenerator *tr =  [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:trCode withCodeSet:sbBodies]];
+}
+
+// IRStock 테이블에 신규로 입력된 주식종목에 대한 SB등록.
+- (void)regSB:(NSMutableDictionary *)dict idx:(NSString *)idx trCode:(NSString *)trCode
+{
+    NSMutableArray *sbBodies = [NSMutableArray array];
+    SBRegBody *sbRegBody = [[SBRegBody alloc] init];
+    sbRegBody.idx = idx;
+    sbRegBody.code = [dict objectForKey:@"stockCode"];
+    [sbBodies addObject:sbRegBody];
+    [sbRegBody release];
+    
+    TRGenerator *tr =  [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:trCode withCodeSet:sbBodies]];
+    
+    // SBManger.
+    [self saveSBManager:idx trCode:trCode stockCode:[dict objectForKey:@"stockCode"]];
+}
+
+// IRStock 테이블에서 삭제된 주식종목에 대한 SB등록. 
+- (void)clearSB:(NSMutableDictionary *)dict idx:(NSString *)idx trCode:(NSString *)trCode
+{
+    NSMutableArray *sbBodies = [NSMutableArray array];
+    SBRegBody *sbRegBody = [[SBRegBody alloc] init];
+    sbRegBody.idx = idx;
+    sbRegBody.code = [dict objectForKey:@"stockCode"];
+    [sbBodies addObject:sbRegBody];
+    [sbRegBody release];
+    
+    TRGenerator *tr =  [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_CLEAR andTRCode:trCode withCodeSet:sbBodies]];
+    
+    // SBManger.
+    [self removeSBManager:idx trCode:trCode stockCode:[dict objectForKey:@"stockCode"]];
+}
+
+// SBManager에 데이터 저장.
+- (void)saveSBManager:(NSString *)idx trCode:(NSString *)trCode stockCode:(NSString *)stockCode
+{
+    // 메모리를 사용하는 경우.
+    SBCount *sbCount = [[SBCount alloc] initWithTRCode:trCode idx:idx code:stockCode];
+    [[SBManager sharedSBManager] insertNewObject:sbCount];
+    [sbCount release];
+}
+
+// SBManager의 데이터 삭제.
+- (void)removeSBManager:(NSString *)idx trCode:(NSString *)trCode stockCode:(NSString *)stockCode
+{
+    // 메모리를 사용하는 경우.
+    SBCount *sbCount = [[SBCount alloc] initWithTRCode:trCode idx:idx code:stockCode];
+    [[SBManager sharedSBManager] deleteObject:sbCount];
+    [sbCount release];
 }
 
 @end

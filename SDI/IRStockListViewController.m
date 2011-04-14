@@ -227,10 +227,18 @@
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) 
     {
-        // Delete the managed object for the given index path
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:indexPath];
+        [dict setValue:[managedObject valueForKey:@"stockCode"] forKey:@"stockCode"];
+        [dict setValue:[managedObject valueForKey:@"stockName"] forKey:@"stockName"];
+        
+        // SB 해제 메시지 전송.
+        [[AppInfo sharedAppInfo] clearSB:dict idx:@"0" trCode:TRCD_SS01REAL];
+        
         NSManagedObjectContext *context = [self.fetchedResultsControllerForIRStock managedObjectContext];
         [context deleteObject:[self.fetchedResultsControllerForIRStock objectAtIndexPath:indexPath]];
-        // Save the context.
+        
+        // 컨텍스트 저장.
         NSError *error = nil;
         if (![context save:&error]) {
             // TODO: 에러 처리.
@@ -569,28 +577,7 @@
             [sender setTitle:@"완료" forSegmentAtIndex:1];
         }
         else
-        {
-//            for (int i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++)
-//            {
-//                NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-//                Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", [managedObject valueForKey:@"displayOrder"]);
-//                [managedObject setValue:[NSNumber numberWithInt:i] forKey:@"displayOrder"];
-//                Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", [managedObject valueForKey:@"displayOrder"]);
-//            }
-//            
-//            NSManagedObjectContext *context = [self.fetchedResultsControllerForIRStock managedObjectContext];
-//            
-//            // 컨텍스트 저장.
-//            NSError *error = nil;
-//            if (![context save:&error])
-//            {
-//                // TODO: 에러 처리.
-//                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-//                abort();
-//            }
-//            [self fetchedResultsControllerForIRStock:currentIndex + 1];
-//            [self.stockTableView reloadData];
-             
+        {             
             [self.stockTableView setEditing:NO animated:YES];
             // 백버튼 활성.
             self.navigationItem.leftBarButtonItem.enabled = YES;

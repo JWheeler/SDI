@@ -309,25 +309,14 @@
         [dict setValue:[[self.stockCodes objectAtIndex:indexPath.row] objectForKey:@"stockName"] forKey:@"stockName"];
         [dict setValue:[[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:currentIndex] forKey:@"group"];
         
+        // IRStock 테이블에 입력.
         [self insertNewObject:dict];
         
-        [cell setSelected:NO animated:YES];
+        // SB 등록 메시지 전송.
+        [[AppInfo sharedAppInfo] regSB:dict idx:@"0" trCode:TRCD_SS01REAL];
         
-//        for (NSInteger idx = 0; idx < [self.stockCodes count]; idx++) 
-//        {
-//            UITableViewCell *idxCell = nil;
-//            idxCell = [tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:idx inSection:0]];
-//            if ([indexPath row] == idx) 
-//            {
-//                idxCell.imageView.image = [UIImage imageNamed:@"star_on.png"];
-//            }
-//            else 
-//            {
-//                idxCell.accessoryType = UITableViewCellAccessoryNone;
-//            }
-//        }
-        //셀 선택을 해제한다.
-        //[cell setSelected:NO animated:YES];
+        // 셀 선택 해제.
+        [cell setSelected:NO animated:YES];
     }
 }
 

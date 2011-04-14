@@ -24,5 +24,10 @@
 - (NSString *)readToMasterFile:(NSString *)file;
 - (void)loadStockCodeMaster:(NSString *)masterName;
 - (BOOL)isDownloadTime;
+- (void)regAllSB:(NSString *)idx trCode:(NSString *)trCode;
+- (void)regSB:(NSMutableDictionary *)dict idx:(NSString *)idx trCode:(NSString *)trCode;
+- (void)clearSB:(NSMutableDictionary *)dict idx:(NSString *)idx trCode:(NSString *)trCode;
+- (void)saveSBManager:(NSString *)idx trCode:(NSString *)trCode stockCode:(NSString *)stockCode;
+- (void)removeSBManager:(NSString *)idx trCode:(NSString *)trCode stockCode:(NSString *)stockCode;
 
 @end

@@ -175,7 +175,8 @@ static DataHandler *sharedDataHandler = nil;
 
 - (void)close
 {
-    if (webSocket.connected) {
+    if (webSocket.connected) 
+    {
         [webSocket close];
     }
 }
@@ -236,6 +237,9 @@ static DataHandler *sharedDataHandler = nil;
             // 2 단계: SB 최초 접속 등록.
             TRGenerator *tr = [[TRGenerator alloc] init];
             [self sendMessage:[tr genInitOrFinishSB:TRCD_MAINSTRT andCMD:SB_CMD_INIT_OR_FINISH]];
+            
+            // IRStock 테이블에 등록된 모든 주식종목에 대한 SB등록.
+            [[AppInfo sharedAppInfo] regAllSB:@"0" trCode:TRCD_SS01REAL];
         }
         else
         {

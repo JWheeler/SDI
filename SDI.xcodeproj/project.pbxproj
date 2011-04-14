@@ -69,6 +69,7 @@
 		1D7BF3771352D77200FC2759 /* star_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D7BF3731352D77200FC2759 /* star_on@2x.png */; };
 		1D90231D134C57A500DBCFAF /* IRStockListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D90231B134C57A500DBCFAF /* IRStockListViewController.m */; };
 		1D90231E134C57A500DBCFAF /* IRStockListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1D90231C134C57A500DBCFAF /* IRStockListViewController.xib */; };
+		1D90D9871356CCB40049A9EE /* IRStockController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D90D9861356CCB40049A9EE /* IRStockController.m */; };
 		1D975F5C133B36A5000E74FB /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D975F5B133B36A5000E74FB /* CFNetwork.framework */; };
 		1D975F69133B3703000E74FB /* SQHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D975F68133B3703000E74FB /* SQHeader.m */; };
 		1D975F6E133B370B000E74FB /* SBHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D975F6B133B370B000E74FB /* SBHeader.m */; };
@@ -255,6 +256,8 @@
 		1D90231A134C57A500DBCFAF /* IRStockListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRStockListViewController.h; sourceTree = "<group>"; };
 		1D90231B134C57A500DBCFAF /* IRStockListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRStockListViewController.m; sourceTree = "<group>"; };
 		1D90231C134C57A500DBCFAF /* IRStockListViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockListViewController.xib; sourceTree = "<group>"; };
+		1D90D9851356CCB40049A9EE /* IRStockController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = IRStockController.h; sourceTree = "<group>"; };
+		1D90D9861356CCB40049A9EE /* IRStockController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IRStockController.m; sourceTree = "<group>"; };
 		1D975F5B133B36A5000E74FB /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		1D975F67133B3703000E74FB /* SQHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQHeader.h; sourceTree = "<group>"; };
 		1D975F68133B3703000E74FB /* SQHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQHeader.m; sourceTree = "<group>"; };
@@ -569,6 +572,8 @@
 				1D21CAA0134BE3BD00CEF3D9 /* IRStockAddViewController.h */,
 				1D21CAA1134BE3BD00CEF3D9 /* IRStockAddViewController.m */,
 				1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */,
+				1D90D9851356CCB40049A9EE /* IRStockController.h */,
+				1D90D9861356CCB40049A9EE /* IRStockController.m */,
 			);
 			name = IRStock;
 			sourceTree = "<group>";
@@ -979,6 +984,7 @@
 				1D33009713552219007037FA /* ASINetworkQueue.m in Sources */,
 				1D33009D13552220007037FA /* Reachability.m in Sources */,
 				1D2047FE13552E08000AD805 /* HTTPHandler.m in Sources */,
+				1D90D9871356CCB40049A9EE /* IRStockController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

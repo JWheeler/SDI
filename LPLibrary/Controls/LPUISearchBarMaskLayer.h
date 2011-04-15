@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 
 
-@interface UISearchBarMaskLayer : CALayer {
+@interface LPUISearchBarMaskLayer : CALayer {
     
 }
 

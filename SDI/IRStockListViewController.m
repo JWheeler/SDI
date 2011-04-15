@@ -106,6 +106,9 @@
     self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
     
     isReal = NO;
+    
+    // 관심 종목 데이터 초기화.
+    [self initIRStocks];
 }
 
 - (void)viewDidUnload
@@ -349,19 +352,16 @@
         return __fetchedResultsControllerForIRGroup;
     }
     
-    /*
-     Set up the fetched results controller.
-     */
-    // Create the fetch request for the entity.
+    // 엔티티를 위한 리궤스트 생성.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
+    // 엔티티 이름 설정.
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"IRGroup" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
-    // Set the batch size to a suitable number.
+    // 배치 사이즈 설정: 최대 50개의 그룹 저장.
     [fetchRequest setFetchBatchSize:50];
     
-    // Edit the sort key as appropriate.
+    // 검색조건.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"idx" ascending:YES];
     NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
     
@@ -381,11 +381,7 @@
 	NSError *error = nil;
 	if (![self.fetchedResultsControllerForIRGroup performFetch:&error])
     {
-	    /*
-	     Replace this implementation with code to handle the error appropriately.
-         
-	     abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. If it is not possible to recover from the error, display an alert panel that instructs the user to quit the application by pressing the Home button.
-	     */
+	    // TODO: 에러 처리!
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
@@ -401,9 +397,6 @@
 //        return __fetchedResultsControllerForIRStock;
 //    }
     
-    /*
-     * fetched results controller 설정.
-     */
     // 엔티티를 위한 리궤스트 생성.
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // 엔티티 이름 설정.
@@ -716,6 +709,7 @@
     self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];
     self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];     
     [self.stockTableView reloadData];
+    isReal = NO;
 }
 
 @end

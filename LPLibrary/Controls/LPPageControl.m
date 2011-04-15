@@ -26,11 +26,11 @@
     self = [super initWithCoder:aDecoder];
     if (self) 
     {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, PAGECONTROL_HEIGHT);
+        self.frame = PAGECONTROL_FRAME;
         self.backgroundColor = [UIColor clearColor];
         
-        self.selectedColor = [UIColor lightGrayColor];
-        self.deselectedColor = [UIColor blackColor];
+        self.selectedColor = [UIColor blackColor];
+        self.deselectedColor = [UIColor grayColor];
     }
     return self;
 }
@@ -39,18 +39,19 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, PAGECONTROL_HEIGHT);
+    if (self)
+    {
+        self.frame = PAGECONTROL_FRAME;
         self.backgroundColor = [UIColor clearColor];
         
-        self.selectedColor = [UIColor grayColor];
-        self.deselectedColor = [UIColor blackColor];
+        self.selectedColor = [UIColor blackColor];
+        self.deselectedColor = [UIColor grayColor];
     }
     return self;
 }
 
 - (void)drawRect:(CGRect)rect
-{
+{    
     for (int i = 0; i < numberOfPages; i++) 
     {
         CGContextRef context = UIGraphicsGetCurrentContext();
@@ -64,7 +65,7 @@
     }
 }
 
--(void) setNumberOfPages: (int) number
+- (void)setNumberOfPages:(int)number
 {
     numberOfPages = MAX(number, 0);
     currentPage = 0;
@@ -76,12 +77,12 @@
     [self setNeedsDisplay];
 }
 
--(int) numberOfPages
+- (int)numberOfPages
 {
     return numberOfPages;
 }
 
--(void) setCurrentPage: (int) index
+- (void)setCurrentPage: (int) index
 {
     if (index >= numberOfPages)
         currentPage = 0;
@@ -91,11 +92,9 @@
     [self setNeedsDisplay];
 }
 
--(int) currentPage
+- (int)currentPage
 {
     return currentPage;
 }
-
-
 
 @end

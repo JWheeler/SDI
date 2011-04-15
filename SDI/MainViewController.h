@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MainViewController : UIViewController 
+@interface MainViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    
+    UISearchBar *searchBar;
 }
+
+@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 
 // 웹소켓 테스트.
 - (IBAction)reconnect:(id)sender;

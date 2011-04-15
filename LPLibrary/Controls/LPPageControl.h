@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-#define PAGECONTROL_HEIGHT 36
-#define DOT_WIDTH 6
+#define PAGECONTROL_FRAME CGRectMake(0.0, 393.0, 320, 43)
+#define PAGECONTROL_HEIGHT 43
+#define DOT_WIDTH 8
 #define DOT_SPACING 10
 
 

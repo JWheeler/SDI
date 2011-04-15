@@ -46,9 +46,10 @@
 					<object class="IBUIImageView" id="350391000">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{230, 383}, {90, 30}}</string>
+						<string key="NSFrame">{{254, 380}, {320, 40}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
@@ -61,6 +62,7 @@
 						<string key="NSFrameSize">{320, 335}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="350391000"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MSAxIDEAA</bytes>
@@ -73,12 +75,11 @@
 				<string key="NSFrame">{{0, 20}, {320, 460}}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="350391000"/>
+				<reference key="NSNextKeyView" ref="611290174"/>
 				<object class="NSColor" key="IBUIBackgroundColor">
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MCAwIDAAA</bytes>
 				</object>
-				<float key="IBUIAlpha">0.69999998807907104</float>
 				<object class="IBUISimulatedStatusBarMetrics" key="IBUISimulatedStatusBarMetrics"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
@@ -129,6 +130,7 @@
 							<reference ref="611290174"/>
 						</object>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-1</int>
@@ -244,7 +246,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">ribbon.png</string>
-			<string key="NS.object.0">{90, 30}</string>
+			<string key="NS.object.0">{320, 40}</string>
 		</object>
 		<string key="IBCocoaTouchPluginVersion">301</string>
 	</data>

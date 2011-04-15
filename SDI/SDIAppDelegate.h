@@ -27,4 +27,6 @@
 - (NSString *)applicationDocumentsDirectoryForString;
 - (void)createEditableCopyOfDatabaseIfNeeded;
 
+- (void)initProcess;
+
 @end

@@ -51,9 +51,6 @@ enum
 - (void)bringRibbonImageViewToFront;
 - (IBAction)openMenuForToolbar:(id)sender;
 - (void)openMenuForTotalMenu:(id)sender;
-
-// 테스트.
-- (IBAction)openMyMenu:(id)sender;
 - (IBAction)openIRStock:(id)sender;
 
 @end

@@ -10,7 +10,7 @@
 #import "LPWebSocket.h"
 
 
-@interface DataHandler : NSObject <LPWebSocketDelegate> 
+@interface DataHandler : NSObject <LPWebSocketDelegate, UIAlertViewDelegate> 
 {
 	LPWebSocket *webSocket;		// 웹소켓.
 	int messages;				// 메시지 카운트.

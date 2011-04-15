@@ -286,4 +286,12 @@
 	}
 }
 
+#pragma mark - 커스텀 메서드.
+
+// 통신 등 서비스 초기화.
+- (void)initProcess
+{
+    
+}
+
 @end

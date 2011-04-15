@@ -136,7 +136,7 @@ static DataHandler *sharedDataHandler = nil;
     
     // TODO: 예외처리!
     // 얼럿.
-    [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"서버 접속에 실패했습니다."];
+    [LPUtils showAlert:LPAlertTypeSecond andTag:0 withTitle:@"알림" andMessage:@"서버 접속에 실패했습니다.\n 재접속 하시겠습니까?"];
 }
 
 
@@ -265,6 +265,18 @@ static DataHandler *sharedDataHandler = nil;
             [nq enqueueNotification:[NSNotification notificationWithName:trCode object:self userInfo:dic] postingStyle:NSPostWhenIdle];
         }
     }
+}
+
+#pragma mark -
+#pragma mark 얼럿뷰 델리게이트
+
+- (void)alertView:(UIAlertView *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex 
+{	
+	if (buttonIndex == 1) 
+    {
+		// 서버 재접속.
+		[self reconnect];
+	}
 }
 
 #pragma mark -

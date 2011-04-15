@@ -11,4 +11,17 @@
 
 @implementation LPUIToolbar
 
+- (void)drawRect:(CGRect)rect 
+{
+	// 배경 이미지.
+	UIImage *image = [[UIImage imageNamed:@"toolbar_bg.png"] retain];
+	[image drawInRect:rect];
+	[image release];
+}
+
+- (void)dealloc 
+{
+    [super dealloc];
+}
+
 @end

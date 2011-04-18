@@ -15,9 +15,8 @@ enum
 {
     Home = 0,
     MyMenu = 1,
-    Login = 2,
-    Finish = 3,
-    Help = 4
+    Help = 2,
+    Finish = 3
 };
 
 
@@ -39,7 +38,7 @@ enum
 }
 
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, retain) IBOutlet UIPageControl *pageControl;
+@property (nonatomic, retain) IBOutlet LPPageControl *pageControl;
 @property (nonatomic, retain) IBOutlet UIImageView *ribbonImageView;
 
 @property (nonatomic, retain) NSMutableArray *viewControllers;
@@ -51,6 +50,7 @@ enum
 - (void)bringRibbonImageViewToFront;
 - (IBAction)openMenuForToolbar:(id)sender;
 - (void)openMenuForTotalMenu:(id)sender;
+- (IBAction)openMyMenu:(id)sender;
 - (IBAction)openIRStock:(id)sender;
 
 @end

@@ -29,7 +29,7 @@
         self.frame = PAGECONTROL_FRAME;
         self.backgroundColor = [UIColor clearColor];
         
-        self.selectedColor = [UIColor blackColor];
+        self.selectedColor = [UIColor whiteColor];
         self.deselectedColor = [UIColor grayColor];
     }
     return self;
@@ -44,7 +44,7 @@
         self.frame = PAGECONTROL_FRAME;
         self.backgroundColor = [UIColor clearColor];
         
-        self.selectedColor = [UIColor blackColor];
+        self.selectedColor = [UIColor whiteColor];
         self.deselectedColor = [UIColor grayColor];
     }
     return self;

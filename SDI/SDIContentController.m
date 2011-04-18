@@ -64,7 +64,7 @@ static NSUInteger kNumberOfPages = 2;
     
     pageControl.numberOfPages = kNumberOfPages;
     pageControl.currentPage = 0;
-    pageControl.selectedColor = [UIColor blackColor];
+    pageControl.selectedColor = [UIColor whiteColor];
     pageControl.deselectedColor = [UIColor lightGrayColor];
     
     // 페이지는 요구 시 생성.
@@ -95,7 +95,7 @@ static NSUInteger kNumberOfPages = 2;
         MainViewController *controller = [viewControllers objectAtIndex:page];
         if ((NSNull *)controller == [NSNull null])
         {
-            controller = [[SecondViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
+            controller = [[MainViewController alloc] initWithNibName:@"MainViewController" bundle:nil];
             [viewControllers replaceObjectAtIndex:page withObject:controller];
             [controller release];
         }
@@ -296,17 +296,14 @@ static NSUInteger kNumberOfPages = 2;
             [self openMyMenu:sender];
         }
             break;
-        case Login: // 로그인.
+        case Help: // 도움말.
+        {
+            
+        }
             break;
         case Finish: // 종료.
         {
             exit(0);
-        }
-            break;
-        case Help: // 도움말.
-        {
-            // 관심종목 테스트.
-            [self openIRStock:sender];
         }
             break;
         default:

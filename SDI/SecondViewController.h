@@ -10,7 +10,7 @@
 #import "MainViewController.h"
 
 
-@interface SecondViewController : MainViewController
+@interface SecondViewController : UIViewController
 {
     UILabel *trCode;
     UILabel *price;

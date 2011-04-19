@@ -5,6 +5,8 @@
 //  Created by Jong Pil Park on 11. 3. 24..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  TODO: 시세 설정용 데이터를 객체 형태로 변경할 것!
+//
 
 #import "MainViewController.h"
 #import "SDIAppDelegate.h"
@@ -39,6 +41,7 @@
 @synthesize currentSymbol;
 @synthesize currentFluctuation;
 @synthesize currentFluctuationRate;
+@synthesize currentTradeVolume;
 
 @synthesize searchBar;
 @synthesize stockTableView;
@@ -53,6 +56,7 @@
     [currentSymbol release];
     [currentFluctuation release];
     [currentFluctuationRate release];
+    [currentTradeVolume release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [__fetchedResultsController release];
     [__managedObjectContext release];
@@ -80,19 +84,15 @@
     // 관심종목 그룹1의 목록 가져오기.
     [self fetchedResultsController];
     
-    // 노티피케이션.
+    // 실시간 시세 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
     
+    // 관심종목 노티피케이션.
+	[nc addObserver:self selector:@selector(refreshTable:) name:@"AddIRStock" object:nil];
+    
     // 검색바 설정.
     [self setSearchBar];
-    
-    // 테이블뷰 스타일.
-	self.stockTableView = [[UITableView alloc] initWithFrame:CGRectMake(0.0, 133.0, 320.0, 325.0) style:UITableViewStylePlain];
-    self.stockTableView.dataSource = self;
-    self.stockTableView.delegate = self;
-    self.stockTableView.rowHeight = 40.0;
-    [self.view addSubview:self.stockTableView];
     
     // 테이블뷰의 데이터 설정을 위해...
     isReal = NO;
@@ -108,6 +108,29 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
+
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    
+//    // 관리 객체 컨텍스트 설정.
+//    SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    self.managedObjectContext = appDelegate.managedObjectContext;
+//    
+//    // 관심종목 그룹1의 목록 가져오기.
+//    [self fetchedResultsController];
+//    
+//    // 관심 종목 데이터 초기화.
+//    [self initIRStocks];
+//
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated
+//{
+//    [super viewWillDisappear:animated];
+//    
+//    __fetchedResultsController = nil;
+//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -269,19 +292,77 @@
     NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
     stockLabel.text = [managedObject valueForKey:@"stockName"];
     
+    float rateUnit = 0.0;
     if (isReal) 
     {
+        Debug(@"Set real data!");
         // 리얼 시세가 들어 오는 경우...
         if ([[[managedObject valueForKey:@"stockCode"] description] isEqualToString:self.currentStockCode]) 
         {
             currentPriceLabel.text = [LPUtils formatNumber:[self.currentPrice intValue]];
             fluctuationLabel.text = [LPUtils formatNumber:[self.currentFluctuation intValue]];
+            if ([self.currentSymbol isEqualToString:@"1"]) 
+            {
+                rateUnit = 0.01;
+                upperArrowLabel.hidden = NO;
+                upArrowLabel.hidden = YES;
+                lowerArrowLabel.hidden = YES;
+                downArrowLabel.hidden = YES;
+                fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
+            }
+            if ([self.currentSymbol isEqualToString:@"2"]) 
+            {
+                rateUnit = 0.01;
+                upperArrowLabel.hidden = YES;
+                upArrowLabel.hidden = NO;
+                lowerArrowLabel.hidden = YES;
+                downArrowLabel.hidden = YES;
+                fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
+            }
+            if ([self.currentSymbol isEqualToString:@"4"]) 
+            {
+                rateUnit = -0.01;
+                upperArrowLabel.hidden = YES;
+                upArrowLabel.hidden = YES;
+                lowerArrowLabel.hidden = NO;
+                downArrowLabel.hidden = YES;
+                fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
+            }
+            if ([self.currentSymbol isEqualToString:@"5"]) 
+            {
+                rateUnit = -0.01;
+                upperArrowLabel.hidden = YES;
+                upArrowLabel.hidden = YES;
+                lowerArrowLabel.hidden = YES;
+                downArrowLabel.hidden = NO;
+                fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
+            }
+            
+            fluctuationLabel.text = [LPUtils formatNumber:[self.currentFluctuation intValue]];
+            
+            // 마지막 필드의 데이터 변경.
+            switch (changeField) 
+            {
+                case 0:
+                    // 등락율.
+                    fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([self.currentFluctuationRate floatValue] * rateUnit), @"%"];
+                    break;
+                case 1:
+                    // 거래량.
+                    fluctuationRateLabel.text = [LPUtils formatNumber:[self.currentTradeVolume intValue]];
+                    break;
+                default:
+                    fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([self.currentFluctuationRate floatValue] * rateUnit), @"%"];
+                    break;
+            }
+            
         }
+        
+        isReal = NO;
     }
     else
     {
         // 화면에 처음 진입할 경우, RQ로 현재가 등의 데이터를 설정한다.
-        float rateUnit = 0.0;
         for (NSDictionary *dict in self.responseArray) 
         {
             if ([[managedObject valueForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"isNo"]]) 
@@ -431,7 +512,7 @@
     
     // 검색조건: 그룹 1월 종목목 가져온다.
     [fetchRequest setEntity:entity];
-	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"group == 1"];
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"group == %d", 1];
 	[fetchRequest setPredicate:predicate];
     
     // 정렬할 키 설정: displayOrder를 ascending 한다..
@@ -575,14 +656,23 @@
 // 종목별 실시간 데이터.
 - (void)viewText:(NSNotification *)notification 
 {
-    Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    Debug(@"Received real data!");
     isReal = YES;
-    self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];
-    self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"]; 
-    self.currentFluctuation = [[notification userInfo] objectForKey:@"bDyCmpr"]; 
-    self.currentFluctuationRate = [[notification userInfo] objectForKey:@"bDyCmprR"]; 
+    self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];             // 종목코드.
+    self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];               // 현재가.
+    self.currentSymbol = [[notification userInfo] objectForKey:@"bDyCmprSmbl"];         // 전일대비구분. bDyCmprSmbl
+    self.currentFluctuation = [[notification userInfo] objectForKey:@"bDyCmpr"];        // 전일대비(등락).
+    self.currentFluctuationRate = [[notification userInfo] objectForKey:@"bDyCmprR"];   // 전일대비율(등락율).
+    self.currentTradeVolume = [[notification userInfo] objectForKey:@"acmlVlm"];        // 변동거래량.
     [self.stockTableView reloadData];
-    isReal = NO;
+}
+
+// 관심종목 추가에 따른 데이블뷰 갱신.
+- (void)refreshTable :(NSNotification *)notification 
+{
+    self.fetchedResultsController = [[notification userInfo] objectForKey:@"addIRStock"];
+    [self initIRStocks];
+    [self.stockTableView reloadData];
 }
 
 @end

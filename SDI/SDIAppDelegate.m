@@ -29,28 +29,24 @@
 //}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    // DB 복사: 미리 입력된 데이터를 위해...
-    [self createEditableCopyOfDatabaseIfNeeded];
-    
+{   
     // 로그.
     //gLogger = [[SOLogger alloc] init];
     
-    // 앱 정보.
-    [AppInfo sharedAppInfo];
+    // DB 복사: 미리 입력된 데이터를 위해...
+    [self createEditableCopyOfDatabaseIfNeeded];
     
-    // 마스터 코드 로드.
-    [[AppInfo sharedAppInfo] loadStockCodeMaster:JONGMOK_MASTER];
+    // 네트워크 상태 확인.
+    if ([self isConnectToNetwork]) 
+    {
+        // 앱 초기화.
+        [self initProcess];
+    }
+    else
+    {
+        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"네트워크에 연결되어 있지 않습니다."];
+    }
     
-    // 데이터핸들러.
-    [DataHandler sharedDataHandler];
-    
-    // TODO: SB 등록 프로세스 추가.
-    // SB 등록 관리.
-    [SBManager sharedSBManager];
-    
-    // SB 등록.
-    //[[AppInfo sharedAppInfo] regAllSB];
     
     NSString *nibTitle = @"SDIContent";
     [[NSBundle mainBundle] loadNibNamed:nibTitle owner:self options:nil];
@@ -288,10 +284,53 @@
 
 #pragma mark - 커스텀 메서드.
 
+- (BOOL)isConnectToNetwork 
+{
+    // 0.0.0.0 주소를 만든다.
+    struct sockaddr_in zeroAddress;
+    bzero(&zeroAddress, sizeof(zeroAddress));
+    zeroAddress.sin_len = sizeof(zeroAddress);
+    zeroAddress.sin_family = AF_INET;
+	
+    // Reachability 플래그를 설정한다.
+    SCNetworkReachabilityRef defaultRouteReachability = SCNetworkReachabilityCreateWithAddress(NULL, (struct sockaddr *)&zeroAddress);
+    SCNetworkReachabilityFlags flags;
+	
+    BOOL didRetrieveFlags = SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags);
+    CFRelease(defaultRouteReachability);
+	
+    if (!didRetrieveFlags)
+    {
+        printf("Error. Could not recover network reachability flags\n");
+        return 0;
+    }
+	
+	// 플래그를 이용하여 각각의 네트워크 커넥션의 상태를 체크한다.
+    BOOL isReachable = flags & kSCNetworkFlagsReachable;
+    BOOL needsConnection = flags & kSCNetworkFlagsConnectionRequired;
+	BOOL nonWiFi = flags & kSCNetworkReachabilityFlagsTransientConnection;
+	
+	return ((isReachable && !needsConnection) || nonWiFi) ? YES : NO;
+}
+
 // 통신 등 서비스 초기화.
 - (void)initProcess
 {
+    // 앱 정보.
+    [AppInfo sharedAppInfo];
     
+    // 마스터 코드 로드.
+    [[AppInfo sharedAppInfo] loadStockCodeMaster:JONGMOK_MASTER];
+    
+    // 데이터핸들러.
+    [DataHandler sharedDataHandler];
+    
+    // TODO: SB 등록 프로세스 추가.
+    // SB 등록 관리.
+    [SBManager sharedSBManager];
+    
+    // SB 등록.
+    //[[AppInfo sharedAppInfo] regAllSB];
 }
 
 @end

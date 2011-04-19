@@ -11,6 +11,7 @@
 #import "IRStockAddViewController.h"
 #import "LPUtils.h"
 #import "SDIAppDelegate.h"
+#import "MainViewController.h"
 
 
 @implementation IRStockAddViewController
@@ -317,6 +318,12 @@
         
         // 셀 선택 해제.
         [cell setSelected:NO animated:YES];
+        
+        // 관심종목 추가 노티피케이션큐.
+        [self fetchedResultsControllerForIRStock:1];
+        NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.fetchedResultsControllerForIRStock, @"addIRStock", nil];
+        NSNotificationQueue *nq = [NSNotificationQueue defaultQueue];
+        [nq enqueueNotification:[NSNotification notificationWithName:@"AddIRStock" object:self userInfo:dict2] postingStyle:NSPostWhenIdle];
     }
 }
 

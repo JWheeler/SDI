@@ -200,6 +200,8 @@
         {
             currentPriceLabel.text = [LPUtils formatNumber:[self.currentPrice intValue]];
         }
+        
+        isReal = NO;
     }
     else
     {
@@ -709,7 +711,6 @@
     self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];
     self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];     
     [self.stockTableView reloadData];
-    isReal = NO;
 }
 
 @end

@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <netinet/in.h>  
 
 @class ContentController;
 
@@ -27,6 +29,7 @@
 - (NSString *)applicationDocumentsDirectoryForString;
 - (void)createEditableCopyOfDatabaseIfNeeded;
 
+- (BOOL)isConnectToNetwork;
 - (void)initProcess;
 
 @end

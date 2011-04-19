@@ -531,7 +531,9 @@
 // 검색.
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    Debug(@"Search start!");
+    // SOLogger 테스트.
+    [gLogger debug:@"Entering %s", __FUNCTION__];
+    
     self.stockList = [NSMutableArray arrayWithCapacity:[[AppInfo sharedAppInfo].stockCodeMasters count]];
     [self.stockList addObjectsFromArray:[AppInfo sharedAppInfo].stockCodeMasters];
     
@@ -541,7 +543,7 @@
 		NSString *stockName = [dict objectForKey:@"stockName"];
         NSString *stockCode = [dict objectForKey:@"stockCode"];
         
-        // == 검색!
+        // ==(equal) 검색!
 		if ([stockName isEqualToString:self.searchBar.text] || [stockCode isEqualToString:self.searchBar.text]) 
         {
 			// HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
@@ -557,6 +559,10 @@
                 return;
             }
 		}
+        
+        if (dict == [self.stockList lastObject]) {
+            [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"검색 결과가 없습니다."];
+        }
 	}
 }
 
@@ -743,9 +749,11 @@
 	[self.searchResultView addGestureRecognizer:recognizerTab];
     
     [self.searchBar resignFirstResponder];
+    
     // 검색 결과뷰를 최상 위에 추가하기 위해 앱델리게이트의 window를 이용함!
     SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
     [appDelegate.window addSubview:self.searchResultView];
+    
     self.searchResultView.frame = CGRectMake(0.0, 65.0, 320.0, 480.0);
     self.searchResultView.alpha = 0.7;
     self.searchResultView.hidden = NO;

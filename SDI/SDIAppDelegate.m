@@ -12,9 +12,9 @@
 #import "DataHandler.h"
 #import "SBManager.h"
 
+SOLogger *gLogger;
 
 @implementation SDIAppDelegate
-
 
 @synthesize window = _window;
 @synthesize contentController = _contentController;
@@ -23,15 +23,15 @@
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
-//+ (void)initialize
-//{
-//    gLogger = [[SOLogger alloc] init];
-//}
++ (void)initialize
+{
+    gLogger = [[SOLogger alloc] init];
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {   
     // 로그.
-    //gLogger = [[SOLogger alloc] init];
+    gLogger = [[SOLogger alloc] init];
     
     // DB 복사: 미리 입력된 데이터를 위해...
     [self createEditableCopyOfDatabaseIfNeeded];

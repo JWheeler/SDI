@@ -12,9 +12,11 @@
 
 @class ContentController;
 
+extern SOLogger *gLogger;
 
-@interface SDIAppDelegate : NSObject <UIApplicationDelegate> {
-    
+@interface SDIAppDelegate : NSObject <UIApplicationDelegate> 
+{
+   
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

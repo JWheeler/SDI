@@ -61,7 +61,7 @@
     [fetchRequest setEntity:entity];
     
     // 배치 사이즈 설정.
-    [fetchRequest setFetchBatchSize:20];
+    [fetchRequest setFetchBatchSize:50];
     
     // 정렬 키.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"idx" ascending:YES];

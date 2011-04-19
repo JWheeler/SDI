@@ -6,6 +6,7 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 그룹별 등록 갯수 제한 추가!
+//  FIXME: 검색 후 주식 정보 저장에 문제 있음, 수정할 것!
 //
 
 #import "IRStockAddViewController.h"
@@ -298,28 +299,57 @@
     // 선택된 항목을 그룹별로 IRStock 테이블에 입력한다.
     if (tableView == dataTableView || tableView == self.searchDisplayController.searchResultsTableView)
     {
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.imageView.image = [UIImage imageNamed:@"star_on.png"];
+        if (tableView == dataTableView) 
+        {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.imageView.image = [UIImage imageNamed:@"star_on.png"];
+            
+            // 데이터 추가.
+            // searchGroup = 0이면 전체 검색.
+            totalCountIRStock = [[[self fetchedResultsControllerForIRStock:0] fetchedObjects] count];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict setValue:[NSNumber numberWithInt:(totalCountIRStock + 1)] forKey:@"idx"];
+            [dict setValue:[[self.stockCodes objectAtIndex:indexPath.row] objectForKey:@"stockCode"] forKey:@"stockCode"];
+            [dict setValue:[[self.stockCodes objectAtIndex:indexPath.row] objectForKey:@"stockName"] forKey:@"stockName"];
+            [dict setValue:[[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:currentIndex] forKey:@"group"];
+            
+            // IRStock 테이블에 입력.
+            [self insertNewObject:dict];
+            
+            // SB 등록 메시지 전송.
+            [[AppInfo sharedAppInfo] regSB:dict idx:@"0" trCode:TRCD_SS01REAL];
+            
+            // 셀 선택 해제.
+            [cell setSelected:NO animated:YES];
+        }
         
-        // 데이터 추가.
-        // searchGroup = 0이면 전체 검색.
-        totalCountIRStock = [[[self fetchedResultsControllerForIRStock:0] fetchedObjects] count];
-        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setValue:[NSNumber numberWithInt:(totalCountIRStock + 1)] forKey:@"idx"];
-        [dict setValue:[[self.stockCodes objectAtIndex:indexPath.row] objectForKey:@"stockCode"] forKey:@"stockCode"];
-        [dict setValue:[[self.stockCodes objectAtIndex:indexPath.row] objectForKey:@"stockName"] forKey:@"stockName"];
-        [dict setValue:[[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:currentIndex] forKey:@"group"];
+        // 검색 결과 중 선택된 항목을 그룹별로 IRStock 테이블에 입력한다.
+        if (tableView == self.searchDisplayController.searchResultsTableView)
+        {
+            UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+            cell.imageView.image = [UIImage imageNamed:@"star_on.png"];
+            
+            // 데이터 추가.
+            // searchGroup = 0이면 전체 검색.
+            totalCountIRStock = [self.filteredList count];
+            NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+            [dict setValue:[NSNumber numberWithInt:(totalCountIRStock + 1)] forKey:@"idx"];
+            [dict setValue:[[self.filteredList objectAtIndex:indexPath.row] objectForKey:@"stockCode"] forKey:@"stockCode"];
+            [dict setValue:[[self.filteredList objectAtIndex:indexPath.row] objectForKey:@"stockName"] forKey:@"stockName"];
+            [dict setValue:[[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:currentIndex] forKey:@"group"];
+            
+            // IRStock 테이블에 입력.
+            [self insertNewObject:dict];
+            
+            // SB 등록 메시지 전송.
+            [[AppInfo sharedAppInfo] regSB:dict idx:@"0" trCode:TRCD_SS01REAL];
+            
+            // 셀 선택 해제.
+            [cell setSelected:NO animated:YES];
+        }
         
-        // IRStock 테이블에 입력.
-        [self insertNewObject:dict];
         
-        // SB 등록 메시지 전송.
-        [[AppInfo sharedAppInfo] regSB:dict idx:@"0" trCode:TRCD_SS01REAL];
-        
-        // 셀 선택 해제.
-        [cell setSelected:NO animated:YES];
-        
-        // 관심종목 추가 노티피케이션큐.
+        // 관심종목 추가 노티피케이션큐: 그룹 1만.
         [self fetchedResultsControllerForIRStock:1];
         NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.fetchedResultsControllerForIRStock, @"addIRStock", nil];
         NSNotificationQueue *nq = [NSNotificationQueue defaultQueue];

@@ -250,6 +250,12 @@
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
+        
+        // 관심종목 삭제 노티피케이션큐: 그룹 1만.
+        [self fetchedResultsControllerForIRStock:1];
+        NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithObjectsAndKeys:self.fetchedResultsControllerForIRStock, @"deleteIRStock", nil];
+        NSNotificationQueue *nq = [NSNotificationQueue defaultQueue];
+        [nq enqueueNotification:[NSNotification notificationWithName:@"DeleteIRStock" object:self userInfo:dict2] postingStyle:NSPostWhenIdle];
     }    
     else if (editingStyle == UITableViewCellEditingStyleInsert) 
     {

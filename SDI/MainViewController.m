@@ -5,12 +5,15 @@
 //  Created by Jong Pil Park on 11. 3. 24..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
-//  TODO: 시세 설정용 데이터를 객체 형태로 변경할 것!
+//  TODO: 검색 결과 히스토리용 로직 추가!
 //
 
 #import "MainViewController.h"
 #import "SDIAppDelegate.h"
 #import "HTTPHandler.h"
+#import "UISearchBar+Button.h"
+
+#define SEARCHBAR_FRMAE CGRectMake(0.0, 0.0, 240.0, 44.0)
 
 #define STOCK_LABEL_WIDTH 87
 #define CURRENT_PRICE_LABEL_WIDTH 80
@@ -46,10 +49,28 @@
 @synthesize searchBar;
 @synthesize stockTableView;
 
+@synthesize mikeButton;
+@synthesize searchButton;
+
+@synthesize searchResultView;
+@synthesize stockList;
+@synthesize resultStockName;
+@synthesize resultCurrentPrice;
+@synthesize resultImageView;
+@synthesize resultFluctuation;
+
 - (void)dealloc
 {    
     [searchBar release];
     [stockTableView release];
+    [mikeButton release];
+    [searchButton release];
+    [searchResultView release];
+    [stockList release];
+    [resultStockName release];
+    [resultCurrentPrice release];
+    [resultImageView release];
+    [resultFluctuation release];
     [responseArray release];
     [currentStockCode release];
     [currentPrice release];
@@ -88,8 +109,11 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
     
-    // 관심종목 노티피케이션.
-	[nc addObserver:self selector:@selector(refreshTable:) name:@"AddIRStock" object:nil];
+    // 관심종목 추가 노티피케이션.
+	[nc addObserver:self selector:@selector(refreshTableForAdd:) name:@"AddIRStock" object:nil];
+    
+    // 관심종목 삭제 노티피케이션.
+	[nc addObserver:self selector:@selector(refreshTableForDelete:) name:@"DeleteIRStock" object:nil];
     
     // 검색바 설정.
     [self setSearchBar];
@@ -108,29 +132,6 @@
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
-
-//- (void)viewWillAppear:(BOOL)animated
-//{
-//    [super viewWillAppear:animated];
-//    
-//    // 관리 객체 컨텍스트 설정.
-//    SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
-//    self.managedObjectContext = appDelegate.managedObjectContext;
-//    
-//    // 관심종목 그룹1의 목록 가져오기.
-//    [self fetchedResultsController];
-//    
-//    // 관심 종목 데이터 초기화.
-//    [self initIRStocks];
-//
-//}
-//
-//- (void)viewWillDisappear:(BOOL)animated
-//{
-//    [super viewWillDisappear:animated];
-//    
-//    __fetchedResultsController = nil;
-//}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -197,7 +198,7 @@
         upperArrowLabel.hidden = YES;
         
         upperArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_uppper.png"]] autorelease];
-        upperArrow.frame = CGRectMake(0.0, 0.0, 9.0, 13.0);
+        upperArrow.frame = CGRectMake(0.0, 0.0, 10.0, 13.0);
         upperArrow.center = CGPointMake(upperArrowLabel.frame.size.width / 2, upperArrowLabel.center.y);
         [upperArrowLabel addSubview:upperArrow];
         
@@ -223,7 +224,7 @@
         lowerArrowLabel.hidden = YES;
         
         lowerArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_lower.png"]] autorelease];
-        lowerArrow.frame = CGRectMake(0.0, 0.0, 9.0, 13.0);
+        lowerArrow.frame = CGRectMake(0.0, 0.0, 10.0, 13.0);
         lowerArrow.center = CGPointMake(lowerArrowLabel.frame.size.width / 2, lowerArrowLabel.center.y);
         [lowerArrowLabel addSubview:lowerArrow];
         
@@ -491,6 +492,74 @@
 
 #pragma mark - UISearchBar 델리게이트
 
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar 
+{
+	// 디자인을 위해 검색 버튼 감추기.
+    self.mikeButton.hidden = YES;
+    self.searchButton.hidden = YES;
+    
+	[self.searchBar sizeToFit];
+	[self.searchBar setShowsCancelButton:YES animated:YES];
+    [self.searchBar setCloseButtonTitle:@"취소" forState:UIControlStateNormal];
+    
+	return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar 
+{
+	// 디자인을 위해 검색 버튼 보이기.
+    self.mikeButton.hidden = NO;
+    self.searchButton.hidden = NO;
+    
+	[self.searchBar sizeToFit];
+	[self.searchBar setShowsCancelButton:NO animated:YES];
+    self.searchBar.frame = SEARCHBAR_FRMAE;
+    
+	return YES;
+}
+
+// 취소.
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    // 디자인을 위해 검색 버튼 보이기.
+    self.mikeButton.hidden = NO;
+    self.searchButton.hidden = NO;
+    
+    [self.searchBar resignFirstResponder];
+}
+
+// 검색.
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    Debug(@"Search start!");
+    self.stockList = [NSMutableArray arrayWithCapacity:[[AppInfo sharedAppInfo].stockCodeMasters count]];
+    [self.stockList addObjectsFromArray:[AppInfo sharedAppInfo].stockCodeMasters];
+    
+    for (NSMutableDictionary *dict in self.stockList) 
+    {
+        // 종목명과 종목코드 동시 검색.
+		NSString *stockName = [dict objectForKey:@"stockName"];
+        NSString *stockCode = [dict objectForKey:@"stockCode"];
+        
+        // == 검색!
+		if ([stockName isEqualToString:self.searchBar.text] || [stockCode isEqualToString:self.searchBar.text]) 
+        {
+			// HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
+            self.responseArray = [[NSMutableArray alloc] init];
+            HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
+            // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
+           
+            [httpHandler searchCurrentPrice:stockCode];
+            if (httpHandler.reponseDict != nil) 
+            {
+                [self setupSearchResultView:httpHandler.reponseDict withStockName:stockName];
+                self.searchBar.text = nil;
+                return;
+            }
+		}
+	}
+}
+
 #pragma mark - Fetched results controller
 
 // IRStock 테이블에서 현재 선택된 그룹포함된 주식종목 목록 가져오기.
@@ -613,25 +682,6 @@
 {
     // 검색바 백그라운드 투명 처리.
     [[self.searchBar.subviews objectAtIndex:0] removeFromSuperview];
-    
-    // 액세서리뷰 생성.
-	UIView *inputAccessoryView = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 50.0)];
-	inputAccessoryView.backgroundColor = [UIColor darkGrayColor];
-    
-    // 닫기 버튼.
-	
-	// 상세검색 버튼.
-	UIButton *searchButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-	searchButton.frame = CGRectMake(210.0, 6.5, 100.0, 37.0);
-	[searchButton setTitle: @"상세검색" forState:UIControlStateNormal];
-	[searchButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	[searchButton addTarget:self action:@selector(openSearch:)forControlEvents:UIControlEventTouchUpInside];
-	[inputAccessoryView addSubview:searchButton];
-    [searchButton release];
-    
-    // 검색바의 텍스트필드: 위에서 백그라운드(0)을 제거하였으므로 텍스트필드의 인덱스는 0이다.
-    UITextField *textField = (UITextField *)[self.searchBar.subviews objectAtIndex:0];
-    textField.inputAccessoryView = inputAccessoryView;
 }
 
 // 관심 종목 데이터 초기화
@@ -668,11 +718,77 @@
 }
 
 // 관심종목 추가에 따른 데이블뷰 갱신.
-- (void)refreshTable :(NSNotification *)notification 
+- (void)refreshTableForAdd :(NSNotification *)notification 
 {
     self.fetchedResultsController = [[notification userInfo] objectForKey:@"addIRStock"];
     [self initIRStocks];
     [self.stockTableView reloadData];
+}
+
+// 관심종목 삭제에 따른 데이블뷰 갱신.
+- (void)refreshTableForDelete :(NSNotification *)notification 
+{
+    self.fetchedResultsController = [[notification userInfo] objectForKey:@"deleteIRStock"];
+    [self initIRStocks];
+    [self.stockTableView reloadData];
+}
+
+// 검색 결과를 출력하기 위한 뷰 설정.
+- (void)setupSearchResultView:(NSDictionary *)searchResult withStockName:(NSString *)stockName
+{
+    // 검색 결과 뷰 제거를 위한 제스처 등록.
+    UITapGestureRecognizer *recognizerTab = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeSearchResultView:)] autorelease];
+	// 스와이프 제스처를 인식하기위한 탭 수.
+	recognizerTab.numberOfTouchesRequired = 1;
+	[self.searchResultView addGestureRecognizer:recognizerTab];
+    
+    [self.searchBar resignFirstResponder];
+    // 검색 결과뷰를 최상 위에 추가하기 위해 앱델리게이트의 window를 이용함!
+    SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
+    [appDelegate.window addSubview:self.searchResultView];
+    self.searchResultView.frame = CGRectMake(0.0, 65.0, 320.0, 480.0);
+    self.searchResultView.alpha = 0.7;
+    self.searchResultView.hidden = NO;
+    
+    self.resultStockName.text = stockName;
+    self.resultCurrentPrice.text = [searchResult objectForKey:@"nowPrc"];
+    self.resultFluctuation.text = [searchResult objectForKey:@"upDwnR"];
+    
+    NSString *imageName;
+    if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"1"])
+    {
+        imageName = @"icon_upper_price.png";
+    }
+    if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"2"])
+    {
+        imageName = @"icon_up_price.png";
+    }
+    if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"4"])
+    {
+        imageName = @"icon_lower_price.png";
+    }
+    if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"5"])
+    {
+        imageName = @"icon_down_price.png";
+    }
+    
+    if (![[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"3"])
+    {
+        self.resultImageView.image = [UIImage imageNamed:imageName];
+    }
+}
+
+// 검색 결과 뷰 제거.
+- (void)closeSearchResultView:(UITapGestureRecognizer *)recognizer
+{
+    //self.searchResultView.hidden = NO;
+    self.searchResultView.alpha = 0.0;
+    self.searchResultView.opaque = YES;
+    
+//    SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
+//    [self.searchResultVie sendSubviewToBack:self.searchResultView];
+    //self.searchResultView.frame = CGRectMake(-320.0, -480.0, 320.0, 480.0);
+    //[self.searchResultView sendSubviewToBack:self.view];
 }
 
 @end

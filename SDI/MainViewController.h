@@ -28,11 +28,25 @@
 @property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 @property (nonatomic, retain) IBOutlet UITableView *stockTableView;
 
+@property (nonatomic, retain) IBOutlet UIButton *mikeButton;
+@property (nonatomic, retain) IBOutlet UIButton *searchButton;
+
+// 검색결과 출력 용.
+@property (nonatomic, retain) IBOutlet UIView *searchResultView;
+@property (nonatomic, retain) NSMutableArray *stockList;
+@property (nonatomic, retain) IBOutlet UILabel *resultStockName;
+@property (nonatomic, retain) IBOutlet UILabel *resultCurrentPrice;
+@property (nonatomic, retain) IBOutlet UIImageView *resultImageView;
+@property (nonatomic, retain) IBOutlet UILabel *resultFluctuation;
+
 - (NSFetchedResultsController *)fetchedResultsController;
 
 - (void)setSearchBar;
 - (void)initIRStocks;
 - (void)viewText:(NSNotification *)notification;
-- (void)refreshTable :(NSNotification *)notification;
+- (void)refreshTableForAdd:(NSNotification *)notification;
+- (void)refreshTableForDelete :(NSNotification *)notification;
+- (void)setupSearchResultView:(NSDictionary *)searchResult withStockName:(NSString *)stockName;
+- (void)closeSearchResultView:(UITapGestureRecognizer *)recognizer;
 
 @end

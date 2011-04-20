@@ -6,7 +6,7 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 그룹별 등록 갯수 제한 추가!
-//  FIXME: 검색 후 주식 정보 저장에 문제 있음, 수정할 것!
+//  TODO: 검색 후 메뉴 등록 시 DB 관련 에러 수정할 것!
 //
 
 #import "IRStockAddViewController.h"

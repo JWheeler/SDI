@@ -7,18 +7,92 @@
 //
 
 #import "SecondViewController.h"
-#import "DataHandler.h"
-#import "TRGenerator.h"
-#import "SBCountController.h"
-#import "SBCount.h"
-#import "SBManager.h"
+
+#pragma mark - 프라이빗 메서드
+
+@interface SecondViewController (Private)
+
+- (void)captureImageFromPointAndSetupMaskView:(CGPoint)selectedFolderPoint;
+
+- (void)layoutBottomPartOfMainViewRelativeToPointInMainView:(CGPoint)selectedFolderPoint;
+- (void)layoutFinalFrameOfBottomPartOfMainContentView;
+
+- (void)closeFolder:(CGPoint)selectedFolderPoint;
+
+@end
+
+@implementation SecondViewController (Private)
+
+// 1 단계: 메인 뷰를 이미지로 갭춰. 
+- (void)captureImageFromPointAndSetupMaskView:(CGPoint)selectedFolderPoint
+{
+    UIGraphicsBeginImageContext(mainBackgroundView.frame.size);
+	// 메인 백그라운드 뷰 갭춰.
+	[mainBackgroundView.layer renderInContext:UIGraphicsGetCurrentContext()];
+	UIImage *backgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // 앨범에 사진 저장: 테스트 용...
+    //UIImageWriteToSavedPhotosAlbum(backgroundImage, self, nil, nil);
+    
+	[bottomPartOfMainBackgroundView setImage:backgroundImage];
+    // 메인 뷰 이미지에서 폴더 뷰 위에서 보여지고 아래에서 감춰질 바운드 설정.
+    // 화면에 폴더 뷰가 나타난 후 이미지에 효과를 지속 시킨다.
+	[bottomPartOfMainBackgroundView.superview setBounds:CGRectMake(0.0, selectedFolderPoint.y + selectedArrowTipView.frame.size.height, mainBackgroundView.frame.size.width, mainBackgroundView.frame.size.height)];
+    
+    NSLog(@"mainBackgroundView frame: %@", NSStringFromCGRect(mainBackgroundView.frame));
+}
+
+// 2 단계: 폴더 뷰(Layer 2와 2-1)과 메인 뷰의 아랫 부분(Layer 3) 레이아웃 설정.
+- (void)layoutBottomPartOfMainViewRelativeToPointInMainView:(CGPoint)selectedFolderPoint
+{
+	// 폴더 뷰를 화살표 뷰 아래에 위치시킴.
+	CGRect folderViewFrame = [folderView frame];
+	folderViewFrame.origin.y = floorf(selectedFolderPoint.y);
+    [folderView setFrame:folderViewFrame];	
+	
+    // 메인 백그라운드 뷰의 아랫 부분이 폴더 뷰 아래에 표시되게 만듬.
+	CGRect maskFrame = bottomPartOfMainBackgroundView.superview.frame;
+	maskFrame.origin.y = folderViewFrame.origin.y + selectedArrowTipView.frame.size.height;
+	bottomPartOfMainBackgroundView.superview.frame = maskFrame;
+	
+    // 화살표를 탭한 아이콘의 중앙 아래에 위치 시킴.
+	[UIView setAnimationsEnabled:NO];
+	selectedArrowTipView.center = CGPointMake(selectedFolderPoint.x, 0.0);
+	CGRect arrowFrame = selectedArrowTipView.frame;
+	arrowFrame.origin.y = 0.0;
+	selectedArrowTipView.frame = arrowFrame;
+    
+	[UIView setAnimationsEnabled:YES];
+}
+
+// 3 단계: 메인 뷰의 나머지 부분(Layer 3) 설정.
+- (void)layoutFinalFrameOfBottomPartOfMainContentView
+{
+	CGRect maskFrame = bottomPartOfMainBackgroundView.superview.frame;
+	maskFrame.origin.y = folderView.frame.origin.y + folderView.frame.size.height;
+	bottomPartOfMainBackgroundView.superview.frame = maskFrame;
+    // 알파값 조절.
+    bottomPartOfMainBackgroundView.alpha = 0.75;
+    mainBackgroundView.alpha = 0.75;
+}
+
+- (void)closeFolder:(CGPoint)selectedFolderPoint
+{
+	[self layoutBottomPartOfMainViewRelativeToPointInMainView:selectedFolderPoint];
+}
+
+@end
 
 
 @implementation SecondViewController
 
-@synthesize trCode;
-@synthesize price;
-@synthesize volume;
+@synthesize menuGroups;
+
+@synthesize mainBackgroundView;
+@synthesize folderView;
+@synthesize selectedArrowTipView;
+@synthesize bottomPartOfMainBackgroundView;
+@synthesize folderIcon;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -32,6 +106,11 @@
 
 - (void)dealloc
 {
+    [menuGroups release];
+    self.mainBackgroundView = nil;
+	self.folderView = nil;
+	self.selectedArrowTipView = nil;
+	self.bottomPartOfMainBackgroundView = nil;
     [super dealloc];
 }
 
@@ -49,29 +128,13 @@
 {
     [super viewDidLoad];
     
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
-    //[nc addObserver:self selector:@selector(viewText:) name:TRCD_SHNNREAL object:nil];
+    // 전체 메뉴그룹(1차 메뉴) 로드.
+    self.menuGroups = [[NSArray alloc] init];
+	self.menuGroups = [self loadMenuGroups];
+	
+	// 메인 메뉴.
+	[self createButtons];
     
-    
-//    SBCountController *sbCountController = [[SBCountController alloc] init];
-//    
-//    id <NSFetchedResultsSectionInfo> sectionInfo = [[sbCountController.fetchedResultsController sections] objectAtIndex:0];
-//    
-//    Debug(@">>>>>>>>>>>>>>>>>>>>>>>>: %d", [sectionInfo numberOfObjects]);
-//    self.resultsController = sbCountController.fetchedResultsController;
-//    [sbCountController release];
-}
-
-- (void)viewText:(NSNotification *)notification 
-{
-    self.trCode.text = [[notification userInfo] objectForKey:@"CODE"];
-    self.price.text = [NSString stringWithFormat:@"%@", [[notification userInfo] objectForKey:@"nowPrc"]];
-    self.volume.text = [NSString stringWithFormat:@"%@", [[notification userInfo] objectForKey:@"acmlVlm"]];
-    
-//    self.trCode.text = [[notification userInfo] objectForKey:@"TRCD"];
-//    self.price.text = [[notification userInfo] objectForKey:@"mktStUntyKey"];
-//    self.volume.text = [[notification userInfo] objectForKey:@"title"];
 }
 
 - (void)viewDidUnload
@@ -79,6 +142,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    self.menuGroups = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -89,78 +153,164 @@
 
 #pragma mark - 커스텀 메서드
 
-// 서버 재접속.
-- (IBAction)reconnect:(id)sender 
+// 메뉴그룹 로드.
+- (NSMutableArray *)loadMenuGroups 
 {
-    [[DataHandler sharedDataHandler] reconnect];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"MenuGroup" ofType:@"plist"];
+	NSMutableArray *menuGroupList = [[NSMutableArray alloc] initWithContentsOfFile:path];
+	return [menuGroupList autorelease];
 }
 
-// 접속 종료.
-- (IBAction)close:(id)sender
+// 메뉴 버튼 생성.
+- (void)createButtons 
 {
-    [[DataHandler sharedDataHandler] close];
-}
-
-// 전문 전송.
-- (IBAction)sendTR:(id)sender 
-{
-	// 3 단계: SB 등록.
-    // SB 등록 테스트: 종목시세.
-    NSMutableArray *sbBodies = [NSMutableArray array];
-    for (int i = 0; i < 3; i++) 
+	// O 번을 전체메뉴에서 제목으로 사용하기 때문에 전체 수는 -1하고 인덱스는 +1 할 것.
+    for (int row = 0; row < BUTTON_ROWS; ++row) 
     {
-        SBRegBody *sbRegBody = [[SBRegBody alloc] init];
-        sbRegBody.idx = @"0";
-        
-        if (i == 0) {
-            sbRegBody.code = @"000660";
-        }
-        if (i == 1) {
-            sbRegBody.code = @"003450";
-        }
-        if (i == 2) {
-            sbRegBody.code = @"005930";
-        }
-        if (i == 3) {
-            sbRegBody.code = @"066570";
-        }
-        
-        [sbBodies addObject:sbRegBody];
+        for (int col = 0; col < BUTTON_COLUMNS; ++col) 
+        {
+            int index = (row * BUTTON_COLUMNS) + col;
+            CGRect frame = CGRectMake(BUTTON_START_X + BUTTON_MARGIN + col * (BUTTON_MARGIN + BUTTON_WIDTH),
+                                      BUTTON_START_Y + BUTTON_MARGIN + row * ((BUTTON_MARGIN) + BUTTON_HEIGHT),
+                                      BUTTON_WIDTH, BUTTON_HEIGHT);
+            buttonFrame[index] = frame;
+            UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+            
+            buttonForFrame[index] = button;
+            button.frame = frame;
+			button.tag = index;
+			[button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+			UIImage *buttonBackground = [UIImage imageNamed:[[menuGroups objectAtIndex:index] objectForKey:@"icon"]];
+            //UIImage *buttonBackground = [UIImage imageNamed:@"menu_stock.png"];
+			[button setBackgroundImage:buttonBackground forState:UIControlStateNormal];
+            
+            [self.view addSubview:button];
+            [button setNeedsDisplay];
+            [button release];
+            Debug(@">>>>>>>>>>>>>>>>>%@", [[menuGroups objectAtIndex:index] objectForKey:@"icon"]);
+		}
     }
-    TRGenerator *tr =  [[TRGenerator alloc] init];
-    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:@"SS01REAL" withCodeSet:sbBodies]];
-    
-    // 3 단계: SB 등록.
-    // SB 등록 테스트: 시황.
-//    NSMutableArray *sbBodies = [NSMutableArray array];
-//    SBRegBody *sbRegBody = [[SBRegBody alloc] init];
-//    sbRegBody.idx = @"N";
-//    sbRegBody.code = @"";
-//    [sbBodies addObject:sbRegBody];
-//    TRGenerator *tr =  [[TRGenerator alloc] init];
-//    [[DataHandler sharedDataHandler] sendMessage:[tr genRegisterOrClearSB:SB_CMD_REGSITER andTRCode:TRCD_SHNNREAL withCodeSet:sbBodies]];
 }
 
-// 데이터 저장.
-- (IBAction)save:(id)sender
+// 메인 메뉴 버튼 액션.
+- (IBAction)buttonPressed:(id)sender 
 {
-    Debug(@"Save test!");
-    
-    // 메모리를 사용하는 경우.
-    SBCount *sbCount = [[SBCount alloc] initWithTRCode:@"SS01REAL" idx:@"0" code:@"000660"];
-    [[SBManager sharedSBManager] insertNewObject:sbCount];
-    [sbCount release];
+	// TODO:버튼 별 케이스 처리.
+	UIButton *button = (UIButton *)sender;
+	int buttonTag = button.tag;
+	Debug(@"Button pressed: %d", buttonTag);
+	// !!! 전체메뉴 UI 때문에 0번 데이터를 넣었다. 그러므로 실제 +1 해야 한다.
+	int menuIndex = buttonTag + 1;
+	switch (buttonTag) {
+		case 0: 
+        {
+			
+			break;
+		}
+		default: 
+        {
+			break;
+		}
+	}
 }
 
-// 데이터 삭제.
-- (IBAction)remove:(id)sender
-{
-    Debug(@"Remove test!");
+#pragma mark - 폴더 애니메이션 관련 커스텀 메서드
+
+- (IBAction)openFolder:(id)sender
+{		
+    // 탭한 폴더의 센터.
+	CGPoint selectedFolderPoint = CGPointMake([sender center].x, [sender frame].origin.y + [sender frame].size.height);
     
-    // 메모리를 사용하는 경우.
-    SBCount *sbCount = [[SBCount alloc] initWithTRCode:@"SS01REAL" idx:@"0" code:@"000660"];
-    [[SBManager sharedSBManager] deleteObject:sbCount];
-    [sbCount release];
+	if (folderView.hidden) // 만약 폴더가 열려 있지 않으면...
+	{
+		// 폴더 열기 애니메이션.
+		// 1 단계: 메인 뷰를 이미지로 갭춰. 
+		[self captureImageFromPointAndSetupMaskView:selectedFolderPoint];
+		
+		// 2 단계: 폴더 뷰(Layer 2와 2-1)과 메인 뷰의 아랫 부분(Layer 3) 레이아웃 설정.
+		[self layoutBottomPartOfMainViewRelativeToPointInMainView:selectedFolderPoint];
+		
+		[UIView beginAnimations:@"FolderOpen" context:NULL];
+		[UIView setAnimationDuration:0.5];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];		
+		// 메인 백그라운드 뷰의 이미지 캡춰.
+		
+		folderView.hidden = NO;
+		bottomPartOfMainBackgroundView.superview.hidden = NO;
+        
+		// 3 단계: 메인 뷰의 나머지 부분(Layer 3) 설정.
+		[self layoutFinalFrameOfBottomPartOfMainContentView];
+		[UIView commitAnimations];
+	}
+	else 
+    {
+		// 폴더 닫기 애니메이션.
+		[UIView beginAnimations:@"FolderClose" context:NULL];
+		[UIView setAnimationDuration:0.5];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+		[UIView setAnimationDidStopSelector:@selector(animation:didFinish:context:)];
+		[UIView setAnimationDelegate:self];
+		// 애니메이션 종료 후 레이아웃과 폴더 뷰 감추기.
+		[self closeFolder:selectedFolderPoint];
+		[UIView commitAnimations];
+	}
+}
+
+- (void)animation:(NSString*)animation didFinish:(BOOL)finish context:(void *)context
+{
+    if ([animation isEqualToString:@"FolderClose"])
+    {
+        folderView.hidden = YES;
+        bottomPartOfMainBackgroundView.superview.hidden = YES;
+        // 알파값 원상 복귀.
+        mainBackgroundView.alpha = 1.0;
+    }
+}
+
+#define MAX_BOTTOM_PLACE_FOR_FOLDER_ICON 390    // 버튼 이동 제한.
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (folderView.hidden)
+	{
+		CGPoint touchPoint = [[touches anyObject] locationInView:mainBackgroundView];
+		if (touchPoint.y > MAX_BOTTOM_PLACE_FOR_FOLDER_ICON)
+		{
+			touchPoint.y = MAX_BOTTOM_PLACE_FOR_FOLDER_ICON;	
+		}
+		
+		folderIcon.center = touchPoint;
+		
+		
+		
+	}
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (folderView.hidden)
+	{
+        CGPoint touchPoint = [[touches anyObject] locationInView:mainBackgroundView];
+		if (touchPoint.y > MAX_BOTTOM_PLACE_FOR_FOLDER_ICON)
+		{
+			touchPoint.y = MAX_BOTTOM_PLACE_FOR_FOLDER_ICON;	
+		}
+		folderIcon.center = touchPoint;
+	}
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	if (folderView.hidden)
+	{
+		CGPoint touchPoint = [[touches anyObject] locationInView:mainBackgroundView];
+		if (touchPoint.y > MAX_BOTTOM_PLACE_FOR_FOLDER_ICON)
+		{
+			touchPoint.y = MAX_BOTTOM_PLACE_FOR_FOLDER_ICON;	
+		}
+		folderIcon.center = touchPoint;
+	}
+	
 }
 
 @end

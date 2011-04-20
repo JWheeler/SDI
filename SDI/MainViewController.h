@@ -17,6 +17,7 @@
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, retain) NSMutableArray *realArray;
 @property (nonatomic, retain) NSMutableArray *responseArray;
 @property (nonatomic, retain) NSString *currentStockCode;
 @property (nonatomic, retain) NSNumber *currentPrice;           // 현재가.
@@ -42,6 +43,7 @@
 - (NSFetchedResultsController *)fetchedResultsController;
 
 - (void)setSearchBar;
+- (void)initRealArray;
 - (void)initIRStocks;
 - (void)viewText:(NSNotification *)notification;
 - (void)refreshTableForAdd:(NSNotification *)notification;

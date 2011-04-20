@@ -1,5 +1,5 @@
 //
-//  IRGroup.h
+//  StockSearchHistory.h
 //  SDI
 //
 //  Created by Jong Pil Park on 11. 4. 20..
@@ -10,10 +10,10 @@
 #import <CoreData/CoreData.h>
 
 
-@interface IRGroup : NSManagedObject {
+@interface StockSearchHistory : NSManagedObject {
 @private
 }
-@property (nonatomic, retain) NSNumber * idx;
-@property (nonatomic, retain) NSString * groupName;
+@property (nonatomic, retain) NSString * StockCode;
+@property (nonatomic, retain) NSString * StockName;
 
 @end

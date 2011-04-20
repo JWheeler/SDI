@@ -2,7 +2,7 @@
 //  IRGroup.m
 //  SDI
 //
-//  Created by Jong Pil Park on 11. 4. 8..
+//  Created by Jong Pil Park on 11. 4. 20..
 //  Copyright (c) 2011 Lilac Studio. All rights reserved.
 //
 
@@ -10,7 +10,6 @@
 
 
 @implementation IRGroup
-
 @dynamic idx;
 @dynamic groupName;
 

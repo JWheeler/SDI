@@ -7,28 +7,45 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainViewController.h"
+#import "MenuGroup.h"
+
+#define BUTTON_COLUMNS 4
+#define BUTTON_ROWS 5
+#define BUTTON_COUNT (BUTTON_COLUMNS * BUTTON_ROWS)
+#define BUTTON_MARGIN 7
+#define BUTTON_WIDTH 65
+#define BUTTON_HEIGHT 65
+#define BUTTON_START_X 13.0
+#define BUTTON_START_Y 8.0
 
 
 @interface SecondViewController : UIViewController
 {
-    UILabel *trCode;
-    UILabel *price;
-    UILabel *volume;
+    // 버튼 관련.
+    CGRect buttonFrame[BUTTON_COUNT];
+    UIButton *buttonForFrame[BUTTON_COUNT];
+	NSMutableArray *menuGroups;
+    
+    // 폴더 애니메이션 관련.
+    UIView *mainBackgroundView;
+	UIView *folderView;
+	UIView *selectedArrowTipView;
+	UIImageView *bottomPartOfMainBackgroundView;
+	UIButton *folderIcon;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *trCode;
-@property (nonatomic, retain) IBOutlet UILabel *price;
-@property (nonatomic, retain) IBOutlet UILabel *volume;
+@property (nonatomic, retain) NSMutableArray *menuGroups;
 
-// 웹소켓 테스트.
-- (IBAction)reconnect:(id)sender;
-- (IBAction)close:(id)sender;
-- (IBAction)sendTR:(id)sender;
-- (void)viewText:(NSNotification *)notification;
+@property (nonatomic, retain) IBOutlet UIView *mainBackgroundView;
+@property (nonatomic, retain) IBOutlet UIView *folderView;
+@property (nonatomic, retain) IBOutlet UIView *selectedArrowTipView;
+@property (nonatomic, retain) IBOutlet UIView *bottomPartOfMainBackgroundView;
+@property (nonatomic, retain) IBOutlet UIButton *folderIcon;
 
-// 코어 데이터 SB 등록, 해제 테스트.
-- (IBAction)save:(id)sender;
-- (IBAction)remove:(id)sender;
+- (NSMutableArray *)loadMenuGroups;
+- (void)createButtons;
+- (IBAction)buttonPressed:(id)sender;
+
+- (IBAction)openFolder:(id)sender;
 
 @end

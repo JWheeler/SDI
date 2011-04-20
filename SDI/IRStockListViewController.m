@@ -5,7 +5,7 @@
 //  Created by Jong Pil Park on 11. 4. 6..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
-//  TODO: 성능 개선!
+//  TODO: 그룹명 변경 기능 추가할 것: 디자인과 UI 상의 필요함!
 //
 
 #import "IRStockListViewController.h"

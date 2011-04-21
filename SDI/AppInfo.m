@@ -24,18 +24,33 @@
 static dispatch_once_t pred;
 static AppInfo *sharedAppInfo = nil;
 
+// 방식 1.
+//+ (AppInfo *)sharedAppInfo 
+//{
+//	if(sharedAppInfo == nil) 
+//    {
+//        [[self alloc] init];
+//    }
+//    return sharedAppInfo;
+//}
+
+// 방식 2.
+//+ (AppInfo *)sharedAppInfo 
+//{
+//	// 객체에 락을 걸고, 동시에 멀티 스레드에서 메소드에 접근하기 위해 synchronized 사용. 
+//    @synchronized(self) 
+//    {
+//        if(sharedAppInfo == nil) 
+//        {
+//            [[self alloc] init];
+//        }
+//    }
+//    return sharedAppInfo;
+//}
+
 + (AppInfo *)sharedAppInfo 
 {
-	// 객체에 락을 걸고, 동시에 멀티 스레드에서 메소드에 접근하기 위해 synchronized 사용. 
-//	@synchronized(self) 
-//    {
-//		if(sharedAppInfo == nil) 
-//        {
-//			[[self alloc] init];
-//		}
-//	}
-//	return sharedAppInfo;
-    
+    // 좀더 효율적인 방법.
     dispatch_once(&pred, ^{
         sharedAppInfo = [[self alloc] init];
     });

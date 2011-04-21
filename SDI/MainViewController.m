@@ -6,7 +6,6 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 검색 결과 히스토리용 로직 추가!
-//  TODO: 검색 후 테이뷸뷰의 탭이 안되는 문제 해결할 것!
 //  TODO: 리팩토링!!!
 //
 
@@ -14,6 +13,7 @@
 #import "SDIAppDelegate.h"
 #import "HTTPHandler.h"
 #import "UISearchBar+Button.h"
+#import "Stock.h"
 
 #define SEARCHBAR_FRMAE CGRectMake(0.0, 0.0, 240.0, 44.0)
 
@@ -40,14 +40,8 @@
 
 @synthesize fetchedResultsController = __fetchedResultsController;
 @synthesize managedObjectContext = __managedObjectContext;
-@synthesize realArray;
+@synthesize stocks;
 @synthesize responseArray;
-@synthesize currentStockCode;
-@synthesize currentPrice;
-@synthesize currentSymbol;
-@synthesize currentFluctuation;
-@synthesize currentFluctuationRate;
-@synthesize currentTradeVolume;
 
 @synthesize searchBar;
 @synthesize stockTableView;
@@ -74,14 +68,8 @@
     [resultCurrentPrice release];
     [resultImageView release];
     [resultFluctuation release];
-    [realArray release];
+    [stocks release];
     [responseArray release];
-    [currentStockCode release];
-    [currentPrice release];
-    [currentSymbol release];
-    [currentFluctuation release];
-    [currentFluctuationRate release];
-    [currentTradeVolume release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [__fetchedResultsController release];
     [__managedObjectContext release];
@@ -102,36 +90,36 @@
 {
     [super viewDidLoad];
     
+    // 테이블뷰 스타일.
+    self.stockTableView.separatorColor = [UIColor lightGrayColor];
+    
     // 관리 객체 컨텍스트 설정.
     SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
     self.managedObjectContext = appDelegate.managedObjectContext;
     
-    // 관심종목 그룹1의 목록 가져오기.
+    // 관심종목 '그룹 1'의 목록 가져오기.
     [self fetchedResultsController];
     
     // 실시간 시세 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
+    [nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
     
     // 관심종목 추가 노티피케이션.
-	[nc addObserver:self selector:@selector(refreshTableForAdd:) name:@"AddIRStock" object:nil];
+    [nc addObserver:self selector:@selector(refreshTableForAdd:) name:@"AddIRStock" object:nil];
     
     // 관심종목 삭제 노티피케이션.
-	[nc addObserver:self selector:@selector(refreshTableForDelete:) name:@"DeleteIRStock" object:nil];
+    [nc addObserver:self selector:@selector(refreshTableForDelete:) name:@"DeleteIRStock" object:nil];
     
     // 검색바 설정.
-    [self setSearchBar];
+    [self setupSearchBar];
     
-    // 테이블뷰의 데이터 설정을 위해...
-    isReal = NO;
+    // 관심종목 테이뷸뷰의 마지막 필드 데이터 설정을 위해...
     changeField = 0;
     
     // 관심 종목 데이터 초기화.
-    [self initIRStocks];
-    
-    // 리얼 데이터 설정용...
-    self.realArray = [[NSMutableArray alloc] init];
-    [self initRealArray];
+    [self initDataSet];
+    [self requestStocks];
+    //[self performSelectorOnMainThread:@selector(requestStocks) withObject:self waitUntilDone:YES];
 }
 
 - (void)viewDidUnload
@@ -151,21 +139,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    [tableView setBackgroundColor:[UIColor clearColor]];
-    return [[self.fetchedResultsController sections] count];
+    //[tableView setBackgroundColor:[UIColor clearColor]];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+    return [self.stocks count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
     static NSString *CellIdentifier = @"Cell";
     
     // 커스텀 셀.
@@ -306,198 +290,78 @@
     }
     
     // Configure the cell...
-    NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    stockLabel.text = [managedObject valueForKey:@"stockName"];
+    Stock *stock = [[Stock alloc] init];
+    stock = [self.stocks objectAtIndex:indexPath.row];
+
+    stockLabel.text = stock.stockName;
+    currentPriceLabel.text = [LPUtils formatNumber:[stock.currentPrice intValue]];
     
     float rateUnit = 0.0;
-    if (isReal) 
+    if ([stock.symbol isEqualToString:@"1"]) 
     {
-        Debug(@"Set real data!");
-        for (NSMutableDictionary *dict in self.realArray) 
-        {
-            if ([[managedObject valueForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"stockCode"]]) 
-            {
-                currentPriceLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"currentPrice"] intValue]];
-                if ([[dict objectForKey:@"symbol"] isEqualToString:@"1"]) 
-                {
-                    rateUnit = 0.01;
-                    upperArrowLabel.hidden = NO;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = YES;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
-                }
-                if ([[dict objectForKey:@"symbol"] isEqualToString:@"2"]) 
-                {
-                    rateUnit = 0.01;
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = NO;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = YES;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
-                }
-                if ([[dict objectForKey:@"symbol"] isEqualToString:@"3"]) 
-                {
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = YES;
-                }
-                if ([[dict objectForKey:@"symbol"] isEqualToString:@"4"]) 
-                {
-                    rateUnit = -0.01;
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = NO;
-                    downArrowLabel.hidden = YES;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
-                }
-                if ([[dict objectForKey:@"symbol"] isEqualToString:@"5"]) 
-                {
-                    rateUnit = -0.01;
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = NO;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
-                }
-                
-                fluctuationLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"fluctuation"] intValue]];
-                
-                // 마지막 필드의 데이터 변경.
-                switch (changeField) 
-                {
-                    case 0:
-                        // 등락율.
-                        fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([[dict objectForKey:@"fluctuationRate"] floatValue] * rateUnit), @"%"];
-                        break;
-                    case 1:
-                        // 거래량.
-                        fluctuationRateLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"tradeVolume"] intValue]];
-                        break;
-                    default:
-                        fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([[dict objectForKey:@"fluctuationRate"] floatValue] * rateUnit), @"%"];
-                        break;
-                }
-            }
-        }
-        
-        isReal = NO;
+        rateUnit = 0.01;
+        upperArrowLabel.hidden = NO;
+        upArrowLabel.hidden = YES;
+        lowerArrowLabel.hidden = YES;
+        downArrowLabel.hidden = YES;
+        fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
     }
-    else
+    if ([stock.symbol isEqualToString:@"2"]) 
     {
-        // 화면에 처음 진입할 경우, RQ로 현재가 등의 데이터를 설정한다.
-        for (NSDictionary *dict in self.responseArray) 
-        {
-            if ([[managedObject valueForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"isNo"]]) 
-            {
-                currentPriceLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"nowPrc"] intValue]];
-                if ([[dict objectForKey:@"bDyCmprSmbl"] isEqualToString:@"1"]) 
-                {
-                    rateUnit = 0.01;
-                    upperArrowLabel.hidden = NO;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = YES;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
-                }
-                if ([[dict objectForKey:@"bDyCmprSmbl"] isEqualToString:@"2"]) 
-                {
-                    rateUnit = 0.01;
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = NO;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = YES;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
-                }
-                if ([[dict objectForKey:@"bDyCmprSmbl"] isEqualToString:@"3"]) 
-                {
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = YES;
-                }
-                if ([[dict objectForKey:@"bDyCmprSmbl"] isEqualToString:@"4"]) 
-                {
-                    rateUnit = -0.01;
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = NO;
-                    downArrowLabel.hidden = YES;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
-                }
-                if ([[dict objectForKey:@"bDyCmprSmbl"] isEqualToString:@"5"]) 
-                {
-                    rateUnit = -0.01;
-                    upperArrowLabel.hidden = YES;
-                    upArrowLabel.hidden = YES;
-                    lowerArrowLabel.hidden = YES;
-                    downArrowLabel.hidden = NO;
-                    fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
-                }
-
-                fluctuationLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"bDyCmpr"] intValue]];
-                
-                // 마지막 필드의 데이터 변경.
-                switch (changeField) 
-                {
-                    case 0:
-                        // 등락율.
-                        fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([[dict objectForKey:@"upDwnR"] floatValue] * rateUnit), @"%"];
-                        break;
-                    case 1:
-                        // 거래량.
-                        fluctuationRateLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"vlm"] intValue]];
-                        break;
-                    default:
-                        fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([[dict objectForKey:@"upDwnR"] floatValue] * rateUnit), @"%"];
-                        break;
-                }
-            }
-        }
+        rateUnit = 0.01;
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = NO;
+        lowerArrowLabel.hidden = YES;
+        downArrowLabel.hidden = YES;
+        fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor redColor];
+    }
+    if ([stock.symbol isEqualToString:@"3"]) 
+    {
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = YES;
+        lowerArrowLabel.hidden = YES;
+        downArrowLabel.hidden = YES;
+    }
+    if ([stock.symbol isEqualToString:@"4"]) 
+    {
+        rateUnit = -0.01;
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = YES;
+        lowerArrowLabel.hidden = NO;
+        downArrowLabel.hidden = YES;
+        fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
+    }
+    if ([stock.symbol isEqualToString:@"5"]) 
+    {
+        rateUnit = -0.01;
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = YES;
+        lowerArrowLabel.hidden = YES;
+        downArrowLabel.hidden = NO;
+        fluctuationLabel.textColor = fluctuationRateLabel.textColor = [UIColor blueColor];
+    }
+    
+    // 등락.
+    fluctuationLabel.text = [LPUtils formatNumber:[stock.fluctuation intValue]];
+    
+    // 마지막 필드의 데이터 변경.
+    switch (changeField) 
+    {
+        case 0:
+            // 등락율.
+            fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([stock.fluctuationRate floatValue] * rateUnit), @"%"];
+            break;
+        case 1:
+            // 거래량.
+            fluctuationRateLabel.text = [LPUtils formatNumber:[stock.tradeVolume intValue]];
+            break;
+        default:
+            fluctuationRateLabel.text = [NSString stringWithFormat:@"%.2f%@", ([stock.fluctuationRate floatValue] * rateUnit), @"%"];
+            break;
     }
     
     return cell;
 }
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
 
 #pragma mark - Table view delegate
 
@@ -591,7 +455,8 @@
             }
 		}
         
-        if (dict == [self.stockList lastObject]) {
+        if (dict == [self.stockList lastObject]) 
+        {
             [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"검색 결과가 없습니다."];
         }
 	}
@@ -649,101 +514,34 @@
     return __fetchedResultsController;
 }
 
-#pragma mark - Fetched results controller delegate
-
-//- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-//{
-//    [self.stockTableView beginUpdates];
-//}
-//
-//- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-//{
-//    switch(type)
-//    {
-//        case NSFetchedResultsChangeInsert:
-//            [self.stockTableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//            
-//        case NSFetchedResultsChangeDelete:
-//            [self.stockTableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//    }
-//}
-//
-//- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-//{
-//    UITableView *tableView = self.stockTableView;
-//    
-//    switch(type)
-//    {
-//            
-//        case NSFetchedResultsChangeInsert:
-//            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//            
-//        case NSFetchedResultsChangeDelete:
-//            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//            
-//        case NSFetchedResultsChangeUpdate:
-//            //[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-//            [tableView reloadData];
-//            break;
-//            
-//        case NSFetchedResultsChangeMove:
-//            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//    }
-//}
-//
-//- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-//{
-//    [self.stockTableView endUpdates];
-//}
-
-/*
- // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
- {
- // In the simplest, most efficient, case, reload the table view.
- [self.tableView reloadData];
- }
- */
-
 #pragma mark - 커스텀 메서드
 
 // 검색바 설정.
-- (void)setSearchBar
+- (void)setupSearchBar
 {
     // 검색바 백그라운드 투명 처리.
     [[self.searchBar.subviews objectAtIndex:0] removeFromSuperview];
 }
 
-// !!!: Real과 RQ/RP 통신 포맷이 달라 분리해 놓음.
-// 실시간 데이터 설정용.
-- (void)initRealArray
+// 관심 종목 데이터셋 초기화
+- (void)initDataSet
 {
-    self.realArray = nil;
+    // 주식코드와 주식명 설정.
+    self.stocks = [NSMutableArray arrayWithCapacity:[[self.fetchedResultsController fetchedObjects] count]];
     
-    for (NSManagedObject *managedObject in [self.fetchedResultsController fetchedObjects])
+    for (NSManagedObject *managedObject in [self.fetchedResultsController fetchedObjects]) 
     {
+        Stock *stock = [[Stock alloc] init];
+        stock.stockCode = [managedObject valueForKey:@"stockCode"];
+        stock.stockName = [managedObject valueForKey:@"stockName"];
         
-       [self.realArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                  [managedObject valueForKey:@"stockCode"], @"stockCode", 
-                                  [managedObject valueForKey:@"stockName"], @"stockName", 
-                                  0, @"currentPrice",
-                                  @"", @"symbol",
-                                  0, @"fluctuation",
-                                  0, @"fluctionRate",
-                                  0, @"tradeVolume",
-                                  nil]];
+        [self.stocks addObject:stock];
+        [stock release];
     }
 }
 
 // 관심 종목 데이터 초기화
-- (void)initIRStocks
+- (void)requestStocks
 {
     // HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
     self.responseArray = [[NSMutableArray alloc] init];
@@ -758,43 +556,49 @@
             [self.responseArray addObject:httpHandler.reponseDict];
         }
     }
+    
+    for (int i = 0; i < [self.stocks count]; i++) 
+    {
+        Stock *stock = [self.stocks objectAtIndex:i];
+        NSDictionary *dict = [self.responseArray  objectAtIndex:i];
+        
+        if ([stock.stockCode isEqualToString:[dict objectForKey:@"isNo"]]) 
+        {
+            stock.currentPrice = [dict objectForKey:@"nowPrc"];
+            stock.symbol = [dict objectForKey:@"bDyCmprSmbl"];
+            stock.fluctuation = [dict objectForKey:@"bDyCmpr"];
+            stock.fluctuationRate = [dict objectForKey:@"upDwnR"];
+            stock.tradeVolume = [dict objectForKey:@"vlm"];
+        }
+    }
 }
 
-
-// TODO: 관심 종목 필드 설정 및 확인(현재가, 전일비, 등락율, 거래대금 등)!
 // 종목별 실시간 데이터.
 - (void)viewText:(NSNotification *)notification 
 {
     Debug(@"Received real data!");
-    isReal = YES;
-    self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];             // 종목코드.
-    self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];               // 현재가.
-    self.currentSymbol = [[notification userInfo] objectForKey:@"bDyCmprSmbl"];         // 전일대비구분. bDyCmprSmbl
-    self.currentFluctuation = [[notification userInfo] objectForKey:@"bDyCmpr"];        // 전일대비(등락).
-    self.currentFluctuationRate = [[notification userInfo] objectForKey:@"bDyCmprR"];   // 전일대비율(등락율).
-    self.currentTradeVolume = [[notification userInfo] objectForKey:@"acmlVlm"];        // 변동거래량.
     
-    for (NSMutableDictionary *dict in self.realArray) 
+    for (Stock *stock in self.stocks) 
     {
-        if ([[dict objectForKey:@"stockCode"] isEqualToString:[[notification userInfo] objectForKey:@"isCd"]]) 
+        if ([stock.stockCode isEqualToString:[[notification userInfo] objectForKey:@"isCd"]]) 
         {
-            [dict setObject:[[notification userInfo] objectForKey:@"nowPrc"] forKey:@"currentPrice"];
-            [dict setObject:[[notification userInfo] objectForKey:@"bDyCmprSmbl"] forKey:@"symbol"];
-            [dict setObject:[[notification userInfo] objectForKey:@"bDyCmpr"] forKey:@"fluctuation"];
-            [dict setObject:[[notification userInfo] objectForKey:@"bDyCmprR"] forKey:@"fluctuationRate"];
-            [dict setObject:[[notification userInfo] objectForKey:@"acmlVlm"] forKey:@"tradeVolume"];
-            
-            [self.stockTableView reloadData];
+            stock.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];
+            stock.symbol = [[notification userInfo] objectForKey:@"bDyCmprSmbl"];
+            stock.fluctuation = [[notification userInfo] objectForKey:@"bDyCmpr"];
+            stock.fluctuationRate = [[notification userInfo] objectForKey:@"bDyCmprR"];
+            stock.tradeVolume = [[notification userInfo] objectForKey:@"acmlVlm"];
         }
     }
+  
+    [self.stockTableView reloadData];
 }
 
 // 관심종목 추가에 따른 데이블뷰 갱신.
 - (void)refreshTableForAdd :(NSNotification *)notification 
 {
     self.fetchedResultsController = [[notification userInfo] objectForKey:@"addIRStock"];
-    [self initIRStocks];
-    [self initRealArray];
+    [self initDataSet];
+    [self requestStocks];
     [self.stockTableView reloadData];
 }
 
@@ -802,8 +606,8 @@
 - (void)refreshTableForDelete :(NSNotification *)notification 
 {
     self.fetchedResultsController = [[notification userInfo] objectForKey:@"deleteIRStock"];
-    [self initIRStocks];
-    [self initRealArray];
+    [self initDataSet];
+    [self requestStocks];
     [self.stockTableView reloadData];
 }
 
@@ -854,6 +658,7 @@
     }
 }
 
+//  TODO: 검색 후 테이뷸뷰의 탭이 안되는 문제 해결할 것!
 // 검색 결과 뷰 제거.
 - (void)closeSearchResultView:(UITapGestureRecognizer *)recognizer
 {

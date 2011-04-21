@@ -187,7 +187,6 @@
             [self.view addSubview:button];
             [button setNeedsDisplay];
             [button release];
-            Debug(@">>>>>>>>>>>>>>>>>%@", [[menuGroups objectAtIndex:index] objectForKey:@"icon"]);
 		}
     }
 }

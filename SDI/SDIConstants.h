@@ -10,7 +10,7 @@
 #define STOCK_CODE_MASTER_URL @"http://10.200.2.47/common/master/%@.mast"    // 테스트.
 
 // 종별별 현재가 조회 URL:RQ
-#define SEARCH_CURRENT_PRICE @"http://10.200.2.47/jsp/trcode/main5007.jsp?isNo=%@"  // 테스트
+#define SEARCH_CURRENT_PRICE @"http://10.200.2.47/common/jsp/trcode/main5007.jsp?isNo=%@"  // 테스트
 
 // 마스터 코드 저장용 파일명(확장자 제외).
 // 필드 구분: 종목코드, 종목명, 장구분코드(K,Q,T), 주문단위, 증거금율(A,B,C,D,E), 신용증거금율, 투자주의/경고(감리), 투자경고(위험)거래정지구분

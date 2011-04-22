@@ -29,6 +29,7 @@ static NSUInteger kNumberOfPages = 2;
 
 @implementation SDIContentController
 
+@synthesize fullScreen;
 @synthesize scrollView;
 @synthesize pageControl; 
 @synthesize ribbonImageView;
@@ -36,6 +37,7 @@ static NSUInteger kNumberOfPages = 2;
 
 - (void)dealloc
 {
+    [fullScreen release];
     [scrollView release];
     [pageControl release];
     [ribbonImageView release];

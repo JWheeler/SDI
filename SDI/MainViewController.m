@@ -6,7 +6,6 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 검색 결과 히스토리용 로직 추가!
-//  TODO: 리팩토링!!!
 //
 
 #import "MainViewController.h"
@@ -92,6 +91,7 @@
     
     // 테이블뷰 스타일.
     self.stockTableView.separatorColor = [UIColor lightGrayColor];
+    self.stockTableView.separatorColor = RGB(97, 97, 97);
     
     // 관리 객체 컨텍스트 설정.
     SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -193,7 +193,7 @@
         upperArrowLabel.backgroundColor = [UIColor clearColor];
         upperArrowLabel.hidden = YES;
         
-        upperArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_uppper.png"]] autorelease];
+        upperArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_upper.png"]] autorelease];
         upperArrow.frame = CGRectMake(0.0, 0.0, 10.0, 13.0);
         upperArrow.center = CGPointMake(upperArrowLabel.frame.size.width / 2, upperArrowLabel.center.y);
         [upperArrowLabel addSubview:upperArrow];
@@ -481,7 +481,7 @@
     // 배치 사이즈 설정: 하나의 그룹에 최대 50개의 주식종목 저장.
     [fetchRequest setFetchBatchSize:50];
     
-    // 검색조건: 그룹 1월 종목목 가져온다.
+    // 검색조건: 그룹 1의 종목목 가져온다.
     [fetchRequest setEntity:entity];
 	NSPredicate *predicate = [NSPredicate predicateWithFormat:@"group == %d", 1];
 	[fetchRequest setPredicate:predicate];
@@ -631,26 +631,31 @@
     self.searchResultView.hidden = NO;
     
     self.resultStockName.text = stockName;
-    self.resultCurrentPrice.text = [searchResult objectForKey:@"nowPrc"];
-    self.resultFluctuation.text = [searchResult objectForKey:@"upDwnR"];
     
     NSString *imageName;
     if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"1"])
     {
         imageName = @"icon_upper_price.png";
+        self.resultFluctuation.textColor = [UIColor redColor];
     }
     if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"2"])
     {
         imageName = @"icon_up_price.png";
+        self.resultFluctuation.textColor = [UIColor redColor];
     }
     if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"4"])
     {
         imageName = @"icon_lower_price.png";
+        self.resultFluctuation.textColor = [UIColor blueColor];
     }
     if ([[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"5"])
     {
         imageName = @"icon_down_price.png";
+        self.resultFluctuation.textColor = [UIColor blueColor];
     }
+    
+    self.resultCurrentPrice.text = [LPUtils formatNumber:[[searchResult objectForKey:@"nowPrc"] intValue]];
+    self.resultFluctuation.text = [LPUtils formatNumber:[[searchResult objectForKey:@"upDwnR"] intValue]];
     
     if (![[searchResult objectForKey:@"bDyCmprSmbl"] isEqualToString:@"3"])
     {
@@ -658,18 +663,12 @@
     }
 }
 
-//  TODO: 검색 후 테이뷸뷰의 탭이 안되는 문제 해결할 것!
 // 검색 결과 뷰 제거.
 - (void)closeSearchResultView:(UITapGestureRecognizer *)recognizer
 {
     //self.searchResultView.hidden = NO;
     self.searchResultView.alpha = 0.0;
     self.searchResultView.opaque = YES;
-    
-//    SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
-//    [self.searchResultVie sendSubviewToBack:self.searchResultView];
-    //self.searchResultView.frame = CGRectMake(-320.0, -480.0, 320.0, 480.0);
-    //[self.searchResultView sendSubviewToBack:self.view];
 }
 
 @end

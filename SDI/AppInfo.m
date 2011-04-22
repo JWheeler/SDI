@@ -166,7 +166,7 @@ static AppInfo *sharedAppInfo = nil;
     return stringFile;
 }
 
-// TODO: 마스터 코드 별 로직 추가!
+// TODO: 프로보드 필터링 할 것!
 // 마스터 코드 로드.
 - (void)loadStockCodeMaster:(NSString *)masterName
 {

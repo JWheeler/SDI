@@ -22,6 +22,7 @@ enum
 
 @interface SDIContentController : ContentController <UIScrollViewDelegate> 
 {   
+    UIView *fullScreen;             // 레이아웃 설정용 전체 화면...
     UIScrollView *scrollView;
 	LPPageControl *pageControl;
     UIImageView *ribbonImageView;
@@ -37,6 +38,7 @@ enum
     NSInteger currentAddedSubviewTag;
 }
 
+@property (nonatomic, retain) IBOutlet UIView *fullScreen;
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet LPPageControl *pageControl;
 @property (nonatomic, retain) IBOutlet UIImageView *ribbonImageView;

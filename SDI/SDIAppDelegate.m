@@ -284,6 +284,7 @@ SOLogger *gLogger;
 
 #pragma mark - 커스텀 메서드.
 
+// TODO: 중계서버 접속 여부 로직 추가.
 - (BOOL)isConnectToNetwork 
 {
     // 0.0.0.0 주소를 만든다.

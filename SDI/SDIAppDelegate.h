@@ -10,13 +10,17 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <netinet/in.h>  
 
+@class Reachability;
 @class ContentController;
 
 extern SOLogger *gLogger;
 
 @interface SDIAppDelegate : NSObject <UIApplicationDelegate> 
 {
-   
+    Reachability *realServerReach;  // 중계(Real) 서버.
+    Reachability *rqrpServerReach;  // RQ/RP 서버.
+    Reachability *internetReach;    // 인터넷.
+    Reachability *wifiReach;        // 로컬 WiFi.
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -31,7 +35,10 @@ extern SOLogger *gLogger;
 - (NSString *)applicationDocumentsDirectoryForString;
 - (void)createEditableCopyOfDatabaseIfNeeded;
 
+- (void)isConnect;
+- (void)updateInterfaceWithReachability:(Reachability *)curReach;
 - (BOOL)isConnectToNetwork;
+- (void)initProcessWithReachability:(Reachability *)curReach;
 - (void)initProcess;
 
 @end

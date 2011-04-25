@@ -7,6 +7,7 @@
 //
 
 #import "SDIAppDelegate.h"
+#import "Reachability.h"
 #import "ContentController.h"
 #import "SBCountController.h"
 #import "DataHandler.h"
@@ -37,15 +38,16 @@ SOLogger *gLogger;
     [self createEditableCopyOfDatabaseIfNeeded];
     
     // 네트워크 상태 확인.
-    if ([self isConnectToNetwork]) 
-    {
-        // 앱 초기화.
-        [self initProcess];
-    }
-    else
-    {
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"네트워크에 연결되어 있지 않습니다."];
-    }
+    [self isConnect];
+//    if ([self isConnectToNetwork]) 
+//    {
+//        // 앱 초기화.
+//        [self initProcess];
+//    }
+//    else
+//    {
+//        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"네트워크에 연결되어 있지 않습니다."];
+//    }
     
     
     NSString *nibTitle = @"SDIContent";
@@ -284,6 +286,68 @@ SOLogger *gLogger;
 
 #pragma mark - 커스텀 메서드.
 
+// 중계 서버와 RQ/RP 서버 접속 여부.
+- (void)isConnect
+{
+    // kNetworkReachabilityChangedNotification 옵저버.
+    // 노티피케이션이 포스트되면 "reachabilityChanged" 메서드가 호출됨. 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object: nil];
+    
+    // ???: Node.js 서버 접속 확인은 어떻게? > 현재는 WebSocket에서 처리함.
+    // 모니터링 할 서버.
+	realServerReach = [[Reachability reachabilityWithHostName:RQ_RP_SERVER_URL] retain];
+	[realServerReach startNotifier];
+	[self updateInterfaceWithReachability:realServerReach];
+    
+    rqrpServerReach = [[Reachability reachabilityWithHostName:RQ_RP_SERVER_URL] retain];
+	[rqrpServerReach startNotifier];
+	[self updateInterfaceWithReachability:rqrpServerReach];
+	
+    internetReach = [[Reachability reachabilityForInternetConnection] retain];
+	[internetReach startNotifier];
+	[self updateInterfaceWithReachability:internetReach];
+    
+    wifiReach = [[Reachability reachabilityForLocalWiFi] retain];
+	[wifiReach startNotifier];
+	[self updateInterfaceWithReachability:wifiReach];
+}
+
+// 네트워크 접속 상태가 변경되면 Reachability에 의해 호출됨.
+- (void)reachabilityChanged:(NSNotification *)note
+{
+	Reachability *curReach = [note object];
+	NSParameterAssert([curReach isKindOfClass:[Reachability class]]);
+	[self updateInterfaceWithReachability:curReach];
+}
+
+// 네트워크 접속 상태에 따른 처리.
+- (void)updateInterfaceWithReachability:(Reachability *)curReach
+{
+    if (curReach == rqrpServerReach)
+	{
+        NetworkStatus netStatus = [curReach currentReachabilityStatus];
+        BOOL connectionRequired = [curReach connectionRequired];
+        NSString *statusString =  @"";
+        if (connectionRequired)
+        {
+            statusString = @"네트워크에 연결되어 있지 않습니다.\n 네트워크 접속 상태를 확인해 주십시오!";
+            [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:statusString];
+        }
+        else
+        {
+            [self initProcessWithReachability:curReach];
+        }
+    }
+	if (curReach == internetReach)
+	{	
+		[self initProcessWithReachability:curReach];
+	}
+	if (curReach == wifiReach)
+	{	
+		[self initProcessWithReachability:curReach];
+	}
+}
+
 // TODO: 중계서버 접속 여부 로직 추가.
 - (BOOL)isConnectToNetwork 
 {
@@ -315,6 +379,50 @@ SOLogger *gLogger;
 }
 
 // 통신 등 서비스 초기화.
+- (void)initProcessWithReachability:(Reachability *)curReach
+{
+    if (curReach != rqrpServerReach) return;
+    
+    NetworkStatus netStatus = [curReach currentReachabilityStatus];
+    BOOL connectionRequired = [curReach connectionRequired];
+    NSString *statusString = @"";
+    
+    switch (netStatus)
+    {
+        case NotReachable:
+        {
+            statusString = @"네트워크에 연결되어 있지 않습니다.\n 네트워크 접속 상태를 확인해 주십시오!";
+            [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:statusString];
+            connectionRequired = NO;  
+            break;
+        }
+            
+        case ReachableViaWWAN:
+        {
+            statusString = @"현재 3G에 연결되어 있습니다. \n 리얼 시세 사용 시 통신 요금이 부과되오니 유의해 주시기 바랍니다!";
+            [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:statusString];
+            break;
+        }
+        case ReachableViaWiFi:
+        {
+            statusString= @"Reachable WiFi";
+            
+            break;
+        }
+    }
+    
+    if (connectionRequired)
+    {
+        statusString = [NSString stringWithFormat:@"%@, 연결이 필요합니다!", statusString];
+        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:statusString];
+    }
+    else
+    {
+        [self initProcess];
+    }
+}
+
+// 앱 초기화.
 - (void)initProcess
 {
     // 앱 정보.

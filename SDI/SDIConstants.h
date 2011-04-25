@@ -6,6 +6,9 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 
+// RQ/RP 서버.
+#define RQ_RP_SERVER_URL @"10.200.2.47"    // 테스트.
+
 // 마스터 코드 URL.
 #define STOCK_CODE_MASTER_URL @"http://10.200.2.47/common/master/%@.mast"    // 테스트.
 

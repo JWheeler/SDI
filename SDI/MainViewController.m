@@ -560,15 +560,20 @@
     for (int i = 0; i < [self.stocks count]; i++) 
     {
         Stock *stock = [self.stocks objectAtIndex:i];
-        NSDictionary *dict = [self.responseArray  objectAtIndex:i];
         
-        if ([stock.stockCode isEqualToString:[dict objectForKey:@"isNo"]]) 
+        // 데이터가 존재하지 않아도 앱을 실행하기 위해...
+        if ([self.responseArray count] > 0) 
         {
-            stock.currentPrice = [dict objectForKey:@"nowPrc"];
-            stock.symbol = [dict objectForKey:@"bDyCmprSmbl"];
-            stock.fluctuation = [dict objectForKey:@"bDyCmpr"];
-            stock.fluctuationRate = [dict objectForKey:@"upDwnR"];
-            stock.tradeVolume = [dict objectForKey:@"vlm"];
+            NSDictionary *dict = [self.responseArray  objectAtIndex:i];
+            
+            if ([stock.stockCode isEqualToString:[dict objectForKey:@"isNo"]]) 
+            {
+                stock.currentPrice = [dict objectForKey:@"nowPrc"];
+                stock.symbol = [dict objectForKey:@"bDyCmprSmbl"];
+                stock.fluctuation = [dict objectForKey:@"bDyCmpr"];
+                stock.fluctuationRate = [dict objectForKey:@"upDwnR"];
+                stock.tradeVolume = [dict objectForKey:@"vlm"];
+            }
         }
     }
 }

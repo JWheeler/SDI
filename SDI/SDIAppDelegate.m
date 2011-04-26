@@ -381,6 +381,7 @@ SOLogger *gLogger;
 // 통신 등 서비스 초기화.
 - (void)initProcessWithReachability:(Reachability *)curReach
 {
+    // !!!: 네트워크 상태별 로직 추가 전, 임시 처리용...
     if (curReach != rqrpServerReach) return;
     
     NetworkStatus netStatus = [curReach currentReachabilityStatus];

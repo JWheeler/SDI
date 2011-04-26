@@ -562,7 +562,7 @@
         Stock *stock = [self.stocks objectAtIndex:i];
         
         // 데이터가 존재하지 않아도 앱을 실행하기 위해...
-        if ([self.responseArray count] > 0) 
+        if ([self.responseArray count] == [self.stocks count]) 
         {
             NSDictionary *dict = [self.responseArray  objectAtIndex:i];
             

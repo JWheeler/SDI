@@ -83,10 +83,10 @@
 							<object class="IBUIImageView" id="218666386">
 								<reference key="NSNextResponder" ref="216553533"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{0, 8}, {320, 110}}</string>
+								<string key="NSFrame">{{0, 7}, {320, 110}}</string>
 								<reference key="NSSuperview" ref="216553533"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="407506007"/>
+								<reference key="NSNextKeyView" ref="655374831"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -94,10 +94,24 @@
 									<string key="NSResourceName">depth_bg01.png</string>
 								</object>
 							</object>
+							<object class="IBUIImageView" id="655374831">
+								<reference key="NSNextResponder" ref="216553533"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{0, 7}, {320, 181}}</string>
+								<reference key="NSSuperview" ref="216553533"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="407506007"/>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">depth_bg02.png</string>
+								</object>
+							</object>
 							<object class="IBUIImageView" id="407506007">
 								<reference key="NSNextResponder" ref="216553533"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{0, 100}, {16, 8}}</string>
+								<string key="NSFrameSize">{16, 8}</string>
 								<reference key="NSSuperview" ref="216553533"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
@@ -184,14 +198,6 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">folderView</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="216553533"/>
-					</object>
-					<int key="connectionID">30</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">selectedArrowTipView</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="407506007"/>
@@ -205,6 +211,30 @@
 						<reference key="destination" ref="61989121"/>
 					</object>
 					<int key="connectionID">37</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">folderView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="216553533"/>
+					</object>
+					<int key="connectionID">41</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">folderViewBackgroundView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="218666386"/>
+					</object>
+					<int key="connectionID">42</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">folderViewBackgroundView2</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="655374831"/>
+					</object>
+					<int key="connectionID">44</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -262,8 +292,10 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="218666386"/>
 							<reference ref="407506007"/>
+							<reference ref="655374831"/>
 						</object>
 						<reference key="parent" ref="191373211"/>
+						<string key="objectName">View</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">27</int>
@@ -290,6 +322,11 @@
 						<reference key="object" ref="61989121"/>
 						<reference key="parent" ref="689625021"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">43</int>
+						<reference key="object" ref="655374831"/>
+						<reference key="parent" ref="216553533"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -307,12 +344,14 @@
 					<string>28.IBPluginDependency</string>
 					<string>31.IBPluginDependency</string>
 					<string>32.IBPluginDependency</string>
+					<string>43.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>SecondViewController</string>
 					<string>UIResponder</string>
 					<string>{{556, 412}, {320, 480}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -335,7 +374,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">39</int>
+			<int key="maxID">44</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -382,6 +421,8 @@
 							<string>bottomPartOfMainBackgroundView</string>
 							<string>folderIcon</string>
 							<string>folderView</string>
+							<string>folderViewBackgroundView</string>
+							<string>folderViewBackgroundView2</string>
 							<string>mainBackgroundView</string>
 							<string>selectedArrowTipView</string>
 						</object>
@@ -390,6 +431,8 @@
 							<string>UIImageView</string>
 							<string>UIButton</string>
 							<string>UIView</string>
+							<string>UIImageView</string>
+							<string>UIImageView</string>
 							<string>UIView</string>
 							<string>UIView</string>
 						</object>
@@ -401,6 +444,8 @@
 							<string>bottomPartOfMainBackgroundView</string>
 							<string>folderIcon</string>
 							<string>folderView</string>
+							<string>folderViewBackgroundView</string>
+							<string>folderViewBackgroundView2</string>
 							<string>mainBackgroundView</string>
 							<string>selectedArrowTipView</string>
 						</object>
@@ -417,6 +462,14 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">folderView</string>
 								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">folderViewBackgroundView</string>
+								<string key="candidateClassName">UIImageView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">folderViewBackgroundView2</string>
+								<string key="candidateClassName">UIImageView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainBackgroundView</string>
@@ -448,12 +501,14 @@
 			<object class="NSArray" key="dict.sortedKeys">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>depth_bg01.png</string>
+				<string>depth_bg02.png</string>
 				<string>depth_up.png</string>
 				<string>menu_bg.png</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<string>{320, 110}</string>
+				<string>{320, 181}</string>
 				<string>{16, 8}</string>
 				<string>{320, 373}</string>
 			</object>

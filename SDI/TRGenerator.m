@@ -143,10 +143,19 @@
 	// 통신헤더 클래스의 프라퍼티 목록.
 	NSMutableArray *objProperties = [self getProperties:className];
 	
-	for (int i = 0; i < [objProperties count]; i++) {
-		NSString *key = [objProperties objectAtIndex:i];
-		NSString *val = [obj valueForKey:key];
-		[trObject setObject:val forKey:key];
+	for (int i = 0; i < [objProperties count]; i++) 
+    {
+        NSString *key = [objProperties objectAtIndex:i];
+        NSString *val = [obj valueForKey:key];
+        
+        if (val != nil) 
+        {
+            [trObject setObject:val forKey:key];
+        }
+        else
+        {
+            Debug(@"Warning: Value is nil!");
+        }
 	}
 	
 	return trObject;

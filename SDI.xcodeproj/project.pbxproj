@@ -261,6 +261,8 @@
 		1DA6E29F1366A8790045BC19 /* 2depth_title17@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA6E27F1366A8780045BC19 /* 2depth_title17@2x.png */; };
 		1DA6E2A01366A8790045BC19 /* 2depth_title18.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA6E2801366A8780045BC19 /* 2depth_title18.png */; };
 		1DA6E2A11366A8790045BC19 /* 2depth_title18@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DA6E2811366A8780045BC19 /* 2depth_title18@2x.png */; };
+		1DB4AAFC1367D82B00345456 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFA1367D82B00345456 /* WebViewController.m */; };
+		1DB4AAFD1367D82B00345456 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFB1367D82B00345456 /* WebViewController.xib */; };
 		1DB870D3135D29460002AA17 /* UISearchBar+Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB870D2135D29460002AA17 /* UISearchBar+Button.m */; };
 		1DBC17D01355069000B50564 /* NSDate+Timesince.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBC17CF1355069000B50564 /* NSDate+Timesince.m */; };
 		1DC246C31357AEBC00BDA281 /* main_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC246C11357AEBC00BDA281 /* main_bg.png */; };
@@ -720,6 +722,9 @@
 		1DA6E27F1366A8780045BC19 /* 2depth_title17@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2depth_title17@2x.png"; sourceTree = "<group>"; };
 		1DA6E2801366A8780045BC19 /* 2depth_title18.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2depth_title18.png; sourceTree = "<group>"; };
 		1DA6E2811366A8780045BC19 /* 2depth_title18@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2depth_title18@2x.png"; sourceTree = "<group>"; };
+		1DB4AAF91367D82B00345456 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		1DB4AAFA1367D82B00345456 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		1DB4AAFB1367D82B00345456 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		1DB870D1135D29460002AA17 /* UISearchBar+Button.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+Button.h"; sourceTree = "<group>"; };
 		1DB870D2135D29460002AA17 /* UISearchBar+Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+Button.m"; sourceTree = "<group>"; };
 		1DBC17CE1355069000B50564 /* NSDate+Timesince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timesince.h"; sourceTree = "<group>"; };
@@ -1253,6 +1258,9 @@
 				1DC8B2EF135BA98A00B7F36D /* SearchResultViewController.h */,
 				1DC8B2F0135BA98A00B7F36D /* SearchResultViewController.m */,
 				1DC8B2F1135BA98A00B7F36D /* SearchResultViewController.xib */,
+				1DB4AAF91367D82B00345456 /* WebViewController.h */,
+				1DB4AAFA1367D82B00345456 /* WebViewController.m */,
+				1DB4AAFB1367D82B00345456 /* WebViewController.xib */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -2003,6 +2011,7 @@
 				1DA6E29F1366A8790045BC19 /* 2depth_title17@2x.png in Resources */,
 				1DA6E2A01366A8790045BC19 /* 2depth_title18.png in Resources */,
 				1DA6E2A11366A8790045BC19 /* 2depth_title18@2x.png in Resources */,
+				1DB4AAFD1367D82B00345456 /* WebViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2095,6 +2104,7 @@
 				1DCB5059135E9EAA00CDF363 /* IRStock.m in Sources */,
 				1DCB505C135E9EAA00CDF363 /* StockSearchHistory.m in Sources */,
 				1DC6D0F3135FB64C004707AB /* Stock.m in Sources */,
+				1DB4AAFC1367D82B00345456 /* WebViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2124,7 +2134,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jong Pil Park (U5N72GZ2GL)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
@@ -2133,7 +2143,8 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
-				SDKROOT = iphoneos;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DC44C470-D295-447B-A4F7-FB21CB9231C0";
+				SDKROOT = iphoneos4.3;
 			};
 			name = Debug;
 		};
@@ -2141,14 +2152,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Jong Pil Park (U5N72GZ2GL)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				SDKROOT = iphoneos;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DC44C470-D295-447B-A4F7-FB21CB9231C0";
+				SDKROOT = iphoneos4.3;
 			};
 			name = Release;
 		};

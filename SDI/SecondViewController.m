@@ -6,19 +6,21 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 버튼 타겟 설정.
+//  TODO: 폴더 닫히는 애니메이션 시 좌표 세부 조정.
 //
 
 #import "SecondViewController.h"
 #import "SDIAppDelegate.h"
+#import "WebViewController.h"
 
 
-#pragma mark - 프라이빗 메서드
+#pragma mark - 프라이빗 클래스
 
 @interface SecondViewController (Private)
 
 - (void)reviseButtonCoordinate:(NSInteger)selectedButtonTag isOpen:(BOOL)status;
 
-- (void)captureImageFromPointAndSetupMaskView:(CGPoint)selectedFolderPoint;
+- (void)captureImageFromPointAndSetupMaskView:(CGPoint)selectedFolderPoint withSelectedButtonTag:(NSInteger)selectedButtonTag isOpen:(BOOL)status;
 
 - (void)layoutBottomPartOfMainViewRelativeToPointInMainView:(CGPoint)selectedFolderPoint withSelectedButtonTag:(NSInteger)selectedButtonTag isOpen:(BOOL)status;
 - (void)layoutFinalFrameOfBottomPartOfMainContentViewWithSelectedButtonTag:(NSInteger)selectedButtonTag isOpen:(BOOL)status;
@@ -32,6 +34,7 @@
 // 0 단계: 버튼 좌표 보정.
 - (void)reviseButtonCoordinate:(NSInteger)selectedButtonTag isOpen:(BOOL)status
 {
+    // 보정할 Y축 좌표.
     float coordinateRevise = [self coordinateRevise:selectedButtonTag isOpen:status];
     
     for (UIButton *button in self.mainBackgroundView.subviews) 
@@ -44,7 +47,7 @@
 }
 
 // 1 단계: 메인 뷰를 이미지로 갭춰. 
-- (void)captureImageFromPointAndSetupMaskView:(CGPoint)selectedFolderPoint
+- (void)captureImageFromPointAndSetupMaskView:(CGPoint)selectedFolderPoint withSelectedButtonTag:(NSInteger)selectedButtonTag isOpen:(BOOL)status
 {
     UIGraphicsBeginImageContext(mainBackgroundView.window.frame.size);
     // FIXME: 화면 상단의 20 포인트 공백 문제 해결: 현제는 좌표 조정으로 처리함!
@@ -55,10 +58,22 @@
     // 앨범에 사진 저장: 테스트 용...
     //UIImageWriteToSavedPhotosAlbum(backgroundImage, self, nil, nil);
     
+    // 예외 처리할 버튼을 선택할 경우...
+    float coordinateRevise = 0;
+    BOOL isException = [self isException:selectedButtonTag];
+    if (isException) 
+    {
+        coordinateRevise = [self coordinateRevise:selectedButtonTag isOpen:status];
+    } 
+    
 	[bottomPartOfMainBackgroundView setImage:backgroundImage];
     // 메인 뷰 이미지에서 폴더 뷰 위에서 보여지고 아래에서 감춰질 바운드 설정.
     // 화면에 폴더 뷰가 나타난 후 이미지에 효과를 지속 시킨다.
-    [bottomPartOfMainBackgroundView.superview setBounds:CGRectMake(0.0, selectedFolderPoint.y + selectedArrowTipView.frame.size.height + COORDINATE_REVISE, mainBackgroundView.window.frame.size.width, mainBackgroundView.window.frame.size.height + COORDINATE_REVISE)];
+    [bottomPartOfMainBackgroundView.superview setBounds:
+     CGRectMake(0.0, 
+                selectedFolderPoint.y + selectedArrowTipView.frame.size.height + COORDINATE_REVISE + coordinateRevise, 
+                mainBackgroundView.window.frame.size.width, 
+                mainBackgroundView.window.frame.size.height + COORDINATE_REVISE)];
     
     Debug(@"mainBackgroundView frame: %@", NSStringFromCGRect(mainBackgroundView.frame));
     Debug(@"bottomPartOfMainBackgroundView frame: %@", NSStringFromCGRect(bottomPartOfMainBackgroundView.frame));
@@ -67,10 +82,19 @@
 // 2 단계: 폴더 뷰(Layer 2와 2-1)와 메인 뷰의 아랫 부분(Layer 3) 레이아웃 설정.
 - (void)layoutBottomPartOfMainViewRelativeToPointInMainView:(CGPoint)selectedFolderPoint withSelectedButtonTag:(NSInteger)selectedButtonTag isOpen:(BOOL)status
 {
+    // 예외 처리할 버튼을 선택할 경우...
     float coordinateRevise = 0;
-    if ([self isException:selectedButtonTag]) 
+    BOOL isException = [self isException:selectedButtonTag];
+    if (isException) 
     {
         coordinateRevise = [self coordinateRevise:selectedButtonTag isOpen:status];
+    } 
+    
+    // 폴더를 열 때 슈퍼뷰로 이동시키기 위해 선택된 버튼의 좌표를 COORDINATE_REVISE 만클 + 변경했다.
+    // 그래서 폴더를 닫을 때는 그만큼 빼준다. 물론 예외 처리한 경우에는 그에 따른 보정을 해줘야 한다.
+    if (!status) 
+    {
+        selectedFolderPoint.y -= COORDINATE_REVISE;
     }
     
     CGRect folderViewFrame;
@@ -78,51 +102,73 @@
     if ([self.filteredMenus count] <= SUB_BUTTON_COLUMNS) 
     {
         // 폴더 뷰를 화살표 뷰 아래에 위치시킴.	
-        folderViewFrame = CGRectMake(0.0, 0.0, 320.0, 130.0 + coordinateRevise);
+        folderViewFrame = CGRectMake(0.0, 0.0, 320.0, 137.0);
         folderViewFrame.origin.y = floorf(selectedFolderPoint.y + coordinateRevise);  
         [folderView setFrame:folderViewFrame];	
         [folderView bringSubviewToFront:folderViewBackgroundView];
         [folderView bringSubviewToFront:selectedArrowTipView];
+        
+        // 메인 백그라운드 뷰의 아랫 부분이 폴더 뷰 아래에 표시되게 만듬.
+        CGRect maskFrame = bottomPartOfMainBackgroundView.superview.frame;
+        maskFrame.origin.y = folderViewFrame.origin.y + selectedArrowTipView.frame.size.height + coordinateRevise;
+        bottomPartOfMainBackgroundView.superview.frame = maskFrame;
+        
+        // 화살표를 탭한 아이콘의 중앙 아래에 위치 시킴.
+        [UIView setAnimationsEnabled:NO];
+        selectedArrowTipView.center = CGPointMake(selectedFolderPoint.x, 0.0);
+        CGRect arrowFrame = selectedArrowTipView.frame;
+        arrowFrame.origin.y = 0.0;
+        selectedArrowTipView.frame = arrowFrame;
+        [UIView setAnimationsEnabled:YES];
     }
     else    // 서브 메뉴의 갯수가 4개 이상일 경우...
     {
         // 폴더 뷰를 화살표 뷰 아래에 위치시킴.
-        folderViewFrame = CGRectMake(0.0, 0.0, 320.0, 280.0 + coordinateRevise);
-        folderViewFrame.origin.y = floorf(selectedFolderPoint.y  + coordinateRevise);  
+        folderViewFrame = CGRectMake(0.0, 0.0, 320.0, 280.0);
+        folderViewFrame.origin.y = floorf(selectedFolderPoint.y + coordinateRevise);  
         [folderView setFrame:folderViewFrame];
         [folderView bringSubviewToFront:folderViewBackgroundView2];
         [folderView bringSubviewToFront:selectedArrowTipView];
+        
+        // 메인 백그라운드 뷰의 아랫 부분이 폴더 뷰 아래에 표시되게 만듬.
+        CGRect maskFrame = bottomPartOfMainBackgroundView.superview.frame;
+        maskFrame.origin.y = folderViewFrame.origin.y + selectedArrowTipView.frame.size.height + coordinateRevise;
+        bottomPartOfMainBackgroundView.superview.frame = maskFrame;
+        
+        // 화살표를 탭한 아이콘의 중앙 아래에 위치 시킴.
+        [UIView setAnimationsEnabled:NO];
+        selectedArrowTipView.center = CGPointMake(selectedFolderPoint.x, 0.0);
+        CGRect arrowFrame = selectedArrowTipView.frame;
+        arrowFrame.origin.y = 0.0;
+        selectedArrowTipView.frame = arrowFrame;
+        [UIView setAnimationsEnabled:YES];
     }
     
-    // 메인 백그라운드 뷰의 아랫 부분이 폴더 뷰 아래에 표시되게 만듬.
-    CGRect maskFrame = bottomPartOfMainBackgroundView.superview.frame;
-    maskFrame.origin.y = folderViewFrame.origin.y + selectedArrowTipView.frame.size.height + coordinateRevise;
-    bottomPartOfMainBackgroundView.superview.frame = maskFrame;
-    
-    Debug(@"maskFrame frame: %@", NSStringFromCGRect(maskFrame));
-    
-    // 화살표를 탭한 아이콘의 중앙 아래에 위치 시킴.
-    [UIView setAnimationsEnabled:NO];
-    selectedArrowTipView.center = CGPointMake(selectedFolderPoint.x, 0.0);
-    CGRect arrowFrame = selectedArrowTipView.frame;
-    arrowFrame.origin.y = 0.0;
-    selectedArrowTipView.frame = arrowFrame;
-    
-    [UIView setAnimationsEnabled:YES];
+    Debug(@"folderView frame: %@", NSStringFromCGRect(folderViewFrame));
 }
 
 // 3 단계: 메인 뷰의 나머지 부분(Layer 3) 설정.
 - (void)layoutFinalFrameOfBottomPartOfMainContentViewWithSelectedButtonTag:(NSInteger)selectedButtonTag isOpen:(BOOL)status
 {
+    // TODO: 일반화 시켜야 함.
     float coordinateRevise = 0;
     if ([self isException:selectedButtonTag]) 
     {
-        coordinateRevise = [self coordinateRevise:selectedButtonTag isOpen:status];
+        if (selectedButtonTag == 14 || selectedButtonTag == 15 || selectedButtonTag == 16) 
+        {
+            coordinateRevise = 0;
+        }
+        else
+        {
+            coordinateRevise = - ONE_STEP_REVISE;
+        }
     }
     
     CGRect maskFrame = bottomPartOfMainBackgroundView.superview.frame;
-    maskFrame.origin.y = folderView.frame.origin.y + folderView.frame.size.height;
+    maskFrame.origin.y = folderView.frame.origin.y + folderView.frame.size.height + coordinateRevise;
     bottomPartOfMainBackgroundView.superview.frame = maskFrame;
+    Debug(@"maskFrame frame: %@", NSStringFromCGRect(maskFrame));
+    
     // 알파값 조절.
     bottomPartOfMainBackgroundView.alpha = 0.75;
     mainBackgroundView.alpha = 0.75;
@@ -257,7 +303,7 @@
             CGRect frame = CGRectMake(BUTTON_START_X + BUTTON_MARGIN + col * (BUTTON_MARGIN + BUTTON_WIDTH),
                                       BUTTON_START_Y + BUTTON_MARGIN + row * ((BUTTON_MARGIN) + BUTTON_HEIGHT),
                                       BUTTON_WIDTH, BUTTON_HEIGHT);
-            Debug(@"Button frame: %@", NSStringFromCGRect(frame));
+ 
             buttonFrame[index] = frame;
             UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
             
@@ -366,6 +412,24 @@
 // 서브 메뉴 버튼 액션.
 - (IBAction)openTarget:(id)sender
 {
+    WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];    
+    [self.view.superview.superview addSubview:webViewController.view];
+    
+    // 전체메뉴를 모달로 띄움.
+    UIView *modalView = webViewController.view;
+    modalView.frame = [UIScreen mainScreen].bounds;
+    
+    CGPoint middleCenter = modalView.center;
+    CGSize offSize = [UIScreen mainScreen].bounds.size;
+    CGPoint offScreenCenter = CGPointMake(offSize.width / 2.0, offSize.height * 2.0);
+    modalView.center = offScreenCenter;
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.5];
+    modalView.center = middleCenter;
+    [UIView commitAnimations];
+    
+    
 	// TODO:버튼 별 케이스 처리.
 	UIButton *button = (UIButton *)sender;
 	int buttonTag = button.tag;
@@ -401,6 +465,8 @@
     if (folderView.hidden) // 만약 폴더가 열려 있지 않으면...
     {
         // 폴더 열기 애니메이션.
+        // 서브 메뉴 로드: 메뉴 그룹에 따른 필터링.
+        [self filteredMenus:selectedButton.tag];
         
         // 0단계: 서브 메뉴 갯수 및 버튼 위치에 따른 좌표 보정.
         [self reviseButtonCoordinate:selectedButton.tag isOpen:YES];
@@ -409,10 +475,7 @@
         CGPoint orginCenter = selectedButton.center;
         
         // 1 단계: 메인 뷰를 이미지로 갭춰. 
-        [self captureImageFromPointAndSetupMaskView:selectedFolderPoint];
-        
-        // 서브 메뉴 로드: 메뉴 그룹에 따른 필터링.
-        [self filteredMenus:selectedButton.tag];
+        [self captureImageFromPointAndSetupMaskView:selectedFolderPoint withSelectedButtonTag:selectedButton.tag isOpen:YES];
         
         // 2 단계: 폴더 뷰(Layer 2와 2-1)과 메인 뷰의 아랫 부분(Layer 3) 레이아웃 설정.
         [self layoutBottomPartOfMainViewRelativeToPointInMainView:selectedFolderPoint withSelectedButtonTag:selectedButton.tag isOpen:YES];
@@ -443,7 +506,7 @@
     }
     else 
     {
-        // 버튼 원상복귀.
+        // 원래의 뷰로 버튼 원상복귀.
         selectedButton.center = CGPointMake(orginCenter.x, orginCenter.y - COORDINATE_REVISE);
         [mainBackgroundView addSubview:selectedButton];
         
@@ -460,6 +523,7 @@
         // 애니메이션 종료 후 레이아웃과 폴더 뷰 감추기.
         [self closeFolder:selectedFolderPoint withSelectedButtonTag:selectedButton.tag];
         [UIView commitAnimations];
+        
         
         // 2 단계: 선택한 이외의 버튼 상태 변경.
         [self changeButtonState:selectedButton.tag withType:YES];

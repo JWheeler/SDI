@@ -426,8 +426,9 @@
 // 검색.
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    // SOLogger 테스트.
+    // SOLogger 테스트 ----------------------------------------------------------.
     [gLogger debug:@"Entering %s", __FUNCTION__];
+    // SOLogger 테스트 ----------------------------------------------------------.
     
     self.stockList = [NSMutableArray arrayWithCapacity:[[AppInfo sharedAppInfo].stockCodeMasters count]];
     [self.stockList addObjectsFromArray:[AppInfo sharedAppInfo].stockCodeMasters];

@@ -24,6 +24,33 @@ SOLogger *gLogger;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
+#pragma mark Custom URL
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
+{
+	if (!url) {
+		// URL이 nil인 경우.
+		return NO;
+	}
+	
+    Debug(@"url recieved: %@", url);
+    Debug(@"query string: %@", [url query]);
+    Debug(@"host: %@", [url host]);
+    Debug(@"url path: %@", [url path]);
+    NSDictionary *dict = [self parseQueryString:[url query]];
+    Debug(@"query dict: %@", dict);
+	
+	// 웹뷰에서 홈을 호출했을 경우.
+	if ([[url host] isEqualToString:@"home"]) 
+    {
+        [self removeWebView:self.contentController.view.superview];
+	}
+	
+    return YES;
+}
+
+#pragma mark Application lifecycle
+
 + (void)initialize
 {
     gLogger = [[SOLogger alloc] init];
@@ -441,6 +468,80 @@ SOLogger *gLogger;
     
     // SB 등록.
     //[[AppInfo sharedAppInfo] regAllSB];
+}
+
+// URL 파싱.
+- (NSDictionary *)parseQueryString:(NSString *)query 
+{
+    NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:8] autorelease];
+    NSArray *pairs = [query componentsSeparatedByString:@"&"];
+	
+	for (NSString *pair in pairs) 
+    {
+		NSArray *elements = [pair componentsSeparatedByString:@"="];
+		NSString *key = [[elements objectAtIndex:0] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+		NSString *val;
+		
+		// val 이 nil인 경우 예외 처리!
+		if (val != nil) 
+        {
+			if ([key isEqualToString:@"target"]) 
+            {
+				// !!!: target의 경우 URL 디코딩 안함.
+				val = [elements objectAtIndex:1];
+			}
+			else 
+            {
+				val = [[elements objectAtIndex:1] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+			}
+		}
+        else 
+        {
+			val = @"";
+		}
+		
+		[dict setObject:val forKey:key];
+	}
+    
+    return dict;
+}
+
+// 주어진 뷰의 버튼을 실행.
+- (UIButton *)findButtonInView:(UIView *)theView withTag:(NSInteger)tag 
+{
+	UIButton *button = nil;
+	
+	if ([theView isMemberOfClass:[UIButton class]] && theView.tag == tag) 
+    {
+		return (UIButton *)theView;
+	}
+	
+	if (theView.subviews && [theView.subviews count] > 0) 
+    {
+		for (UIView *subview in theView.subviews) 
+        {
+			button = [self findButtonInView:subview withTag:tag];
+			if (button && button.tag == tag) return button;
+		}
+	}
+	
+	return button;
+}
+
+// 화면에서 웹뷰 제거.
+- (void)removeWebView:(UIView *)theView
+{
+	for (UIView *view in theView.subviews) 
+    {
+		if ([view isKindOfClass:[UIWebView class]]) 
+        {
+            [view.superview removeFromSuperview];
+		}
+        else
+        {
+            [self removeWebView:view];
+        }
+	}
 }
 
 @end

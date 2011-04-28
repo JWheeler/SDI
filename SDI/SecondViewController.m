@@ -417,7 +417,7 @@
     
     // 전체메뉴를 모달로 띄움.
     UIView *modalView = webViewController.view;
-    modalView.frame = [UIScreen mainScreen].bounds;
+    modalView.frame = CGRectMake(0.0, 20.0, 320.0, 460.0); //[UIScreen mainScreen].bounds;
     
     CGPoint middleCenter = modalView.center;
     CGSize offSize = [UIScreen mainScreen].bounds.size;

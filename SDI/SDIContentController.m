@@ -264,7 +264,8 @@ static NSUInteger kNumberOfPages = 2;
 - (void)removeFromSuperviweForAddedView
 {
     Debug(@"Current added view tag: %d",  currentAddedSubviewTag);
-    if (currentAddedSubviewTag != 0) {
+    if (currentAddedSubviewTag != 0) 
+    {
         [[self.view.superview viewWithTag:currentAddedSubviewTag] removeFromSuperview];
         currentAddedSubviewTag = 0;
     }

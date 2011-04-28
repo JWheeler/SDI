@@ -52,6 +52,7 @@
 
 - (void)setIndex;
 - (void)loadStockCodes;
+- (IBAction)syncToHTS:(id)sender;
 - (IBAction)regIRStock:(id)sender;
 
 @end

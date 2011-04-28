@@ -84,11 +84,10 @@
     
     self.title = @"관심종목 등록";
     
-    // 사용 안함!
-    // 등록 버튼.
-//    UIBarButtonItem *regButton = [[UIBarButtonItem alloc] initWithTitle:@"등록" style:UIBarButtonItemStylePlain target:self action:@selector(regIRStock:)];
-//	self.navigationItem.rightBarButtonItem = regButton;
-//    [regButton release];
+    // HTS 싱크.
+    UIBarButtonItem *syncButton = [[UIBarButtonItem alloc] initWithTitle:@"HTS연계" style:UIBarButtonItemStylePlain target:self action:@selector(syncToHTS:)];
+	self.navigationItem.rightBarButtonItem = syncButton;
+    [syncButton release];
     
     // 인덱스 설정.
     [self setIndex];
@@ -716,6 +715,12 @@
 {
     self.stockCodes = [NSMutableArray arrayWithCapacity:[[AppInfo sharedAppInfo].stockCodeMasters count]];
     [self.stockCodes addObjectsFromArray:[AppInfo sharedAppInfo].stockCodeMasters];
+}
+
+// HTS의 관심종목으로 싱크.
+- (IBAction)syncToHTS:(id)sender
+{
+    Debug(@"Snyc button tapped!");
 }
 
 - (IBAction)regIRStock:(id)sender

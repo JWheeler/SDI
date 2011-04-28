@@ -90,7 +90,7 @@
     [super viewDidLoad];
     
     // 테이블뷰 스타일.
-    self.stockTableView.separatorColor = [UIColor lightGrayColor];
+    //self.stockTableView.separatorColor = [UIColor lightGrayColor];
     self.stockTableView.separatorColor = RGB(97, 97, 97);
     
     // 관리 객체 컨텍스트 설정.
@@ -162,7 +162,6 @@
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         
         // 종목.
         stockLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, STOCK_LABEL_WIDTH, tableView.rowHeight)] autorelease];

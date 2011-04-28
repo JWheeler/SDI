@@ -41,7 +41,6 @@ extern SOLogger *gLogger;
 - (void)initProcessWithReachability:(Reachability *)curReach;
 - (void)initProcess;
 - (NSDictionary *)parseQueryString:(NSString *)query;
-- (UIButton *)findButtonInView:(UIView *)theView withTag:(NSInteger)tag;
 - (void)removeWebView:(UIView *)theView;
 
 @end

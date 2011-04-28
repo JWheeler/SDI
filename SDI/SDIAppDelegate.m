@@ -506,28 +506,6 @@ SOLogger *gLogger;
     return dict;
 }
 
-// 주어진 뷰의 버튼을 실행.
-- (UIButton *)findButtonInView:(UIView *)theView withTag:(NSInteger)tag 
-{
-	UIButton *button = nil;
-	
-	if ([theView isMemberOfClass:[UIButton class]] && theView.tag == tag) 
-    {
-		return (UIButton *)theView;
-	}
-	
-	if (theView.subviews && [theView.subviews count] > 0) 
-    {
-		for (UIView *subview in theView.subviews) 
-        {
-			button = [self findButtonInView:subview withTag:tag];
-			if (button && button.tag == tag) return button;
-		}
-	}
-	
-	return button;
-}
-
 // 화면에서 웹뷰 제거.
 - (void)removeWebView:(UIView *)theView
 {

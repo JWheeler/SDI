@@ -10,6 +10,7 @@
 
 #import "IRStockListViewController.h"
 #import "IRStockAddViewController.h"
+#import "CustomHeader.h"
 #import "SDIAppDelegate.h"
 #import "HTTPHandler.h"
 
@@ -94,6 +95,10 @@
     
     self.title = @"관심종목";
     
+    // 테이블뷰 스타일.
+    self.stockTableView.separatorColor = RGB(97, 97, 97);
+    self.stockTableView.rowHeight = 40.0;
+    
     // 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
@@ -164,13 +169,15 @@
     if (cell == nil) 
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell.backgroundColor = [UIColor clearColor];
         
         // 종목.
         stockLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, LABEL_WIDTH, tableView.rowHeight)] autorelease];
         stockLabel.tag = STOCK_LABEL_TAG;
         stockLabel.font = [UIFont systemFontOfSize:17.0];
         stockLabel.textAlignment = UITextAlignmentLeft;
-        stockLabel.textColor = [UIColor blackColor];
+        stockLabel.textColor = [UIColor whiteColor];
+        stockLabel.backgroundColor = [UIColor clearColor];
         //titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
         [cell.contentView addSubview:stockLabel];
         
@@ -180,6 +187,7 @@
         currentPriceLabel.font = [UIFont systemFontOfSize:14.0];
         currentPriceLabel.textAlignment = UITextAlignmentLeft;
         currentPriceLabel.textColor = [UIColor darkGrayColor];
+        currentPriceLabel.backgroundColor = [UIColor clearColor];
         //subTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
         [cell.contentView addSubview:currentPriceLabel];
     }
@@ -294,6 +302,14 @@
 }
 
 #pragma mark - Table view delegate
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    CustomHeader *header = [[[CustomHeader alloc] init] autorelease];        
+    //header.titleLabel.text = [self tableView:tableView titleForHeaderInSection:section];
+    
+    return header;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

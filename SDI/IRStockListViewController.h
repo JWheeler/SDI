@@ -19,9 +19,9 @@ UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewD
     UIColor *defaultTintColor;
     UIPickerView *pickerView;
     UIToolbar *toolbar;
-    BOOL isSelectedPicker;
-    int currentIndex;       // 현재 선택된 그룹의 인덱스(0부터 시작).
-    int changeField;        // 마지막 필드 데이터 종류 변경.
+    BOOL isSelectedPicker;      // 피커 선택 여부.
+    int currentIndex;           // 현재 선택된 그룹의 인덱스(0부터 시작).
+    int changeField;            // 마지막 필드 데이터 종류 변경.
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *fetchedResultsControllerForIRGroup;
@@ -44,7 +44,6 @@ UITableViewDataSource, UITableViewDelegate,  UIPickerViewDelegate, UIPickerViewD
 - (NSFetchedResultsController *)fetchedResultsControllerForIRGroup;
 - (NSFetchedResultsController *)fetchedResultsControllerForIRStock:(int)searchGroup;
 
-- (void)postViewDisappearNotification;
 - (void)setLayout;
 - (void)requestStocks;
 - (void)initDataSet;

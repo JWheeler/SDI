@@ -57,6 +57,7 @@ enum
 - (IBAction)openMyMenu:(id)sender;
 - (IBAction)openIRStock:(id)sender;
 - (void)changeTabBarStyle:(BOOL)type;
-- (void)notificationFromView:(NSNotification *)notification;
+- (void)notificationViewWillAppear:(NSNotification *)notification;
+- (void)notificationViewWillDisappear:(NSNotification *)notification;
 
 @end

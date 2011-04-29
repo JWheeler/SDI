@@ -160,14 +160,21 @@
 		segmentedControl.tintColor = [UIColor darkGrayColor];
 	else
 		segmentedControl.tintColor = defaultTintColor;
+    
+    // !!!: 홈에서 메뉴 버튼 등을 통해 실행된 화면에 사짐을 홈에게 다시 노티피케이션 함.
+    // 탭바의 스타일을 원상 복귀 하기위해...
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"ViewWillAppear" object:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    // 노티피케이션 포스트.
-    [self postViewDisappearNotification];
+    // !!!: 홈에서 메뉴 버튼 등을 통해 실행된 화면에 사짐을 홈에게 다시 노티피케이션 함.
+    // 탭바의 스타일을 원상 복귀 하기위해...
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"ViewWillDisappear" object:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -709,17 +716,14 @@
 
 #pragma mark - 커스텀 메서드
 
-// !!!: 홈에서 메뉴 버튼 등을 통해 실행된 화면에 사짐을 홈에게 다시 노티피케이션 함.
-// 탭바의 스타일을 원상 복귀 하기위해...
-- (void)postViewDisappearNotification //:(NSString *)notificationName;
-{
-    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc postNotificationName:@"ViewWillDisappear" object:self userInfo:nil];
-}
-
 // 화면 레이아웃 설정.
 - (void)setLayout
 {
+    // !!!: 홈에서 메뉴 버튼 등을 통해 실행된 화면에 사짐을 홈에게 다시 노티피케이션 함.
+    // 탭바의 스타일을 원상 복귀 하기위해...
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"ViewWillAppear" object:self];
+    
     // 이전화면 버튼.
     UIButton *backButton = [UIButton buttonWithType:101];
     [backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];

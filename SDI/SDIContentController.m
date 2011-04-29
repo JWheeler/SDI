@@ -80,9 +80,10 @@ static NSUInteger kNumberOfPages = 2;
     // 리본 제스처 등록.
     [self registerGestureForRibbon];
     
-    // 노티피케이션 옵저버 등록.
+    // 노티피케이션 옵저버 등록.(오픈한 화면의 사라짐 여부.)
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(notificationFromView:) name:@"ViewWillDisappear" object:nil];
+    [nc addObserver:self selector:@selector(notificationViewWillAppear:) name:@"ViewWillAppear" object:nil];
+    [nc addObserver:self selector:@selector(notificationViewWillDisappear:) name:@"ViewWillDisappear" object:nil];
 }
 
 #pragma mark - 스크롤 및 페이지 컨트롤 관련
@@ -382,8 +383,14 @@ static NSUInteger kNumberOfPages = 2;
 }
 
 // 노티피케이션 처리.
-- (void)notificationFromView:(NSNotification *)notification 
+- (void)notificationViewWillAppear:(NSNotification *)notification 
 {
+    [self changeTabBarStyle:YES];
+}
+
+- (void)notificationViewWillDisappear:(NSNotification *)notification 
+{
+    Debug(@">>>>>>>>>>>>>>>>>>");
     [self changeTabBarStyle:NO];
 }
 

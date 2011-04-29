@@ -118,6 +118,11 @@
     [super viewWillAppear:animated];
     
     self.filteredList = [[NSMutableArray alloc] init];
+    
+    // !!!: 홈에서 메뉴 버튼 등을 통해 실행된 화면에 사짐을 홈에게 다시 노티피케이션 함.
+    // 탭바의 스타일을 원상 복귀 하기위해...
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"ViewWillAppear" object:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -125,6 +130,11 @@
     [super viewWillDisappear:animated];
     
     [self togglePicker:1];
+    
+    // !!!: 홈에서 메뉴 버튼 등을 통해 실행된 화면에 사짐을 홈에게 다시 노티피케이션 함.
+    // 탭바의 스타일을 원상 복귀 하기위해...
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"ViewWillDisappear" object:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

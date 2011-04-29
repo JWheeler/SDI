@@ -103,7 +103,7 @@
 						<string key="NSFrame">{{-250, 399}, {320, 40}}</string>
 						<reference key="NSSuperview" ref="631403060"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="948602489"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
@@ -137,7 +137,6 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="989017408"/>
 								<bool key="IBUIOpaque">NO</bool>
-								<int key="IBUITag">10</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -173,7 +172,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="288391017"/>
 								<bool key="IBUIOpaque">NO</bool>
-								<int key="IBUITag">20</int>
+								<int key="IBUITag">1</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -202,7 +201,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="872524756"/>
 								<bool key="IBUIOpaque">NO</bool>
-								<int key="IBUITag">30</int>
+								<int key="IBUITag">2</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -231,7 +230,7 @@
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView"/>
 								<bool key="IBUIOpaque">NO</bool>
-								<int key="IBUITag">40</int>
+								<int key="IBUITag">3</int>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<int key="IBUIContentHorizontalAlignment">0</int>
 								<int key="IBUIContentVerticalAlignment">0</int>
@@ -259,11 +258,9 @@
 						<reference key="NSNextKeyView" ref="672268954"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
 							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-							<object class="NSColorSpace" key="NSCustomColorSpace">
-								<int key="NSID">2</int>
-							</object>
+							<bytes key="NSWhite">MCAwAA</bytes>
 						</object>
+						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 					<object class="IBUIButton" id="669989695">
@@ -360,15 +357,6 @@
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">openIRStock:</string>
-						<reference key="source" ref="288391017"/>
-						<reference key="destination" ref="997760169"/>
-						<int key="IBEventType">7</int>
-					</object>
-					<int key="connectionID">48</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">openIRStock:</string>
 						<reference key="source" ref="669989695"/>
 						<reference key="destination" ref="997760169"/>
 						<int key="IBEventType">7</int>
@@ -376,40 +364,56 @@
 					<int key="connectionID">50</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">openMenuForToolbar:</string>
-						<reference key="source" ref="409343703"/>
-						<reference key="destination" ref="997760169"/>
-						<int key="IBEventType">7</int>
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">tabBar</string>
+						<reference key="source" ref="997760169"/>
+						<reference key="destination" ref="231841465"/>
 					</object>
-					<int key="connectionID">51</int>
+					<int key="connectionID">57</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">tabBarBG</string>
+						<reference key="source" ref="997760169"/>
+						<reference key="destination" ref="672268954"/>
+					</object>
+					<int key="connectionID">58</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">openMenuForToolbar:</string>
+						<string key="label">openMenuForTabBar:</string>
 						<reference key="source" ref="989017408"/>
 						<reference key="destination" ref="997760169"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">52</int>
+					<int key="connectionID">59</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">openMenuForToolbar:</string>
+						<string key="label">openMenuForTabBar:</string>
 						<reference key="source" ref="288391017"/>
 						<reference key="destination" ref="997760169"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">53</int>
+					<int key="connectionID">60</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
-						<string key="label">openMenuForToolbar:</string>
+						<string key="label">openMenuForTabBar:</string>
 						<reference key="source" ref="872524756"/>
 						<reference key="destination" ref="997760169"/>
 						<int key="IBEventType">7</int>
 					</object>
-					<int key="connectionID">54</int>
+					<int key="connectionID">61</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">openMenuForTabBar:</string>
+						<reference key="source" ref="409343703"/>
+						<reference key="destination" ref="997760169"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">62</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -562,7 +566,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<real value="2"/>
+					<real value="0.0"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<real value="2"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -587,7 +591,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">56</int>
+			<int key="maxID">62</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -657,7 +661,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>changePage:</string>
 							<string>openIRStock:</string>
-							<string>openMenuForToolbar:</string>
+							<string>openMenuForTabBar:</string>
 							<string>openMyMenu:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -674,7 +678,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>changePage:</string>
 							<string>openIRStock:</string>
-							<string>openMenuForToolbar:</string>
+							<string>openMenuForTabBar:</string>
 							<string>openMyMenu:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -688,7 +692,7 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">openMenuForToolbar:</string>
+								<string key="name">openMenuForTabBar:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -705,6 +709,8 @@
 							<string>pageControl</string>
 							<string>ribbonImageView</string>
 							<string>scrollView</string>
+							<string>tabBar</string>
+							<string>tabBarBG</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -712,6 +718,8 @@
 							<string>LPPageControl</string>
 							<string>UIImageView</string>
 							<string>UIScrollView</string>
+							<string>UIView</string>
+							<string>UIImageView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -722,6 +730,8 @@
 							<string>pageControl</string>
 							<string>ribbonImageView</string>
 							<string>scrollView</string>
+							<string>tabBar</string>
+							<string>tabBarBG</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -740,6 +750,14 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">scrollView</string>
 								<string key="candidateClassName">UIScrollView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">tabBar</string>
+								<string key="candidateClassName">UIView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">tabBarBG</string>
+								<string key="candidateClassName">UIImageView</string>
 							</object>
 						</object>
 					</object>

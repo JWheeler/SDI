@@ -17,7 +17,7 @@
 #import "MyMenuViewController.h"
 #import "IRStockListViewController.h"
 
-#define ContentViewFrame CGRectMake(0.0, 20.0, 320.0, 416.0)
+#define ContentViewFrame CGRectMake(0.0, 20.0, 320.0, 460);
 
 static NSUInteger kNumberOfPages = 2;
 
@@ -33,6 +33,8 @@ static NSUInteger kNumberOfPages = 2;
 @synthesize scrollView;
 @synthesize pageControl; 
 @synthesize ribbonImageView;
+@synthesize tabBar;
+@synthesize tabBarBG;
 @synthesize viewControllers;
 
 - (void)dealloc
@@ -41,6 +43,8 @@ static NSUInteger kNumberOfPages = 2;
     [scrollView release];
     [pageControl release];
     [ribbonImageView release];
+    [tabBar release];
+    [tabBarBG release];
     [viewControllers release];
     [super dealloc];
 }
@@ -75,6 +79,10 @@ static NSUInteger kNumberOfPages = 2;
     
     // 리본 제스처 등록.
     [self registerGestureForRibbon];
+    
+    // 노티피케이션 옵저버 등록.
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(notificationFromView:) name:@"ViewWillDisappear" object:nil];
 }
 
 #pragma mark - 스크롤 및 페이지 컨트롤 관련
@@ -279,8 +287,8 @@ static NSUInteger kNumberOfPages = 2;
 
 // TODO: 열릴 메뉴의 화면 닫기 처리 필수!
 // UIToolbar의 메뉴 열기.
-- (IBAction)openMenuForToolbar:(id)sender
-{
+- (IBAction)openMenuForTabBar:(id)sender
+{    
     // 슈퍼뷰에 추가된 뷰 삭제.
     [self removeFromSuperviweForAddedView];
     
@@ -362,6 +370,21 @@ static NSUInteger kNumberOfPages = 2;
     currentAddedSubviewTag = navigationController.view.tag;
     // 리본 이미지 뷰를 화면의 맨 앞으로..
     [self bringRibbonImageViewToFront];
+    // 탭바 스타일 변경.
+    [self changeTabBarStyle:YES];
+}
+
+// 전체화면을 사용하는 메뉴를 위해 탭바의 스타일 변경.
+- (void)changeTabBarStyle:(BOOL)type
+{
+    self.tabBarBG.hidden = type;
+    [self.view.superview bringSubviewToFront:self.tabBar];
+}
+
+// 노티피케이션 처리.
+- (void)notificationFromView:(NSNotification *)notification 
+{
+    [self changeTabBarStyle:NO];
 }
 
 @end

@@ -5,8 +5,8 @@
 //  Created by Jong Pil Park on 11. 4. 6..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
-//  TODO: 그룹별 등록 갯수 제한 추가!
-//  TODO: 검색 후 메뉴 등록 시 DB 관련 에러 수정할 것!
+//  TODO: HTS연계 구현!
+//  TODO: 음성검색 추가!
 //
 
 #import "IRStockAddViewController.h"
@@ -26,6 +26,7 @@
 @synthesize nextButton;
 @synthesize selectPickerButton;
 @synthesize groupLabel;
+@synthesize searchBar;
 
 @synthesize indexes;
 @synthesize stockCodes;
@@ -55,6 +56,7 @@
     [nextButton release];
     [selectPickerButton release];
     [groupLabel release];
+    [searchBar release];
     [irGroup release];
     [indexes release];
     [stockCodes release];
@@ -171,6 +173,8 @@
     
     if (cell == nil) 
     {
+        tableView.separatorColor = RGB(82, 82, 82);
+        
         if (tableView == indexTableView) 
         {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
@@ -185,13 +189,42 @@
     if (tableView == self.indexTableView)
     {
         cell.textLabel.textAlignment = UITextAlignmentCenter;
-        cell.textLabel.textColor = [UIColor whiteColor];
+        cell.textLabel.textColor = RGB(237, 237, 237);
         cell.textLabel.text = [[self.indexes objectAtIndex:indexPath.row] objectForKey:@"indexName"];
+    }
+    
+    // 홀짝 컬러.
+    if (tableView == dataTableView || tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        tableView.backgroundColor = RGB(61, 61, 61);
+        UIView *bgColor = [cell viewWithTag:100];
+        if (!bgColor) 
+        {
+            CGRect frame = CGRectMake(0, 0, 320, self.dataTableView.rowHeight);
+            bgColor = [[UIView alloc] initWithFrame:frame];
+            bgColor.tag = 100; // 나중에 뷰에서 태그로 접근함.
+            [cell addSubview:bgColor];
+            [cell sendSubviewToBack:bgColor];
+            [bgColor release];
+        }
+        
+        if (indexPath.row % 2 == 0)
+        {
+            bgColor.backgroundColor = RGB(61, 61, 61);
+        } 
+        else 
+        {
+            bgColor.backgroundColor = RGB(82, 82, 82);
+        }
     }
     
     if (tableView == dataTableView)
     {
         cell.imageView.image = [UIImage imageNamed:@"star_off.png"];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
+        cell.textLabel.textColor = RGB(237, 237, 237);
+        cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+        cell.detailTextLabel.textColor = RGB(146, 146, 146);
         cell.textLabel.text = [[self.stockCodes objectAtIndex:indexPath.row] objectForKey:@"stockName"];
         cell.detailTextLabel.text = [[self.stockCodes objectAtIndex:indexPath.row] objectForKey:@"stockCode"];
     }
@@ -199,6 +232,10 @@
     if (tableView == self.searchDisplayController.searchResultsTableView) 
     {
         cell.imageView.image = [UIImage imageNamed:@"star_off.png"];
+        cell.textLabel.backgroundColor = [UIColor clearColor];
+        cell.textLabel.textColor = RGB(237, 237, 237);
+        cell.detailTextLabel.backgroundColor = [UIColor clearColor];
+        cell.detailTextLabel.textColor = RGB(146, 146, 146);
         cell.textLabel.text = [[self.filteredList objectAtIndex:indexPath.row] objectForKey:@"stockName"];
         cell.detailTextLabel.text = [[self.filteredList objectAtIndex:indexPath.row] objectForKey:@"stockCode"];
     }
@@ -246,6 +283,11 @@
  */
 
 #pragma mark - Table view delegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -381,6 +423,41 @@
     currentIndex = row;
     self.irGroup = [[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:row];
     self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
+}
+
+#pragma mark - UISearchBar 델리게이트
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar 
+{
+    [self.searchBar sizeToFit];
+	[self.searchBar setShowsCancelButton:YES animated:YES];
+    [self.searchBar setCloseButtonTitle:@"취소" forState:UIControlStateNormal];
+    
+	return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar 
+{
+	// 디자인을 위해 검색 버튼 보이기.
+//    self.mikeButton.hidden = NO;
+//    self.searchButton.hidden = NO;
+//    
+//	[self.searchBar sizeToFit];
+//	[self.searchBar setShowsCancelButton:NO animated:YES];
+//    self.searchBar.frame = SEARCHBAR_FRMAE;
+    
+	return YES;
+}
+
+// 취소.
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    // 디자인을 위해 검색 버튼 보이기.
+//    self.mikeButton.hidden = NO;
+//    self.searchButton.hidden = NO;
+//    
+//    self.searchBar.text = nil;
+//    [self.searchBar resignFirstResponder];
 }
 
 #pragma mark - UISearchDisplayController 델리게이트 메서드

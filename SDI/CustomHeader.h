@@ -9,13 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface CustomHeader : UIView 
+@interface CustomHeader : UIControl
 {
-    int selectImage;
+    
 }
 
 @property (nonatomic, retain) NSString *imageName;
-
-- (void)changeImage;
 
 @end

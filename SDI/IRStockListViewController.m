@@ -5,7 +5,7 @@
 //  Created by Jong Pil Park on 11. 4. 6..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
-//  TODO: 그룹명 변경 기능 추가할 것: 디자인과 UI 상의 필요함!
+//  TODO: UI Flow 정리!
 //
 
 #import "IRStockListViewController.h"
@@ -13,12 +13,23 @@
 #import "CustomHeader.h"
 #import "SDIAppDelegate.h"
 #import "HTTPHandler.h"
+#import "Stock.h"
 
 #define CUSTOM_BUTTON_HEIGHT 30.0
 
-#define LABEL_WIDTH 106
+#define STOCK_LABEL_WIDTH 108
+#define CURRENT_PRICE_LABEL_WIDTH 100
+#define UP_ARROW_LABEL_WIDTH 10
+#define DOWN_ARROW_LABEL_WIDTH 10
+#define FLUCTUATION_LABEL_WIDTH 86
+
 #define STOCK_LABEL_TAG 1
 #define CURRENT_PRICE_LABEL_TAG 2
+#define UPPER_ARROW_LABEL_TAG 3
+#define UP_ARROW_LABEL_TAG 4
+#define LOWER_ARROW_LABEL_TAG 5
+#define DOWN_ARROW_LABEL_TAG 6
+#define FLUCTUATION_LABEL_TAG 7
 
 
 @implementation IRStockListViewController
@@ -27,6 +38,7 @@
 @synthesize fetchedResultsControllerForIRStock = __fetchedResultsControllerForIRStock;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize irGroup;
+@synthesize stocks;
 @synthesize responseArray;
 @synthesize currentStockCode;
 @synthesize currentPrice;
@@ -35,28 +47,16 @@
 @synthesize nextButton;
 @synthesize selectPickerButton;
 @synthesize groupLabel;
+@synthesize groupTextField;
 @synthesize stockTableView;
+@synthesize header;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) 
     {
-        // 관리 객체 컨텍스트 설정.
-        SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
-        self.managedObjectContext = appDelegate.managedObjectContext;
-        
-        // 그룹 리스트 가져오기.
-        [self fetchedResultsControllerForIRGroup];
-        
-        // 관심종목 리스트 가져오기.
-        [self fetchedResultsControllerForIRStock:currentIndex + 1];
-        
-//        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
-//        Debug(@"Group row count: %d", [sectionInfo numberOfObjects]);
-//        Debug(@"Group section count: %d", [[self.fetchedResultsController sections] count]);
-        Debug(@"IRGroup row count: %d", [[self.fetchedResultsControllerForIRGroup fetchedObjects] count]);
-        Debug(@"IRStock row count: %d", [[self.fetchedResultsControllerForIRStock fetchedObjects] count]);
+
     }
     return self;
 }
@@ -67,11 +67,14 @@
     [nextButton release];
     [selectPickerButton release];
     [groupLabel release];
+    [groupTextField release];
     [irGroup release];
+    [stocks release];
     [responseArray release];
     [currentStockCode release];
     [currentPrice release];
     [stockTableView release];
+    [header release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [__fetchedResultsControllerForIRGroup release];
     [__fetchedResultsControllerForIRStock release];
@@ -95,13 +98,35 @@
     
     self.title = @"관심종목";
     
+    // 관리 객체 컨텍스트 설정.
+    SDIAppDelegate *appDelegate = (SDIAppDelegate *)[[UIApplication sharedApplication] delegate];
+    self.managedObjectContext = appDelegate.managedObjectContext;
+    
+    // 그룹 리스트 가져오기.
+    [self fetchedResultsControllerForIRGroup];
+    
+    // 관심종목 리스트 가져오기.
+    [self fetchedResultsControllerForIRStock:currentIndex + 1];
+    
     // 테이블뷰 스타일.
     self.stockTableView.separatorColor = RGB(97, 97, 97);
     self.stockTableView.rowHeight = 40.0;
     
+    // 테이블뷰 헤더.
+    self.header = [[CustomHeader alloc] init];        
+    [self.header addTarget:self action:@selector(changeHeaderImage:) forControlEvents:UIControlEventTouchUpInside];
+    header.enabled = NO;
+    self.header.imageName = @"interest_header01.png";
+    
     // 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	[nc addObserver:self selector:@selector(viewText:) name:TRCD_SS01REAL object:nil];
+    
+    // 관심종목 추가 노티피케이션.
+    [nc addObserver:self selector:@selector(refreshTableForAdd:) name:@"AddIRStock" object:nil];
+    
+    // 관심종목 삭제 노티피케이션.
+    [nc addObserver:self selector:@selector(refreshTableForDelete:) name:@"DeleteIRStock" object:nil];
     
     // 화면 레이아웃 설정.
     [self setLayout];
@@ -110,10 +135,12 @@
     self.irGroup = [[self.fetchedResultsControllerForIRGroup fetchedObjects] objectAtIndex:0];
     self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
     
-    isReal = NO;
+    // 관심종목 테이뷸뷰의 마지막 필드 데이터 설정을 위해...
+    changeField = 0;
     
     // 관심 종목 데이터 초기화.
-    [self initIRStocks];
+    [self initDataSet];
+    [self requestStocks];
 }
 
 - (void)viewDidUnload
@@ -133,9 +160,14 @@
 		segmentedControl.tintColor = [UIColor darkGrayColor];
 	else
 		segmentedControl.tintColor = defaultTintColor;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
     
-    // 관심 종목 데이터 초기화.
-    [self initIRStocks];
+    // 노티피케이션 포스트.
+    [self postViewDisappearNotification];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -148,14 +180,12 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[self.fetchedResultsControllerForIRStock sections] count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[self.fetchedResultsControllerForIRStock sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+    return [self.stocks count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -163,64 +193,185 @@
     static NSString *CellIdentifier = @"Cell";
     
     // 커스텀 셀.
-    UILabel *stockLabel, *currentPriceLabel;
+    //      - 종목명      - 현재가             - 등락, 등락율, 거래량      
+    UILabel *stockLabel, *currentPriceLabel, *fluctuationLabel, *upperArrowLabel, *upArrowLabel, *lowerArrowLabel, *downArrowLabel;
+    UIImageView *upperArrow, *upArrow, *lowerArrow, *downArrow;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) 
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.backgroundColor = [UIColor clearColor];
         
         // 종목.
-        stockLabel = [[[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, LABEL_WIDTH, tableView.rowHeight)] autorelease];
+        stockLabel = [[[UILabel alloc] initWithFrame:CGRectMake(2.0, 0.0, STOCK_LABEL_WIDTH, tableView.rowHeight)] autorelease];
         stockLabel.tag = STOCK_LABEL_TAG;
-        stockLabel.font = [UIFont systemFontOfSize:17.0];
-        stockLabel.textAlignment = UITextAlignmentLeft;
-        stockLabel.textColor = [UIColor whiteColor];
         stockLabel.backgroundColor = [UIColor clearColor];
-        //titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
+        stockLabel.font = [UIFont systemFontOfSize:16.0];
+        stockLabel.textAlignment = UITextAlignmentCenter;
+        stockLabel.textColor = [UIColor whiteColor];
+        stockLabel.shadowColor = [UIColor darkGrayColor];
+        stockLabel.shadowOffset = CGSizeMake(0, 1);
         [cell.contentView addSubview:stockLabel];
         
         // 현재가.
-        currentPriceLabel = [[[UILabel alloc] initWithFrame:CGRectMake(107.0, 0.0, LABEL_WIDTH, tableView.rowHeight)] autorelease];
+        currentPriceLabel = [[[UILabel alloc] initWithFrame:CGRectMake(113.0, 0.0, CURRENT_PRICE_LABEL_WIDTH, tableView.rowHeight)] autorelease];
         currentPriceLabel.tag = CURRENT_PRICE_LABEL_TAG;
-        currentPriceLabel.font = [UIFont systemFontOfSize:14.0];
-        currentPriceLabel.textAlignment = UITextAlignmentLeft;
-        currentPriceLabel.textColor = [UIColor darkGrayColor];
         currentPriceLabel.backgroundColor = [UIColor clearColor];
-        //subTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleHeight;
+        currentPriceLabel.font = [UIFont systemFontOfSize:17.0];
+        currentPriceLabel.textAlignment = UITextAlignmentRight;
+        currentPriceLabel.textColor = [UIColor whiteColor];
+        currentPriceLabel.shadowColor = [UIColor darkGrayColor];
+        currentPriceLabel.shadowOffset = CGSizeMake(0, 1);
         [cell.contentView addSubview:currentPriceLabel];
+        
+        // 전일대비구분: 상한(1), 상승(2), 보합(3), 하한(4), 하락(5) 추가 해야함!
+        // 상한(1).
+        upperArrowLabel = [[[UILabel alloc] initWithFrame:CGRectMake(223.0, 0.0, UP_ARROW_LABEL_WIDTH, tableView.rowHeight)] autorelease];
+        upperArrowLabel.tag = UPPER_ARROW_LABEL_TAG;
+        upperArrowLabel.backgroundColor = [UIColor clearColor];
+        upperArrowLabel.hidden = YES;
+        
+        upperArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_upper.png"]] autorelease];
+        upperArrow.frame = CGRectMake(0.0, 0.0, 10.0, 13.0);
+        upperArrow.center = CGPointMake(upperArrowLabel.frame.size.width / 2, upperArrowLabel.center.y);
+        [upperArrowLabel addSubview:upperArrow];
+        
+        [cell.contentView addSubview:upperArrowLabel];
+        
+        // 상승(2).
+        upArrowLabel = [[[UILabel alloc] initWithFrame:CGRectMake(223.0, 0.0, UP_ARROW_LABEL_WIDTH, tableView.rowHeight)] autorelease];
+        upArrowLabel.tag = UP_ARROW_LABEL_TAG;
+        upArrowLabel.backgroundColor = [UIColor clearColor];
+        upArrowLabel.hidden = YES;
+        
+        upArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_up.png"]] autorelease];
+        upArrow.frame = CGRectMake(0.0, 0.0, 10.0, 10.0);
+        upArrow.center = CGPointMake(upArrowLabel.frame.size.width / 2, upArrowLabel.center.y);
+        [upArrowLabel addSubview:upArrow];
+        
+        [cell.contentView addSubview:upArrowLabel];
+        
+        // 하한(4)
+        lowerArrowLabel = [[[UILabel alloc] initWithFrame:CGRectMake(223.0, 0.0, DOWN_ARROW_LABEL_WIDTH, tableView.rowHeight)] autorelease];
+        lowerArrowLabel.tag = LOWER_ARROW_LABEL_TAG;
+        lowerArrowLabel.backgroundColor = [UIColor clearColor];
+        lowerArrowLabel.hidden = YES;
+        
+        lowerArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_lower.png"]] autorelease];
+        lowerArrow.frame = CGRectMake(0.0, 0.0, 10.0, 13.0);
+        lowerArrow.center = CGPointMake(lowerArrowLabel.frame.size.width / 2, lowerArrowLabel.center.y);
+        [lowerArrowLabel addSubview:lowerArrow];
+        
+        [cell.contentView addSubview:lowerArrowLabel];
+        
+        // 하락(5).
+        downArrowLabel = [[[UILabel alloc] initWithFrame:CGRectMake(223.0, 0.0, DOWN_ARROW_LABEL_WIDTH, tableView.rowHeight)] autorelease];
+        downArrowLabel.tag = DOWN_ARROW_LABEL_TAG;
+        downArrowLabel.backgroundColor = [UIColor clearColor];
+        downArrowLabel.hidden = YES;
+        
+        downArrow = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon_down.png"]] autorelease];
+        downArrow.frame = CGRectMake(0.0, 0.0, 10.0, 10.0);
+        downArrow.center = CGPointMake(downArrowLabel.frame.size.width / 2, downArrowLabel.center.y);
+        [downArrowLabel addSubview:downArrow];
+        
+        [cell.contentView addSubview:downArrowLabel];
+        
+        // 마지막 필드: 등락, 등락률, 거래량.
+        fluctuationLabel = [[[UILabel alloc] initWithFrame:CGRectMake(232.0, 0.0, FLUCTUATION_LABEL_WIDTH, tableView.rowHeight)] autorelease];
+        fluctuationLabel.tag = FLUCTUATION_LABEL_TAG;
+        fluctuationLabel.backgroundColor = [UIColor clearColor];
+        fluctuationLabel.font = [UIFont systemFontOfSize:17.0];
+        fluctuationLabel.textAlignment = UITextAlignmentRight;
+        fluctuationLabel.textColor = [UIColor whiteColor];
+        fluctuationLabel.shadowColor = [UIColor darkGrayColor];
+        fluctuationLabel.shadowOffset = CGSizeMake(0, 1);
+        [cell.contentView addSubview:fluctuationLabel];
     }
     else
     {
         stockLabel = (UILabel *)[cell.contentView viewWithTag:STOCK_LABEL_TAG];
         currentPriceLabel = (UILabel *)[cell.contentView viewWithTag:CURRENT_PRICE_LABEL_TAG];
+        upperArrowLabel = (UILabel *)[cell.contentView viewWithTag:UPPER_ARROW_LABEL_TAG];
+        upArrowLabel = (UILabel *)[cell.contentView viewWithTag:UP_ARROW_LABEL_TAG];
+        lowerArrowLabel = (UILabel *)[cell.contentView viewWithTag:LOWER_ARROW_LABEL_TAG];
+        downArrowLabel = (UILabel *)[cell.contentView viewWithTag:DOWN_ARROW_LABEL_TAG];
+        fluctuationLabel = (UILabel *)[cell.contentView viewWithTag:FLUCTUATION_LABEL_TAG];
     }
     
     // Configure the cell...
-    NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:indexPath];
-    stockLabel.text = [managedObject valueForKey:@"stockName"]; //[[managedObject valueForKey:@"stockName"] description];
+    Stock *stock = [[Stock alloc] init];
+    stock = [self.stocks objectAtIndex:indexPath.row];
     
-    if (isReal) 
-    {
-        // 리얼 시세가 들어 오는 경우...
-        if ([[[managedObject valueForKey:@"stockCode"] description] isEqualToString:self.currentStockCode]) 
+    stockLabel.text = stock.stockName;
+    currentPriceLabel.text = [LPUtils formatNumber:[stock.currentPrice intValue]];
+    
+    float rateUnit = 0.0;
+    if (changeField == 0) 
+        if ([stock.symbol isEqualToString:@"1"]) 
         {
-            currentPriceLabel.text = [LPUtils formatNumber:[self.currentPrice intValue]];
+            rateUnit = 0.01;
+            upperArrowLabel.hidden = NO;
+            upArrowLabel.hidden = YES;
+            lowerArrowLabel.hidden = YES;
+            downArrowLabel.hidden = YES;
+            fluctuationLabel.textColor = [UIColor redColor];
         }
-        
-        isReal = NO;
+    if ([stock.symbol isEqualToString:@"2"]) 
+    {
+        rateUnit = 0.01;
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = NO;
+        lowerArrowLabel.hidden = YES;
+        downArrowLabel.hidden = YES;
+        fluctuationLabel.textColor = [UIColor redColor];
     }
-    else
+    if ([stock.symbol isEqualToString:@"3"]) 
     {
-        // 화면에 처음 진입할 경우, RQ로 현재가 등의 데이터를 설정한다.
-        for (NSDictionary *dict in self.responseArray) 
-        {
-            if ([[managedObject valueForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"isNo"]]) 
-            {
-                currentPriceLabel.text = [LPUtils formatNumber:[[dict objectForKey:@"nowPrc"] intValue]];
-            }
-        }
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = YES;
+        lowerArrowLabel.hidden = YES;
+        downArrowLabel.hidden = YES;
+        fluctuationLabel.textColor = [UIColor whiteColor];
+    }
+    if ([stock.symbol isEqualToString:@"4"]) 
+    {
+        rateUnit = -0.01;
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = YES;
+        lowerArrowLabel.hidden = NO;
+        downArrowLabel.hidden = YES;
+        fluctuationLabel.textColor = [UIColor blueColor];
+    }
+    if ([stock.symbol isEqualToString:@"5"]) 
+    {
+        rateUnit = -0.01;
+        upperArrowLabel.hidden = YES;
+        upArrowLabel.hidden = YES;
+        lowerArrowLabel.hidden = YES;
+        downArrowLabel.hidden = NO;
+        fluctuationLabel.textColor = [UIColor blueColor];
+    }
+    
+    // 마지막 필드의 데이터 변경.
+    switch (changeField) 
+    {
+        case 0:
+            // 등락.
+            fluctuationLabel.text = [LPUtils formatNumber:[stock.fluctuation intValue]];
+            break;
+        case 1:
+            // 등락율.
+            fluctuationLabel.text = [NSString stringWithFormat:@"%.2f%@", ([stock.fluctuationRate floatValue] * rateUnit), @"%"];
+            break;
+        case 2:
+            // 거래량.
+            fluctuationLabel.text = [LPUtils formatNumber:[stock.tradeVolume intValue]];
+            break;
+        default:
+            break;
     }
     
     return cell;
@@ -305,22 +456,50 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    CustomHeader *header = [[[CustomHeader alloc] init] autorelease];        
-    //header.titleLabel.text = [self tableView:tableView titleForHeaderInSection:section];
-    
-    return header;
+    return self.header;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    [self changeHeaderImage:self.header];
+    [self.stockTableView reloadData];
+}
+
+#pragma mark - 텍스트필드 델리게이트
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField 
+{
+	// 텍스트필드 검증.
+	if ([textField.text length] <= 0) 
+    {		
+		[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"그룹명을 입력해 주십시오."];
+		
+		return NO;
+	}
+	else 
+    {
+        // 그룹명 업데이트.
+		[self.irGroup setValue:textField.text forKey:@"groupName"];
+        
+        NSManagedObjectContext *context = [self.fetchedResultsControllerForIRStock managedObjectContext];
+        
+        // 컨텍스트 저장.
+        NSError *error = nil;
+        if (![context save:&error])
+        {
+            // TODO: 에러 처리.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+        
+        [textField resignFirstResponder];
+        // 그룹 다시 리스트 가져오기.
+        __fetchedResultsControllerForIRGroup = nil;
+        [self fetchedResultsControllerForIRGroup];
+        self.groupLabel.text = textField.text;
+	}
+    
+	return YES;
 }
 
 #pragma mark - 피커뷰 데이터소스 메서드
@@ -350,7 +529,8 @@
     self.groupLabel.text = [self.irGroup valueForKey:@"groupName"];
     
     [self fetchedResultsControllerForIRStock:currentIndex + 1];
-    [self initIRStocks];
+    [self initDataSet];
+    [self requestStocks];
     [self.stockTableView reloadData];
 }
 
@@ -361,7 +541,8 @@
     // 관심종목 리스트 가져오기.
     [self fetchedResultsControllerForIRStock:currentIndex + 1];
     // 관심 종목 데이터 초기화.
-    [self initIRStocks];
+    [self initDataSet];
+    [self requestStocks];
     [self.stockTableView reloadData];
 }
 
@@ -528,6 +709,14 @@
 
 #pragma mark - 커스텀 메서드
 
+// !!!: 홈에서 메뉴 버튼 등을 통해 실행된 화면에 사짐을 홈에게 다시 노티피케이션 함.
+// 탭바의 스타일을 원상 복귀 하기위해...
+- (void)postViewDisappearNotification //:(NSString *)notificationName;
+{
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"ViewWillDisappear" object:self userInfo:nil];
+}
+
 // 화면 레이아웃 설정.
 - (void)setLayout
 {
@@ -558,6 +747,99 @@
     
     // 피커뷰 표시를 위해...
     isSelectedPicker = NO;
+}
+
+// 관심 종목 데이터셋 초기화
+- (void)initDataSet
+{
+    // 주식코드와 주식명 설정.
+    self.stocks = [NSMutableArray arrayWithCapacity:[[self.fetchedResultsControllerForIRStock fetchedObjects] count]];
+    
+    for (NSManagedObject *managedObject in [self.fetchedResultsControllerForIRStock fetchedObjects]) 
+    {
+        Stock *stock = [[Stock alloc] init];
+        stock.stockCode = [managedObject valueForKey:@"stockCode"];
+        stock.stockName = [managedObject valueForKey:@"stockName"];
+        
+        [self.stocks addObject:stock];
+        [stock release];
+    }
+}
+
+// 관심 종목 데이터 초기화
+- (void)requestStocks
+{
+    // HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
+    self.responseArray = [[NSMutableArray alloc] init];
+    HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
+    for (NSInteger i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++) 
+    {
+        // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
+        NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+        [httpHandler searchCurrentPrice:[[managedObject valueForKey:@"stockCode"] description]];
+        if (httpHandler.reponseDict != nil) 
+        {
+            [self.responseArray addObject:httpHandler.reponseDict];
+        }
+    }
+    
+    for (int i = 0; i < [self.stocks count]; i++) 
+    {
+        Stock *stock = [self.stocks objectAtIndex:i];
+        
+        // 데이터가 존재하지 않아도 앱을 실행하기 위해...
+        if ([self.responseArray count] == [self.stocks count]) 
+        {
+            NSDictionary *dict = [self.responseArray  objectAtIndex:i];
+            
+            if ([stock.stockCode isEqualToString:[dict objectForKey:@"isNo"]]) 
+            {
+                stock.currentPrice = [dict objectForKey:@"nowPrc"];
+                stock.symbol = [dict objectForKey:@"bDyCmprSmbl"];
+                stock.fluctuation = [dict objectForKey:@"bDyCmpr"];
+                stock.fluctuationRate = [dict objectForKey:@"upDwnR"];
+                stock.tradeVolume = [dict objectForKey:@"vlm"];
+            }
+        }
+    }
+}
+
+// 종목별 실시간 데이터.
+- (void)viewText:(NSNotification *)notification 
+{
+    Debug(@"Received real data!");
+    
+    for (Stock *stock in self.stocks) 
+    {
+        if ([stock.stockCode isEqualToString:[[notification userInfo] objectForKey:@"isCd"]]) 
+        {
+            stock.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];
+            stock.symbol = [[notification userInfo] objectForKey:@"bDyCmprSmbl"];
+            stock.fluctuation = [[notification userInfo] objectForKey:@"bDyCmpr"];
+            stock.fluctuationRate = [[notification userInfo] objectForKey:@"bDyCmprR"];
+            stock.tradeVolume = [[notification userInfo] objectForKey:@"acmlVlm"];
+        }
+    }
+    
+    [self.stockTableView reloadData];
+}
+
+// 관심종목 추가에 따른 데이블뷰 갱신.
+- (void)refreshTableForAdd :(NSNotification *)notification 
+{
+    self.fetchedResultsControllerForIRStock = [[notification userInfo] objectForKey:@"addIRStock"];
+    [self initDataSet];
+    [self requestStocks];
+    [self.stockTableView reloadData];
+}
+
+// 관심종목 삭제에 따른 데이블뷰 갱신.
+- (void)refreshTableForDelete :(NSNotification *)notification 
+{
+    self.fetchedResultsControllerForIRStock = [[notification userInfo] objectForKey:@"deleteIRStock"];
+    [self initDataSet];
+    [self requestStocks];
+    [self.stockTableView reloadData];
 }
 
 // 백버튼 액션.
@@ -592,6 +874,8 @@
             self.navigationItem.leftBarButtonItem.enabled = NO;
             // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 제목 변경.
             [sender setTitle:@"완료" forSegmentAtIndex:1];
+            // 그뭅명 변경을 위해 텍스트필드 활성화.
+            self.groupTextField.hidden = NO;
         }
         else
         {             
@@ -600,6 +884,10 @@
             self.navigationItem.leftBarButtonItem.enabled = YES;
             // 세그먼티드컨롤 중 인덱스 1인 편집 버튼의 제목 변경.
             [sender setTitle:@"편집" forSegmentAtIndex:1];
+            // 그뭅명 변경 후 텍스트필드 비활성화.
+            self.groupTextField.hidden = YES;
+            // 키보드 감추기.
+            [self.groupTextField resignFirstResponder];
         }
     }
 }
@@ -620,7 +908,8 @@
     }
     
     [self fetchedResultsControllerForIRStock:currentIndex + 1];
-    [self initIRStocks];
+    [self initDataSet];
+    [self requestStocks];
     [self.stockTableView reloadData];
 }
 
@@ -640,7 +929,8 @@
     }
     
     [self fetchedResultsControllerForIRStock:(currentIndex + 1)];
-    [self initIRStocks];
+    [self initDataSet];
+    [self requestStocks];
     [self.stockTableView reloadData];
     
     Debug(@"IRStock row count: %d", [[self.fetchedResultsControllerForIRStock fetchedObjects] count]);
@@ -707,32 +997,33 @@
     }
 }
 
-// 관심 종목 데이터 초기화
-- (void)initIRStocks
+// 헤더의 이미지와 마지막 필드 데이터 변경.
+- (void)changeHeaderImage:(CustomHeader *)customHeader
 {
-    // HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
-    self.responseArray = [[NSMutableArray alloc] init];
-    HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
-    for (NSInteger i = 0; i < [[self.fetchedResultsControllerForIRStock fetchedObjects] count]; i++) 
+    switch (changeField) 
     {
-        // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
-        NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        [httpHandler searchCurrentPrice:[[managedObject valueForKey:@"stockCode"] description]];
-        if (httpHandler.reponseDict != nil) 
+        case 0:
         {
-            [self.responseArray addObject:httpHandler.reponseDict];
+            customHeader.imageName = @"interest_header02.png";
+            changeField += 1;
+            break;
         }
+        case 1:
+        {
+            customHeader.imageName = @"interest_header03.png";
+            changeField += 1;
+            break;
+        }
+        case 2:
+        {
+            customHeader.imageName = @"interest_header01.png";
+            changeField = 0;
+            break;
+        } 
+        default:
+            break;
     }
-}
-
-// TODO: 관심 종목 필드 설정 및 확인(현재가, 전일비, 등락율, 거래대금 등)!
-// 종목별 실시간 데이터.
-- (void)viewText:(NSNotification *)notification 
-{
-    isReal = YES;
-    self.currentStockCode = [[notification userInfo] objectForKey:@"isCd"];
-    self.currentPrice = [[notification userInfo] objectForKey:@"nowPrc"];     
-    [self.stockTableView reloadData];
+    [customHeader setNeedsDisplay];
 }
 
 @end

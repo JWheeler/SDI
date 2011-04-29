@@ -42,6 +42,8 @@ enum
 @property (nonatomic, retain) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, retain) IBOutlet LPPageControl *pageControl;
 @property (nonatomic, retain) IBOutlet UIImageView *ribbonImageView;
+@property (nonatomic, retain) IBOutlet UIView *tabBar;
+@property (nonatomic, retain) IBOutlet UIImageView *tabBarBG;
 
 @property (nonatomic, retain) NSMutableArray *viewControllers;
 
@@ -50,9 +52,11 @@ enum
 - (void)openDaily:(UISwipeGestureRecognizer *)recognizer;
 - (void)removeFromSuperviweForAddedView;
 - (void)bringRibbonImageViewToFront;
-- (IBAction)openMenuForToolbar:(id)sender;
+- (IBAction)openMenuForTabBar:(id)sender;
 - (void)openMenuForTotalMenu:(id)sender;
 - (IBAction)openMyMenu:(id)sender;
 - (IBAction)openIRStock:(id)sender;
+- (void)changeTabBarStyle:(BOOL)type;
+- (void)notificationFromView:(NSNotification *)notification;
 
 @end

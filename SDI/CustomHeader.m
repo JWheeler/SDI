@@ -18,15 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        selectImage = 0;
-        self.imageName = @"interest_header01.png";
-        
-//        UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-//        button.frame = frame; //CGRectMake(0.0, 0.0, 320.0, 25.0);
-//        button.backgroundColor = [UIColor clearColor];
-//        [button addTarget:self action:@selector(changeImage) forControlEvents:UIControlEventTouchUpInside];
-//        [self addSubview:button];
-//        [button release];
+        //self.imageName = @"interest_header01.png";
     }
     return self;
 }
@@ -45,34 +37,6 @@
 {
     [imageName release];
     [super dealloc];
-}
-
-// 헤더의 이미지 변경.
-- (void)changeImage
-{
-    switch (selectImage) 
-    {
-        case 0:
-        {
-            self.imageName = @"interest_header01.png";
-            selectImage += 1;
-            break;
-        }
-        case 1:
-        {
-            self.imageName = @"interest_header02.png";
-            selectImage += 1;
-            break;
-        }
-        case 2:
-        {
-            self.imageName = @"interest_header03.png";
-            selectImage = 0;
-            break;
-        } 
-        default:
-            break;
-    }
 }
 
 @end

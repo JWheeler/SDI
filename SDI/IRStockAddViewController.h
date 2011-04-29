@@ -31,6 +31,7 @@
 @property (nonatomic, retain) IBOutlet UIButton *nextButton;
 @property (nonatomic, retain) IBOutlet UIButton *selectPickerButton;
 @property (nonatomic, retain) IBOutlet UILabel *groupLabel;
+@property (nonatomic, retain) IBOutlet UISearchBar *searchBar;
 
 @property (nonatomic, retain) NSMutableArray *indexes;              // 검색용 인덱스 목록.
 @property (nonatomic, retain) NSMutableArray *stockCodes;           // 주식코드 전체 목록.

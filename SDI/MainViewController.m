@@ -436,8 +436,8 @@
     for (NSMutableDictionary *dict in self.stockList) 
     {
         // 종목명과 종목코드 동시 검색.
-		NSString *stockName = [dict objectForKey:@"stockName"];
         NSString *stockCode = [dict objectForKey:@"stockCode"];
+		NSString *stockName = [dict objectForKey:@"stockName"];
         
         // ==(equal) 검색!
 		if ([stockName isEqualToString:self.searchBar.text] || [stockCode isEqualToString:self.searchBar.text]) 
@@ -445,13 +445,16 @@
 			// HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
             self.responseArray = [[NSMutableArray alloc] init];
             HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
-            // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
            
             [httpHandler searchCurrentPrice:stockCode];
             if (httpHandler.reponseDict != nil) 
             {
                 [self setupSearchResultView:httpHandler.reponseDict withStockName:stockName];
                 self.searchBar.text = nil;
+                
+                // 검색 성공 후, 종목검색 히스토리 추가.
+                [[AppInfo sharedAppInfo] addStockHistory:dict];
+                
                 return;
             }
 		}

@@ -40,6 +40,7 @@ extern SOLogger *gLogger;
 - (BOOL)isConnectToNetwork;
 - (void)initProcessWithReachability:(Reachability *)curReach;
 - (void)initProcess;
+- (void)exitProcess;
 - (NSDictionary *)parseQueryString:(NSString *)query;
 - (void)removeWebView:(UIView *)theView;
 

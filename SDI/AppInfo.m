@@ -20,6 +20,7 @@
 @implementation AppInfo
 
 @synthesize stockCodeMasters;
+@synthesize stockHistories;
 
 static dispatch_once_t pred;
 static AppInfo *sharedAppInfo = nil;
@@ -340,6 +341,77 @@ static AppInfo *sharedAppInfo = nil;
     SBCount *sbCount = [[SBCount alloc] initWithTRCode:trCode idx:idx code:stockCode];
     [[SBManager sharedSBManager] deleteObject:sbCount];
     [sbCount release];
+}
+
+// 종목검색 히스토리 관리(읽기/쓰기).
+- (void)manageStockHistory:(NSInteger)type
+{
+    if (type == Read) 
+    {
+        if ([self isFileExistence:@"StockHistory.plist"]) 
+        {
+            self.stockHistories = [self loadStockHistories:@"StockHistory.plist"];
+        }
+        else
+        {
+            self.stockHistories = [[NSMutableArray alloc] init];
+        }
+    }
+    else if (type == Save)
+    {
+        // Document 디렉토리.
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentsDirectory = [paths objectAtIndex:0];
+        
+        // 파일명.
+        NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"StockHistory.plist"];
+        
+        [self.stockHistories writeToFile:fileName atomically:YES];
+    }
+    else
+    {
+        Debug(@"Warning: check type!");
+    }
+}
+
+// 종목검색 히스토리 로드.
+- (NSMutableArray *)loadStockHistories:(NSString *)file
+{
+    // Document 디렉토리.
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	
+	// 파일명 생성.
+	NSString *fileName = [NSString stringWithFormat:@"%@/%@", documentsDirectory, file];
+
+	NSMutableArray *stockHistoryList = [[NSMutableArray alloc] initWithContentsOfFile:fileName];
+    
+	return [stockHistoryList autorelease];
+}
+
+// 종목검색 히스토리 저장.
+- (void)addStockHistory:(NSDictionary *)dict
+{
+    int stockHistoryCnt = [self.stockHistories count];
+    
+    // 종목검색 히스토리는 최대 10개까지 저장함!
+    if (stockHistoryCnt < 10)
+    {
+        // 만약 이미 등로된 종목이면, 기존 것을 삭제하고 신규 등록함!
+        for (NSDictionary *oldDict in self.stockHistories) 
+        {
+            if ([[oldDict objectForKey:@"stockCode"] isEqualToString:[dict objectForKey:@"stockCode"]]) 
+            {
+                [self.stockHistories removeObject:oldDict];
+            }
+        }
+        [self.stockHistories addObject:dict];
+    }
+    else
+    {
+        [self.stockHistories removeObjectAtIndex:0];
+        [self.stockHistories addObject:dict];
+    }
 }
 
 @end

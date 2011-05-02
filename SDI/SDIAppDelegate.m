@@ -28,7 +28,8 @@ SOLogger *gLogger;
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
 {
-	if (!url) {
+	if (!url) 
+    {
 		// URL이 nil인 경우.
 		return NO;
 	}
@@ -101,12 +102,7 @@ SOLogger *gLogger;
      If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
      */
     
-    // SB 접속 종료.
-    TRGenerator *tr = [[TRGenerator alloc] init];
-    [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
-    
-    // SB 등록 테이블 초기화.
-    [SBManager sharedSBManager].sbTable = nil;
+    [self exitProcess];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -152,9 +148,8 @@ SOLogger *gLogger;
         } 
     }
     
-    // SB 접속 종료.
-    TRGenerator *tr = [[TRGenerator alloc] init];
-    [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
+    // 앱 종료 프로세스.
+    [self exitProcess];
 }
 
 - (void)dealloc
@@ -285,7 +280,8 @@ SOLogger *gLogger;
 /**
  Returns the path to the application's Documents directory.
  */
-- (NSString *)applicationDocumentsDirectoryForString  {
+- (NSString *)applicationDocumentsDirectoryForString  
+{
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
@@ -450,7 +446,7 @@ SOLogger *gLogger;
     }
 }
 
-// 앱 초기화.
+// 앱 런칭 시 처리할 것들.
 - (void)initProcess
 {
     // 앱 정보.
@@ -460,14 +456,30 @@ SOLogger *gLogger;
     [[AppInfo sharedAppInfo] loadStockCodeMaster:JONGMOK_MASTER];
     
     // 데이터핸들러.
-    [DataHandler sharedDataHandler];
+    //[DataHandler sharedDataHandler];
     
-    // TODO: SB 등록 프로세스 추가.
     // SB 등록 관리.
-    [SBManager sharedSBManager];
+    //[SBManager sharedSBManager];
+    
+    // 종목검색 히스토리 읽기.
+    [[AppInfo sharedAppInfo] manageStockHistory:Read];
     
     // SB 등록.
     //[[AppInfo sharedAppInfo] regAllSB];
+}
+
+// 앱 종료 시 처리할 것들.
+- (void)exitProcess
+{
+    // SB 접속 종료.
+    TRGenerator *tr = [[TRGenerator alloc] init];
+    [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINEXIT andCMD:SB_CMD_INIT_OR_FINISH]];
+    
+    // SB 등록 테이블 초기화.
+    [SBManager sharedSBManager].sbTable = nil;
+    
+    // 종목검색 히스토리 저장.
+    [[AppInfo sharedAppInfo] manageStockHistory:Save];
 }
 
 // URL 파싱.

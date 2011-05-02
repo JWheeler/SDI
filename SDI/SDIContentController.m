@@ -390,7 +390,6 @@ static NSUInteger kNumberOfPages = 2;
 
 - (void)notificationViewWillDisappear:(NSNotification *)notification 
 {
-    Debug(@">>>>>>>>>>>>>>>>>>");
     [self changeTabBarStyle:NO];
 }
 

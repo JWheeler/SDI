@@ -9,12 +9,20 @@
 #import <Foundation/Foundation.h>
 
 
+// 종목검색 히스토리.
+enum 
+{
+    Read = 0,
+    Save = 1
+};
+
 @interface AppInfo : NSObject 
 {
 
 }
 
 @property (nonatomic, retain) NSArray *stockCodeMasters;
+@property (nonatomic, retain) NSMutableArray *stockHistories;
 
 + (AppInfo *)sharedAppInfo;
 
@@ -29,5 +37,8 @@
 - (void)clearSB:(NSMutableDictionary *)dict idx:(NSString *)idx trCode:(NSString *)trCode;
 - (void)saveSBManager:(NSString *)idx trCode:(NSString *)trCode stockCode:(NSString *)stockCode;
 - (void)removeSBManager:(NSString *)idx trCode:(NSString *)trCode stockCode:(NSString *)stockCode;
+- (void)manageStockHistory:(NSInteger)type;
+- (NSMutableArray *)loadStockHistories:(NSString *)file;
+- (void)addStockHistory:(NSDictionary *)dict;
 
 @end

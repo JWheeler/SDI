@@ -7,18 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
 
 
-@class MyMenuView;
-
-@interface MyMenuViewController : UIViewController 
+@interface MyMenuViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    MyMenuView *scrollMyMenuView;
+   
 }
 
-@property (nonatomic, retain) MyMenuView *scrollMyMenuView;
+@property (nonatomic, retain) IBOutlet UITableView *myMenuTable;
+@property (nonatomic, retain) NSMutableArray *myMenus;
 
--(void)setMyMenu;
+- (NSString *)applicationDocumentsDirectory;
+- (BOOL)isFileExistence:(NSString *)file;
+- (void)createEditableCopyOfFileIfNeeded;
+- (void)loadMyMenus;
+- (IBAction)buttonPressed:(id)sender;
+- (void)removeMyMenuTapGesture:(UITapGestureRecognizer *)recognizer;
+- (IBAction)voiceSearch:(id)sender;
 
 @end

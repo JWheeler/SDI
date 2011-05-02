@@ -41,7 +41,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // 이전화면 버튼.
+    UIButton *backButton = [UIButton buttonWithType:101];
+    [backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setTitle:@"이전화면" forState:UIControlStateNormal];
+    
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    self.navigationItem.leftBarButtonItem = backItem;
+    [backItem release];
     
     // UITapGestureRecognizer 인스턴스 생성.
     UITapGestureRecognizer *recognizerTap = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeWebViewTapGesture:)] autorelease];
@@ -71,6 +79,13 @@
 {
     // TODO: 애니메이션 효과 결정할 것!
     [self.web removeFromSuperview];
+}
+
+// 백버튼 액션.
+- (IBAction)backAction:(id)sender
+{
+    Debug(@"Back button tapped!");
+    [self.navigationController.view removeFromSuperview];
 }
 
 @end

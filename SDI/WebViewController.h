@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface WebViewController : UIViewController <UIWebViewDelegate, UIGestureRecognizerDelegate>
+@interface WebViewController : UIViewController <UIWebViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
 {
     
 }
@@ -17,5 +17,6 @@
 @property (nonatomic, retain) IBOutlet UIWebView *web;
 
 - (void)removeWebViewTapGesture:(UITapGestureRecognizer *)recognizer;
+- (IBAction)backAction:(id)sender;
 
 @end

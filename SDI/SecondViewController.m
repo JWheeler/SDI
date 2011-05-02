@@ -13,6 +13,8 @@
 #import "SDIAppDelegate.h"
 #import "WebViewController.h"
 
+#define ContentViewFrame CGRectMake(0.0, 20.0, 320.0, 460);
+
 
 #pragma mark - 프라이빗 클래스
 
@@ -412,12 +414,17 @@
 // 서브 메뉴 버튼 액션.
 - (IBAction)openTarget:(id)sender
 {
-    WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil];    
-    [self.view.superview.superview addSubview:webViewController.view];
+    WebViewController *webViewController = [[WebViewController alloc] initWithNibName:@"WebViewController" bundle:nil]; 
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:webViewController]; 
+    navigationController.delegate = webViewController;
+    navigationController.view.frame = ContentViewFrame;
+    navigationController.view.tag = 1010;   // !!!: 뷰의 태그는 화면번호로 설정함!
+    [self.view.superview.superview addSubview:navigationController.view];
     
+    // TODO: 애니메이션 변경.
     // 전체메뉴를 모달로 띄움.
     UIView *modalView = webViewController.view;
-    modalView.frame = CGRectMake(0.0, 20.0, 320.0, 460.0); //[UIScreen mainScreen].bounds;
+    modalView.frame = ContentViewFrame;
     
     CGPoint middleCenter = modalView.center;
     CGSize offSize = [UIScreen mainScreen].bounds.size;
@@ -649,54 +656,5 @@
     
     return NO;
 }
-
-
-
-// 버튼 이동 제한.
-//#define MAX_BOTTOM_PLACE_FOR_FOLDER_ICON 390    
-//
-//- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//	if (folderView.hidden)
-//	{
-//		CGPoint touchPoint = [[touches anyObject] locationInView:mainBackgroundView];
-//		if (touchPoint.y > MAX_BOTTOM_PLACE_FOR_FOLDER_ICON)
-//		{
-//			touchPoint.y = MAX_BOTTOM_PLACE_FOR_FOLDER_ICON;	
-//		}
-//		
-//		folderIcon.center = touchPoint;
-//		
-//		
-//		
-//	}
-//}
-//
-//- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//	if (folderView.hidden)
-//	{
-//        CGPoint touchPoint = [[touches anyObject] locationInView:mainBackgroundView];
-//		if (touchPoint.y > MAX_BOTTOM_PLACE_FOR_FOLDER_ICON)
-//		{
-//			touchPoint.y = MAX_BOTTOM_PLACE_FOR_FOLDER_ICON;	
-//		}
-//		folderIcon.center = touchPoint;
-//	}
-//}
-//
-//- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-//{
-//	if (folderView.hidden)
-//	{
-//		CGPoint touchPoint = [[touches anyObject] locationInView:mainBackgroundView];
-//		if (touchPoint.y > MAX_BOTTOM_PLACE_FOR_FOLDER_ICON)
-//		{
-//			touchPoint.y = MAX_BOTTOM_PLACE_FOR_FOLDER_ICON;	
-//		}
-//		folderIcon.center = touchPoint;
-//	}
-//	
-//}
 
 @end

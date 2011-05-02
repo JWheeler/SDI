@@ -44,6 +44,10 @@ enum
 @property (nonatomic, retain) IBOutlet UIImageView *ribbonImageView;
 @property (nonatomic, retain) IBOutlet UIView *tabBar;
 @property (nonatomic, retain) IBOutlet UIImageView *tabBarBG;
+@property (nonatomic, retain) IBOutlet UIButton *homeButton;
+@property (nonatomic, retain) IBOutlet UIButton *myMenuButton;
+@property (nonatomic, retain) IBOutlet UIButton *helpButton;
+@property (nonatomic, retain) IBOutlet UIButton *exitButton;
 
 @property (nonatomic, retain) NSMutableArray *viewControllers;
 
@@ -56,6 +60,7 @@ enum
 - (void)openMenuForTotalMenu:(id)sender;
 - (IBAction)openMyMenu:(id)sender;
 - (IBAction)openIRStock:(id)sender;
+- (void)chageButtonState:(NSInteger)selectedButtonIndex;
 - (void)changeTabBarStyle:(BOOL)type;
 - (void)notificationViewWillAppear:(NSNotification *)notification;
 - (void)notificationViewWillDisappear:(NSNotification *)notification;

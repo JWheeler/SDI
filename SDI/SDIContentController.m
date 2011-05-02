@@ -35,6 +35,10 @@ static NSUInteger kNumberOfPages = 2;
 @synthesize ribbonImageView;
 @synthesize tabBar;
 @synthesize tabBarBG;
+@synthesize homeButton;
+@synthesize myMenuButton;
+@synthesize helpButton;
+@synthesize exitButton;
 @synthesize viewControllers;
 
 - (void)dealloc
@@ -45,6 +49,10 @@ static NSUInteger kNumberOfPages = 2;
     [ribbonImageView release];
     [tabBar release];
     [tabBarBG release];
+    [homeButton release];
+    [myMenuButton release];
+    [helpButton release];
+    [exitButton release];
     [viewControllers release];
     [super dealloc];
 }
@@ -301,20 +309,23 @@ static NSUInteger kNumberOfPages = 2;
             // 스크롤 뷰의 두 번째 페이지가 홈이다.
             pageControl.currentPage = 1;
             [self changePage:sender];
+            [self chageButtonState:Home];
         }
             break;
         case MyMenu: // 마이메뉴.
         {
             [self openMyMenu:sender];
+            [self chageButtonState:MyMenu];
         }
             break;
         case Help: // 도움말.
         {
-            
+            [self chageButtonState:Help];
         }
             break;
         case Finish: // 종료.
         {
+            [self chageButtonState:Finish];
             exit(0);
         }
             break;
@@ -373,6 +384,48 @@ static NSUInteger kNumberOfPages = 2;
     [self bringRibbonImageViewToFront];
     // 탭바 스타일 변경.
     [self changeTabBarStyle:YES];
+}
+
+// 탭바 버튼 선택에 따른 상태 이미지 변경.
+- (void)chageButtonState:(NSInteger)selectedButtonIndex
+{
+    switch (selectedButtonIndex) 
+    {
+        case Home:
+        {
+            [self.homeButton setImage:[UIImage imageNamed:@"toolbar_home_o.png"] forState:UIControlStateNormal];
+            [self.myMenuButton setImage:[UIImage imageNamed:@"toolbar_my.png"] forState:UIControlStateNormal];
+            [self.helpButton setImage:[UIImage imageNamed:@"toolbar_help.png"] forState:UIControlStateNormal];
+            [self.exitButton setImage:[UIImage imageNamed:@"toolbar_close.png"] forState:UIControlStateNormal];
+            break;
+        }  
+        case MyMenu:
+        {
+            [self.homeButton setImage:[UIImage imageNamed:@"toolbar_home.png"] forState:UIControlStateNormal];
+            [self.myMenuButton setImage:[UIImage imageNamed:@"toolbar_my_o.png"] forState:UIControlStateNormal];
+            [self.helpButton setImage:[UIImage imageNamed:@"toolbar_help.png"] forState:UIControlStateNormal];
+            [self.exitButton setImage:[UIImage imageNamed:@"toolbar_close.png"] forState:UIControlStateNormal];
+            break;
+        }
+        case Help:
+        {
+            [self.homeButton setImage:[UIImage imageNamed:@"toolbar_home_o.png"] forState:UIControlStateNormal];
+            [self.myMenuButton setImage:[UIImage imageNamed:@"toolbar_my.png"] forState:UIControlStateNormal];
+            [self.helpButton setImage:[UIImage imageNamed:@"toolbar_help_o.png"] forState:UIControlStateNormal];
+            [self.exitButton setImage:[UIImage imageNamed:@"toolbar_close.png"] forState:UIControlStateNormal];
+            break;
+        }
+        case Finish:
+        {
+            [self.homeButton setImage:[UIImage imageNamed:@"toolbar_home_o.png"] forState:UIControlStateNormal];
+            [self.myMenuButton setImage:[UIImage imageNamed:@"toolbar_my.png"] forState:UIControlStateNormal];
+            [self.helpButton setImage:[UIImage imageNamed:@"toolbar_help.png"] forState:UIControlStateNormal];
+            [self.exitButton setImage:[UIImage imageNamed:@"toolbar_close_o.png"] forState:UIControlStateNormal];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 // 전체화면을 사용하는 메뉴를 위해 탭바의 스타일 변경.

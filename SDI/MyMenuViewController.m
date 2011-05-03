@@ -7,14 +7,13 @@
 //
 
 #import "MyMenuViewController.h"
+#import "ButtonCell.h"
 
 #define MY_MENU_FILE @"MyMenu.plist"
-#define MY_MENU_DISPLAY_CNT 9
 
 
 @implementation MyMenuViewController
 
-@synthesize myMenuTable;
 @synthesize myMenus;
 
 
@@ -30,7 +29,6 @@
 
 - (void)dealloc
 {
-    [myMenuTable release];
     [myMenus release];
     [super dealloc];
 }
@@ -55,8 +53,32 @@
     recognizerTap.numberOfTapsRequired = 2;
     [self.view addGestureRecognizer:recognizerTap];
     
+    // UISwipeGestureRecognizer 인스턴스 생성.
+	UISwipeGestureRecognizer *recognizerUp = [[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(changeDirection:)] autorelease];
+	// 스와이프 제스처를 인식하기위한 탭 수.
+	recognizerUp.numberOfTouchesRequired = 1;
+	// 스와이프의 방향: 상.
+    recognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
+	[self.view addGestureRecognizer:recognizerUp];
+	
+	UISwipeGestureRecognizer *recognizerDown = [[[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(changeDirection:)] autorelease];
+	// 스와이프 제스처를 인식하기위한 탭 수.
+	recognizerDown.numberOfTouchesRequired = 1;
+	// 스와이프의 방향: 하.
+    recognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
+	[self.view addGestureRecognizer:recognizerDown];
+    
     // 마이메뉴 로드.
     [self loadMyMenus];
+    
+    // 편집과 전체설정 버튼을 하단에 두기 위해 currentIndex를 초기화 한다.
+    startIndex = ([self.myMenus count] % MY_MENU_BUTTON_COUNT) + ([self.myMenus count] / MY_MENU_BUTTON_COUNT - 1);
+    currentIndex = [self.myMenus count] - 1;
+    
+    // 버튼 생성.
+    [self createButtons];
+    
+    Debug(@">>>>>>>>>>>>>>>Start index: %d", startIndex);
 }
 
 - (void)viewDidUnload
@@ -70,184 +92,6 @@
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
-#pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return [self.myMenus count];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"Cell";
-    
-    // 커스텀 셀.
-//    CGRect buttonFrame[MY_MENU_DISPLAY_CNT];
-//    UIButton *buttonForFrame[MY_MENU_DISPLAY_CNT];
-    UIButton *button_0, *button_1, *button_2, *button_3, *button_4, *button_5, *button_6, *button_7, *button_8; 
-    
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) 
-    {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        
-//        for (int i = 0; i < MY_MENU_DISPLAY_CNT; i++) 
-//        {
-//            CGRect frame = CGRectZero;
-//            buttonFrame[i] = frame;
-//            UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-//            buttonForFrame[i] = button;
-//            button.frame = frame;
-//			button.tag = i;
-//            
-//            // 배경 이미지.
-//            [cell.contentView addSubview:button];
-//            [button setNeedsDisplay];
-//            [button release];
-//        }
-        
-        button_0 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_0.frame = CGRectZero;
-        button_0.tag = 0;
-        [cell.contentView addSubview:button_0];
-        
-        button_1 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_1.frame = CGRectZero;
-        button_1.tag = 1;
-        [cell.contentView addSubview:button_1];
-        
-        button_2 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_2.frame = CGRectZero;
-        button_2.tag = 2;
-        [cell.contentView addSubview:button_2];
-        
-        button_3 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_3.frame = CGRectZero;
-        button_3.tag = 3;
-        [cell.contentView addSubview:button_3];
-        
-        button_4 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_4.frame = CGRectZero;
-        button_4.tag = 4;
-        [cell.contentView addSubview:button_4];
-        
-        button_5 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_5.frame = CGRectZero;
-        button_5.tag = 5;
-        [cell.contentView addSubview:button_5];
-        
-        button_6 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_6.frame = CGRectZero;
-        button_6.tag = 6;
-        [cell.contentView addSubview:button_6];
-        
-        button_7 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_7.frame = CGRectZero;
-        button_7.tag = 7;
-        [cell.contentView addSubview:button_7];
-        
-        button_8 = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-        button_8.frame = CGRectZero;
-        button_8.tag = 8;
-        [cell.contentView addSubview:button_8];
-    }
-    else
-    {
-//        for (int i = 0; i < MY_MENU_DISPLAY_CNT; i++) 
-//        {
-//            buttonForFrame[i] = (UIButton *)[cell.contentView viewWithTag:i];
-//        }
-        
-        button_0 = (UIButton *)[cell.contentView viewWithTag:0];
-        button_1 = (UIButton *)[cell.contentView viewWithTag:1];
-        button_2 = (UIButton *)[cell.contentView viewWithTag:2];
-        button_3 = (UIButton *)[cell.contentView viewWithTag:3];
-        button_4 = (UIButton *)[cell.contentView viewWithTag:4];
-        button_5 = (UIButton *)[cell.contentView viewWithTag:5];
-        button_6 = (UIButton *)[cell.contentView viewWithTag:6];
-        button_7 = (UIButton *)[cell.contentView viewWithTag:7];
-        button_8 = (UIButton *)[cell.contentView viewWithTag:8];
-    }
-    
-    // Configure the cell...
-    int index = indexPath.row % MY_MENU_DISPLAY_CNT;
-
-    if (index == 0) 
-    {
-//        UIImage *image = [UIImage imageNamed:[[self.myMenus objectAtIndex:indexPath.row] objectForKey:@"iconForMyMenu"]];
-//        buttonForFrame[index].frame = CGRectMake(0.0, 0, image.size.width, image.size.height);
-//        buttonForFrame[index].center = CGPointMake(116.0, tableView.rowHeight / 2);
-//        [buttonForFrame[index] setImage:image forState:UIControlStateNormal];
-        
-        UIImage *image = [[UIImage imageNamed:[[self.myMenus objectAtIndex:indexPath.row] objectForKey:@"iconForMyMenu"]] retain];
-        button_0.frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
-        button_0.center = CGPointMake(116.0, tableView.rowHeight / 2);
-        //[button_0 setBackgroundImage:image forState:UIControlStateNormal];
-    }
-
-    return cell;
-}
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
- {
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }   
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }   
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
 }
 
 #pragma mark - 커스텀 메서드
@@ -292,6 +136,7 @@
 	}
 }
 
+// 마이메뉴 로드.
 - (void)loadMyMenus
 {
     if ([self isFileExistence:MY_MENU_FILE]) 
@@ -311,6 +156,7 @@
     }
 }
 
+// TODO: 버튼 링크!
 - (IBAction)buttonPressed:(id)sender 
 {
 	Debug(@"Button tapped: %d", ((UIButton *)sender).tag);
@@ -323,10 +169,125 @@
     [self.view removeFromSuperview];
 }
 
+// 마이메뉴 상/하 이동.
+- (void)changeDirection:(UISwipeGestureRecognizer *)recognizer
+{
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionUp)
+    {
+        Debug(@"Up direction!");
+        if (currentIndex >= [self.myMenus count] - 1) 
+        {
+            [self.myMenus addObject:[self.myMenus objectAtIndex:0]];
+            [self.myMenus removeObjectAtIndex:0];
+        }
+        
+        currentIndex += 1;
+        
+        [self removeButtons];
+        [self createButtons];
+    }
+    
+    if (recognizer.direction == UISwipeGestureRecognizerDirectionDown)
+    {
+        Debug(@"Down direction!")
+//        if (currentIndex > 0) 
+//        {
+//            [self.myMenus insertObject:[self.myMenus lastObject] atIndex:0];
+//            [self.myMenus removeLastObject];
+//        }
+//        
+//        currentIndex -= 1;
+        
+        [self.myMenus insertObject:[self.myMenus lastObject] atIndex:0];
+        [self.myMenus removeLastObject];
+       
+        [self removeButtons];
+        [self createButtons];
+    }
+    
+    Debug(@"Current index: %d", currentIndex);
+}
+
 // 음성검색.
 - (IBAction)voiceSearch:(id)sender
 {
     Debug(@"Voice search button tapped!");
+}
+
+// 버튼 생성.
+- (void)createButtons
+{
+    for (int i = 0; i < MY_MENU_BUTTON_COUNT; i++) 
+    {
+        NSInteger index = i + startIndex;
+        
+        Debug(@">>>>>>>>>>>>>>>Current index: %d", index);
+        
+        UIImage *image = [UIImage imageNamed:[[self.myMenus objectAtIndex:index] objectForKey:@"iconForMyMenu"]];
+        CGRect frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
+        buttonFrame[i] = frame;
+        UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+        
+        buttonForFrame[i] = button;
+        button.frame = frame;
+        button.tag = index;
+        
+        // 센터 X 좌표 설정(디자인에서 픽스 함!).
+        float x = 0.0;
+        switch (i) 
+        {
+            case 0:
+                x = 116.0;
+                break;
+            case 1:
+                x = 94.0;
+                break;
+            case 2:
+                x = 83.0;
+                break;
+            case 3:
+                x = 80.0;
+                break;
+            case 4:
+                x = 83.0;
+                break;
+            case 5:
+                x = 97.0;
+                break;
+            case 6:
+                x = 117.0;
+                break;
+            case 7:
+                x = 147.0;
+                break;
+            case 8:
+                x = 200.0;
+                break;
+            default:
+                break;
+        }
+        
+        button.center = CGPointMake(x, (VIEW_REVISE + MY_MENU_BUTTON_MARGIN + MY_MENU_BUTTON_HEIGHT / 2) + i * (MY_MENU_BUTTON_MARGIN * 2 + MY_MENU_BUTTON_HEIGHT));
+        [button setImage:image forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:button];
+        [button setNeedsDisplay];
+        [button release];
+                                    
+    }
+}
+
+// 버튼 제거.
+- (void)removeButtons
+{
+    for (UIView *view in self.view.subviews) 
+    {
+        // 음성검색 버튼은 제외!
+        if ([view isKindOfClass:[UIButton class]] && view.tag != 1000) 
+        {
+            [view removeFromSuperview];
+        }
+    }
 }
 
 @end

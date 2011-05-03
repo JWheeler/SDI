@@ -20,6 +20,22 @@
 	</dict>
 	<dict>
 		<key>groupID</key>
+		<string>8</string>
+		<key>iconForAdd</key>
+		<string></string>
+		<key>iconForMyMenu</key>
+		<string>m_27.png</string>
+		<key>iconForTotal</key>
+		<string>08_03.png</string>
+		<key>menuID</key>
+		<string>30</string>
+		<key>name</key>
+		<string>펀드매매</string>
+		<key>target</key>
+		<string></string>
+	</dict>
+	<dict>
+		<key>groupID</key>
 		<string>0</string>
 		<key>iconForAdd</key>
 		<string></string>
@@ -120,9 +136,9 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
-		<key>iconForTotal</key>
 		<string>m_setup.png</string>
+		<key>iconForTotal</key>
+		<string></string>
 		<key>menuID</key>
 		<string></string>
 		<key>name</key>

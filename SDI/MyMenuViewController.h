@@ -28,11 +28,11 @@
 - (BOOL)isFileExistence:(NSString *)file;
 - (void)createEditableCopyOfFileIfNeeded;
 - (void)loadMyMenus;
-- (IBAction)buttonPressed:(id)sender;
 - (void)removeMyMenuTapGesture:(UITapGestureRecognizer *)recognizer;
 - (void)changeDirection:(UISwipeGestureRecognizer *)recognizer;
 - (IBAction)voiceSearch:(id)sender;
 - (void)createButtons;
 - (void)removeButtons;
+- (IBAction)buttonPressed:(id)sender;
 
 @end

@@ -5,10 +5,14 @@
 //  Created by Jong Pil Park on 11. 4. 4..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  TODO: 버튼 링크!
+//
 
 #import "MyMenuViewController.h"
-#import "ButtonCell.h"
+#import "MyMenuAddViewController.h"
+#import "MyMenuEditViewController.h"
 
+#define ContentViewFrame CGRectMake(0.0, 20.0, 320.0, 460);
 #define MY_MENU_FILE @"MyMenu.plist"
 
 
@@ -156,12 +160,6 @@
     }
 }
 
-// TODO: 버튼 링크!
-- (IBAction)buttonPressed:(id)sender 
-{
-	Debug(@"Button tapped: %d", ((UIButton *)sender).tag);
-}
-
 // 마이메뉴 제거.
 - (void)removeMyMenuTapGesture:(UITapGestureRecognizer *)recognizer
 {
@@ -221,8 +219,6 @@
     {
         NSInteger index = i + startIndex;
         
-        Debug(@">>>>>>>>>>>>>>>Current index: %d", index);
-        
         UIImage *image = [UIImage imageNamed:[[self.myMenus objectAtIndex:index] objectForKey:@"iconForMyMenu"]];
         CGRect frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
         buttonFrame[i] = frame;
@@ -230,6 +226,7 @@
         
         buttonForFrame[i] = button;
         button.frame = frame;
+        // TODO: 인덱스 번호 맞출 것!
         button.tag = index;
         
         // 센터 X 좌표 설정(디자인에서 픽스 함!).
@@ -286,6 +283,36 @@
         if ([view isKindOfClass:[UIButton class]] && view.tag != 1000) 
         {
             [view removeFromSuperview];
+        }
+    }
+}
+
+// TODO: 메뉴 링크를 전체메뉴의 것과 통합 고려!
+// 마이메뉴를 UI 단에서 순환시키는 관계로 버튼이 선택되었들 때, 
+// 버튼의 태그로 해당 메뉴의 groupID, menuID, target 정보를 다시 확인해야함.
+// !!!: 편집과 전체설정의 groupID = 100이고 menuID는 100, 101 이다.
+- (IBAction)buttonPressed:(id)sender 
+{
+	Debug(@"Button tapped: %d", ((UIButton *)sender).tag);
+    int selectedButtonIndex = ((UIButton *)sender).tag;
+    
+    NSString *groupID = [[self.myMenus objectAtIndex:selectedButtonIndex] objectForKey:@"groupID"];
+    NSString *menuID = [[self.myMenus objectAtIndex:selectedButtonIndex] objectForKey:@"menuID"];
+    NSString *target = [[self.myMenus objectAtIndex:selectedButtonIndex] objectForKey:@"target"];
+    
+    Debug(@"Group ID: %@, Menu ID: %@, Target: %@", groupID, menuID, target);
+    
+    // 편집과 전체설정.
+    if ([groupID isEqualToString:@"100"]) 
+    {
+        if ([menuID isEqualToString:@"100"]) 
+        {
+            MyMenuAddViewController *viewController = [[MyMenuAddViewController alloc] initWithNibName:@"MyMenuAddViewController" bundle:nil];
+            UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:viewController]; 
+            navigationController.delegate = viewController;
+            navigationController.view.frame = ContentViewFrame;
+            navigationController.view.tag = 1010;   // !!!: 뷰의 태그는 화면번호로 설정함!
+            [self.view.superview addSubview:navigationController.view];
         }
     }
 }

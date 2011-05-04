@@ -7,11 +7,13 @@
 		<string>0</string>
 		<key>icon</key>
 		<string>menu_stock.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title00.png</string>
 		<key>name</key>
 		<string>주식</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title00.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -19,11 +21,13 @@
 		<string>1</string>
 		<key>icon</key>
 		<string>menu_futureoption.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title01.png</string>
 		<key>name</key>
 		<string>선물/옵션</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title01.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -31,11 +35,13 @@
 		<string>2</string>
 		<key>icon</key>
 		<string>menu_elw.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title02.png</string>
 		<key>name</key>
 		<string>ELW</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title02.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -43,11 +49,13 @@
 		<string>3</string>
 		<key>icon</key>
 		<string>menu_banking.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title03.png</string>
 		<key>name</key>
 		<string>이체/지로</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title03.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -55,11 +63,13 @@
 		<string>4</string>
 		<key>icon</key>
 		<string>menu_account.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title04.png</string>
 		<key>name</key>
 		<string>계좌정보</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title04.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -67,11 +77,13 @@
 		<string>5</string>
 		<key>icon</key>
 		<string>menu_investment.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title05.png</string>
 		<key>name</key>
 		<string>투자정보</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title05.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -79,11 +91,13 @@
 		<string>6</string>
 		<key>icon</key>
 		<string>menu_qna.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title06.png</string>
 		<key>name</key>
 		<string>QnA자산관리</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title06.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -91,11 +105,13 @@
 		<string>7</string>
 		<key>icon</key>
 		<string>menu_cma.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title07.png</string>
 		<key>name</key>
 		<string>현대CMAPro</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title07.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -103,11 +119,13 @@
 		<string>8</string>
 		<key>icon</key>
 		<string>menu_fund.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title08.png</string>
 		<key>name</key>
 		<string>펀드</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title08.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -115,11 +133,13 @@
 		<string>9</string>
 		<key>icon</key>
 		<string>menu_stock.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title09.png</string>
 		<key>name</key>
 		<string>신탁</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title09.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -127,11 +147,13 @@
 		<string>10</string>
 		<key>icon</key>
 		<string>menu_stock.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title10.png</string>
 		<key>name</key>
 		<string>WRAP</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title10.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -139,11 +161,13 @@
 		<string>11</string>
 		<key>icon</key>
 		<string>menu_pension.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title11.png</string>
 		<key>name</key>
 		<string>퇴직연금</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title11.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -151,11 +175,13 @@
 		<string>12</string>
 		<key>icon</key>
 		<string>menu_asset.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title12.png</string>
 		<key>name</key>
 		<string>나의자산현황</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title12.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -163,11 +189,13 @@
 		<string>13</string>
 		<key>icon</key>
 		<string>menu_research.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title13.png</string>
 		<key>name</key>
 		<string>리서치</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title13.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -175,11 +203,13 @@
 		<string>14</string>
 		<key>icon</key>
 		<string>menu_community.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title14.png</string>
 		<key>name</key>
 		<string>커뮤니티</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title14.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -187,11 +217,13 @@
 		<string>15</string>
 		<key>icon</key>
 		<string>menu_guide.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title15.png</string>
 		<key>name</key>
 		<string>업무안내가이드</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title15.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -199,11 +231,13 @@
 		<string>16</string>
 		<key>icon</key>
 		<string>menu_promote.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title16.png</string>
 		<key>name</key>
 		<string>홍보센터</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title16.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -211,11 +245,13 @@
 		<string>17</string>
 		<key>icon</key>
 		<string>menu_taxhelper.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title17.png</string>
 		<key>name</key>
 		<string>세무도우미</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title17.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -223,11 +259,13 @@
 		<string>18</string>
 		<key>icon</key>
 		<string>menu_customer.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title18.png</string>
 		<key>name</key>
 		<string>고객센터</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title18.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 	<dict>
@@ -235,11 +273,13 @@
 		<string>19</string>
 		<key>icon</key>
 		<string>menu_branch.png</string>
-		<key>titleIcon</key>
-		<string>2depth_title19.png</string>
 		<key>name</key>
 		<string>지점안내</string>
 		<key>target</key>
+		<string></string>
+		<key>titleIcon</key>
+		<string>2depth_title19.png</string>
+		<key>headerIcon</key>
 		<string></string>
 	</dict>
 </array>

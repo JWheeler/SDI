@@ -132,7 +132,7 @@
 	</dict>
 	<dict>
 		<key>groupID</key>
-		<string></string>
+		<string>100</string>
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
@@ -140,7 +140,7 @@
 		<key>iconForTotal</key>
 		<string></string>
 		<key>menuID</key>
-		<string></string>
+		<string>101</string>
 		<key>name</key>
 		<string>전체설정</string>
 		<key>target</key>
@@ -148,7 +148,7 @@
 	</dict>
 	<dict>
 		<key>groupID</key>
-		<string></string>
+		<string>100</string>
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
@@ -156,11 +156,11 @@
 		<key>iconForTotal</key>
 		<string></string>
 		<key>menuID</key>
-		<string></string>
+		<string>100</string>
 		<key>name</key>
 		<string> 편집</string>
 		<key>target</key>
-		<string></string>
+		<string>MyMenuAddViewController</string>
 	</dict>
 </array>
 </plist>

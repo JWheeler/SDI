@@ -361,8 +361,6 @@ static NSUInteger kNumberOfPages = 2;
     modalView.center = middleCenter;
     [UIView commitAnimations];
     
-    //[myMenuViewController release];
-    
     Debug(@"MyMenu frame: %@", NSStringFromCGRect(modalView.frame));
     Debug(@"MyMenu frame: %@", NSStringFromCGRect([UIScreen mainScreen].bounds));
 }

@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SectionHeader : UIView {
+@interface SectionHeaderView : UIView 
+{
     
 }
+
+@property (nonatomic, retain) NSString *imageName;
 
 @end

@@ -18,7 +18,6 @@
 		1D02C91F13388D1100B5415B /* LPDebug.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D02C91D13388D1100B5415B /* LPDebug.m */; };
 		1D02C92213388E0900B5415B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D02C92113388E0900B5415B /* QuartzCore.framework */; };
 		1D02C9401338907C00B5415B /* AppInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D02C93F1338907C00B5415B /* AppInfo.m */; };
-		1D0A7A1C136F627300A45211 /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0A7A1B136F627300A45211 /* ButtonCell.m */; };
 		1D0C2E0B134A82130000E88F /* UIView+Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E0A134A82130000E88F /* UIView+Position.m */; };
 		1D0C2E16134A84150000E88F /* UIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E15134A84150000E88F /* UIView+Hierarchy.m */; };
 		1D0C2E21134AA2D40000E88F /* SBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E20134AA2D40000E88F /* SBManager.m */; };
@@ -364,6 +363,13 @@
 		1DD75425134E6FCE003867AE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD75423134E6FCE003867AE /* LoginViewController.xib */; };
 		1DD754B4134E989E003867AE /* SDI.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1DD754B3134E989E003867AE /* SDI.sqlite */; };
 		1DD82A441343EB4000B1ADE8 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DD82A431343EB4000B1ADE8 /* CoreData.framework */; };
+		1DD9A2951371452800D8E918 /* m_header.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD9A2931371452800D8E918 /* m_header.png */; };
+		1DD9A2961371452800D8E918 /* m_header@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD9A2941371452800D8E918 /* m_header@2x.png */; };
+		1DD9A299137145DA00D8E918 /* SectionHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9A298137145DA00D8E918 /* SectionHeaderView.m */; };
+		1DDC0C441370B8F80009B9E7 /* MyMenuAddViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC0C421370B8F80009B9E7 /* MyMenuAddViewController.m */; };
+		1DDC0C451370B8F80009B9E7 /* MyMenuAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDC0C431370B8F80009B9E7 /* MyMenuAddViewController.xib */; };
+		1DDC0C491370B9100009B9E7 /* MyMenuEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC0C471370B9100009B9E7 /* MyMenuEditViewController.m */; };
+		1DDC0C4A1370B9100009B9E7 /* MyMenuEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDC0C481370B9100009B9E7 /* MyMenuEditViewController.xib */; };
 		1DDF74511353D7F0007FB5F5 /* IRStockAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */; };
 		1DDF748D13540379007FB5F5 /* libLPLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDF748B13540379007FB5F5 /* libLPLibrary.a */; };
 		1DE7F27F1358108A0049C277 /* btn_editing.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE7F24E135810890049C277 /* btn_editing.png */; };
@@ -572,8 +578,6 @@
 		1D02C92113388E0900B5415B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		1D02C93E1338907C00B5415B /* AppInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppInfo.h; sourceTree = "<group>"; };
 		1D02C93F1338907C00B5415B /* AppInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppInfo.m; sourceTree = "<group>"; };
-		1D0A7A1A136F627300A45211 /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonCell.h; sourceTree = "<group>"; };
-		1D0A7A1B136F627300A45211 /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonCell.m; sourceTree = "<group>"; };
 		1D0C2E09134A82130000E88F /* UIView+Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Position.h"; sourceTree = "<group>"; };
 		1D0C2E0A134A82130000E88F /* UIView+Position.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Position.m"; sourceTree = "<group>"; };
 		1D0C2E14134A84150000E88F /* UIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Hierarchy.h"; sourceTree = "<group>"; };
@@ -996,6 +1000,16 @@
 		1DD75423134E6FCE003867AE /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		1DD754B3134E989E003867AE /* SDI.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = SDI.sqlite; sourceTree = SOURCE_ROOT; };
 		1DD82A431343EB4000B1ADE8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		1DD9A2931371452800D8E918 /* m_header.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_header.png; sourceTree = "<group>"; };
+		1DD9A2941371452800D8E918 /* m_header@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "m_header@2x.png"; sourceTree = "<group>"; };
+		1DD9A297137145DA00D8E918 /* SectionHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SectionHeaderView.h; sourceTree = "<group>"; };
+		1DD9A298137145DA00D8E918 /* SectionHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SectionHeaderView.m; sourceTree = "<group>"; };
+		1DDC0C411370B8F80009B9E7 /* MyMenuAddViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMenuAddViewController.h; sourceTree = "<group>"; };
+		1DDC0C421370B8F80009B9E7 /* MyMenuAddViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMenuAddViewController.m; sourceTree = "<group>"; };
+		1DDC0C431370B8F80009B9E7 /* MyMenuAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyMenuAddViewController.xib; sourceTree = "<group>"; };
+		1DDC0C461370B9100009B9E7 /* MyMenuEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyMenuEditViewController.h; sourceTree = "<group>"; };
+		1DDC0C471370B9100009B9E7 /* MyMenuEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMenuEditViewController.m; sourceTree = "<group>"; };
+		1DDC0C481370B9100009B9E7 /* MyMenuEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyMenuEditViewController.xib; sourceTree = "<group>"; };
 		1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockAddViewController.xib; sourceTree = "<group>"; };
 		1DDF748B13540379007FB5F5 /* libLPLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLPLibrary.a; sourceTree = "<group>"; };
 		1DDF748C13540379007FB5F5 /* MathFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathFunctions.h; sourceTree = "<group>"; };
@@ -1294,6 +1308,8 @@
 		1D02C8F9133871C800B5415B /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1DD9A2931371452800D8E918 /* m_header.png */,
+				1DD9A2941371452800D8E918 /* m_header@2x.png */,
 				1DF48A63136E6EC5005550F8 /* Menu */,
 				1D467A6613616D4F00FC1784 /* bg@2x.png */,
 				1D467A6713616D5000FC1784 /* bg.png */,
@@ -1565,8 +1581,14 @@
 				1DF4A1D713497D4300BC587C /* MyMenuViewController.h */,
 				1DF4A1D813497D4300BC587C /* MyMenuViewController.m */,
 				1DF4A1D913497D4300BC587C /* MyMenuViewController.xib */,
-				1D0A7A1A136F627300A45211 /* ButtonCell.h */,
-				1D0A7A1B136F627300A45211 /* ButtonCell.m */,
+				1DDC0C411370B8F80009B9E7 /* MyMenuAddViewController.h */,
+				1DDC0C421370B8F80009B9E7 /* MyMenuAddViewController.m */,
+				1DDC0C431370B8F80009B9E7 /* MyMenuAddViewController.xib */,
+				1DDC0C461370B9100009B9E7 /* MyMenuEditViewController.h */,
+				1DDC0C471370B9100009B9E7 /* MyMenuEditViewController.m */,
+				1DDC0C481370B9100009B9E7 /* MyMenuEditViewController.xib */,
+				1DD9A297137145DA00D8E918 /* SectionHeaderView.h */,
+				1DD9A298137145DA00D8E918 /* SectionHeaderView.m */,
 			);
 			name = MyMenu;
 			sourceTree = "<group>";
@@ -2617,6 +2639,10 @@
 				1DF48B6C136E88DE005550F8 /* m_mike@2x.png in Resources */,
 				1DF48B6D136E88DE005550F8 /* m_setup.png in Resources */,
 				1DF48B6E136E88DE005550F8 /* m_setup@2x.png in Resources */,
+				1DDC0C451370B8F80009B9E7 /* MyMenuAddViewController.xib in Resources */,
+				1DDC0C4A1370B9100009B9E7 /* MyMenuEditViewController.xib in Resources */,
+				1DD9A2951371452800D8E918 /* m_header.png in Resources */,
+				1DD9A2961371452800D8E918 /* m_header@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2710,7 +2736,9 @@
 				1DB4AAFC1367D82B00345456 /* WebViewController.m in Sources */,
 				1D42FF0213694E4300CFDA99 /* UINavigationBar+CustomBar.m in Sources */,
 				1D42FF151369541700CFDA99 /* CustomHeader.m in Sources */,
-				1D0A7A1C136F627300A45211 /* ButtonCell.m in Sources */,
+				1DDC0C441370B8F80009B9E7 /* MyMenuAddViewController.m in Sources */,
+				1DDC0C491370B9100009B9E7 /* MyMenuEditViewController.m in Sources */,
+				1DD9A299137145DA00D8E918 /* SectionHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

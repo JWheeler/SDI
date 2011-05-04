@@ -5,6 +5,8 @@
 //  Created by Jong Pil Park on 11. 3. 22..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  TODO: 초기화 프로세스 플로우 정리할 것!
+//
 
 #import "SDIAppDelegate.h"
 #import "Reachability.h"
@@ -83,6 +85,13 @@ SOLogger *gLogger;
 
     [self.window addSubview:self.contentController.view];
     [self.window makeKeyAndVisible];
+    
+    // ----------------------------------------------
+    // !!!: 앱스토어에 등록할 때 삭제할 것!
+    // ----------------------------------------------
+    [self performSelector:@selector(printViewHierarchy)
+               withObject:nil
+               afterDelay:2.0 /* 뷰가 세팅될 시간 확보 */ ];
     
     return YES;
 }
@@ -308,6 +317,15 @@ SOLogger *gLogger;
 }
 
 #pragma mark - 커스텀 메서드.
+
+- (void)printViewHierarchy 
+{
+    // ----------------------------------------------
+    // 1. 워닝은 무시할 것. 
+    // 2. 앱스토어에 등록할 때 삭제할 것!
+    // ----------------------------------------------
+    NSLog(@"%@", [self.window recursiveDescription]);
+}
 
 // 중계 서버와 RQ/RP 서버 접속 여부.
 - (void)isConnect

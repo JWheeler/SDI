@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 
-@interface MyMenuEditViewController : UIViewController {
+@interface MyMenuEditViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+{
     
 }
 

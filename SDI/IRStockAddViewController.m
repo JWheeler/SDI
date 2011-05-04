@@ -10,6 +10,7 @@
 //
 
 #import "IRStockAddViewController.h"
+#import "UISearchBar+Button.h"
 #import "LPUtils.h"
 #import "SDIAppDelegate.h"
 #import "MainViewController.h"

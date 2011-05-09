@@ -12,21 +12,23 @@
 @implementation MenuGroup
 
 
-@synthesize menuID;
-@synthesize name;
+@synthesize groupID;
 @synthesize icon;
-@synthesize isUse;
+@synthesize name;
 @synthesize target;
-@synthesize loginType;
+@synthesize titleIcon;
+@synthesize headerIcon;
+@synthesize subMenus;
 
 
-- (void)dealloc {
-	[menuID release];
-	[name release];
-	[icon release];
-	[isUse release];
-	[target release];
-	[loginType release];
+- (void)dealloc 
+{
+	[groupID release];
+    [icon release];
+    [name release];
+    [target release];
+    [titleIcon release];
+    [headerIcon release];
 	[super dealloc];
 }
 

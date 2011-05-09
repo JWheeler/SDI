@@ -14,7 +14,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title00.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_stock.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -28,7 +28,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title01.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_futureoption.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -42,7 +42,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title02.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_elw.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -56,7 +56,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title03.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_banking.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -70,7 +70,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title04.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_account.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -84,7 +84,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title05.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_investment.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -98,7 +98,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title06.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_qna.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -112,7 +112,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title07.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_cma.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -126,7 +126,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title08.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_fund.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -140,7 +140,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title09.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_stock.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -154,7 +154,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title10.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_stock.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -168,7 +168,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title11.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_pension.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -182,7 +182,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title12.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_asset.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -196,7 +196,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title13.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_research.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -210,7 +210,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title14.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_community.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -224,7 +224,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title15.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_guide.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -238,7 +238,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title16.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_promote.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -252,7 +252,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title17.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_taxhelper.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -266,7 +266,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title18.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_customer.png</string>
 	</dict>
 	<dict>
 		<key>groupID</key>
@@ -280,7 +280,7 @@
 		<key>titleIcon</key>
 		<string>2depth_title19.png</string>
 		<key>headerIcon</key>
-		<string></string>
+		<string>icon_branch.png</string>
 	</dict>
 </array>
 </plist>

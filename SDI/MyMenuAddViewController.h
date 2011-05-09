@@ -7,12 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SectionHeaderView.h"
 
 
-@interface MyMenuAddViewController : UIViewController <UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate> 
+@interface MyMenuAddViewController : UIViewController <UINavigationControllerDelegate, UITableViewDataSource, UITableViewDelegate, SectionHeaderViewDelegate> 
 {
     
 }
+
+@property (nonatomic, retain) NSMutableArray* sectionInfoArray;
+@property (nonatomic, assign) NSInteger openSectionIndex;
+@property (nonatomic, assign) NSInteger uniformRowHeight;
 
 @property (nonatomic, retain) IBOutlet UITableView *menuTable;
 @property (nonatomic, retain) NSMutableArray *menuGroups;
@@ -28,6 +33,6 @@
 - (NSMutableDictionary *)filteredMenus:(NSString *)groupID;
 - (NSMutableArray *)loadMyMenus;
 - (NSMutableArray *)createDataSet;
-- (void)saveMyMenus;
+- (void)addMyMenu;
 
 @end

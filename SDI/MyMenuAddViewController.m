@@ -8,23 +8,32 @@
 
 #import "MyMenuAddViewController.h"
 #import "MyMenuEditViewController.h"
-#import "SectionHeaderView.h"
+#import "SectionInfo.h"
+#import "MenuGroup.h"
+#import "Menu.h"
 
 #define MY_MENU_FILE @"MyMenu.plist"
+#define DEFAULT_ROW_HEIGHT 35
+#define HEADER_HEIGHT 36
 
 
 @implementation MyMenuAddViewController
 
+@synthesize sectionInfoArray = sectionInfoArray_;
+@synthesize openSectionIndex = openSectionIndex_;
+@synthesize uniformRowHeight = rowHeight_;
+
 @synthesize menuTable;
 @synthesize menuGroups;
-@synthesize menus;
+@synthesize menus = menus_;
 @synthesize myMenus;
 @synthesize dataSets;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self) 
+    {
         // Custom initialization
     }
     return self;
@@ -32,9 +41,10 @@
 
 - (void)dealloc
 {
+    [sectionInfoArray_ release];
     [menuTable release];
     [menuGroups release];
-    [menus release];
+    [menus_ release];
     [myMenus release];
     [dataSets release];
     [super dealloc];
@@ -56,6 +66,14 @@
     
     self.title = @"마이메뉴 편집";
     
+    // 기본값 설정.
+    self.menuTable.sectionHeaderHeight = HEADER_HEIGHT;
+    rowHeight_ = DEFAULT_ROW_HEIGHT;
+    openSectionIndex_ = NSNotFound;
+    
+    // 테이블뷰 스타일 설정.
+    self.menuTable.separatorColor = RGB(14, 14, 14);
+    
     // 이전화면 버튼.
     UIButton *backButton = [UIButton buttonWithType:101];
     [backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -70,6 +88,11 @@
     UIBarButtonItem *syncButton = [[UIBarButtonItem alloc] initWithTitle:@"정렬" style:UIBarButtonItemStylePlain target:self action:@selector(myMenuSort:)];
 	self.navigationItem.rightBarButtonItem = syncButton;
     [syncButton release];
+}
+
+- (void)viewWillAppear:(BOOL)animated 
+{	
+	[super viewWillAppear:animated]; 
     
     // 메뉴그룹, 메뉴, 마이메뉴 로드 및 데이터셋 생성.
     self.menuGroups = [self loadMenuGroups];
@@ -79,13 +102,43 @@
     
     Debug(@"MenuGroups count: %d, Menu count: %d, MyMenu count: %d", [self.menuGroups count], [self.menus count], [self.myMenus count]);
     Debug(@"DataSets count: %d", [self.dataSets count]);
+	
+    /*
+     Check whether the section info array has been created, and if so whether the section count still matches the current section count. In general, you need to keep the section info synchronized with the rows and section. If you support editing in the table view, you need to appropriately update the section info during editing operations.
+     */
+	if ((self.sectionInfoArray == nil) || ([self.sectionInfoArray count] != [self numberOfSectionsInTableView:self.menuTable])) 
+    {
+        // For each play, set up a corresponding SectionInfo object to contain the default height for each row.
+		NSMutableArray *infoArray = [[NSMutableArray alloc] init];
+		
+		for (NSDictionary *dict in self.dataSets) 
+        {
+			SectionInfo *sectionInfo = [[SectionInfo alloc] init];			
+			//sectionInfo.menuGroup = dict;
+			sectionInfo.open = NO;
+			
+            NSNumber *defaultRowHeight = [NSNumber numberWithInteger:DEFAULT_ROW_HEIGHT];
+            NSInteger countOfSubmenus = [[dict objectForKey:@"subMenus"] count];
+			for (NSInteger i = 0; i < countOfSubmenus; i++) 
+            {
+				[sectionInfo insertObject:defaultRowHeight inRowHeightsAtIndex:i];
+			}
+			
+			[infoArray addObject:sectionInfo];
+			[sectionInfo release];
+		}
+		
+		self.sectionInfoArray = infoArray;
+		[infoArray release];
+	}
+	
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    
+    self.sectionInfoArray = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -103,8 +156,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    SectionInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:section];
     NSArray *subMenus = [[self.dataSets objectAtIndex:section] objectForKey:@"subMenus"];
-    return [subMenus count];
+    NSInteger numInSection = [subMenus count];
+    return sectionInfo.open ? numInSection : 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -115,7 +170,8 @@
     if (cell == nil) 
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.backgroundColor = [UIColor clearColor];
     }
     
     // Configure the cell...
@@ -123,6 +179,8 @@
     NSArray *subMenus = [dict objectForKey:@"subMenus"];
     NSString *name = [[subMenus objectAtIndex:indexPath.row] objectForKey:@"name"];
     
+    cell.backgroundColor = RGB(41, 41, 41);
+    cell.textLabel.textColor = RGB(192, 192, 192);
     cell.textLabel.text = name;
     
     return cell;
@@ -171,48 +229,137 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) 
-    {
-        return 59.0;
-    }
-    else
-    {
-        return 44.0;
-    }
+    SectionInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:indexPath.section];
+    return [[sectionInfo objectInRowHeightsAtIndex:indexPath.row] floatValue];
+
+    // 각 행의 높이가 동일할 경우...
+//    return DEFAULT_ROW_HEIGHT;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    CGRect rect1 = CGRectMake(8.5, 0.0, 303.0, [self tableView:tableView heightForHeaderInSection:section]);
+    // 섹션 헤더 지연 생성.
+    CGRect rect1 = CGRectMake(9.0, 0.0, 302.0, [self tableView:tableView heightForHeaderInSection:section]);
     CGRect rect2 = rect1;
-    rect2.size.height += 15.0f;
+    rect2.size.height += 16.0f;
     
     UIView *headerBG = [[UIView alloc] initWithFrame:rect1];
-    SectionHeaderView *headerView = [[SectionHeaderView alloc] initWithFrame:rect2];
-    headerView.imageName = @"m_header.png";
     
-    [headerBG addSubview:headerView];
-    [headerView release];
+    SectionInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:section];
+    sectionInfo.headerView.imageName = @"m_header_plus.png";
+    NSString *headerIconName = [[self.menuGroups objectAtIndex:section] objectForKey:@"headerIcon"];
+    NSString *title = [[self.menuGroups objectAtIndex:section] objectForKey:@"name"];
+    if (!sectionInfo.headerView) 
+    {
+        sectionInfo.headerView = [[[SectionHeaderView alloc] initWithFrame:rect2 headerIconName:headerIconName title:title section:section delegate:self] autorelease];
+    }
+    
+    [headerBG addSubview:sectionInfo.headerView];
     
     return [headerBG autorelease];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 30;
+    return HEADER_HEIGHT;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     [detailViewController release];
-     */
+    [self.menuTable deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+#pragma mark - 섹션 헤더 델리게이트
+
+-(void)sectionHeaderView:(SectionHeaderView *)sectionHeaderView sectionOpened:(NSInteger)sectionOpened 
+{	
+    [self.menuTable reloadData];
+    
+	SectionInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:sectionOpened];
+	
+	sectionInfo.open = YES;
+    
+    /*
+     Create an array containing the index paths of the rows to insert: These correspond to the rows for each quotation in the current section.
+     */
+    NSArray *currentSubMenus = [[self.dataSets objectAtIndex:sectionOpened] objectForKey:@"subMenus"];
+    NSInteger countOfRowsToInsert = [currentSubMenus count];
+    NSMutableArray *indexPathsToInsert = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i < countOfRowsToInsert; i++) 
+    {
+        [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:i inSection:sectionOpened]];
+    }
+    
+    /*
+     Create an array containing the index paths of the rows to delete: These correspond to the rows for each quotation in the previously-open section, if there was one.
+     */
+    NSMutableArray *indexPathsToDelete = [[NSMutableArray alloc] init];
+    
+    NSInteger previousOpenSectionIndex = self.openSectionIndex;
+    if (previousOpenSectionIndex != NSNotFound) 
+    {
+		SectionInfo *previousOpenSection = [self.sectionInfoArray objectAtIndex:previousOpenSectionIndex];
+        previousOpenSection.open = NO;
+        [previousOpenSection.headerView toggleOpenWithUserAction:NO];
+        NSArray *previousSubMenus = [[self.dataSets objectAtIndex:previousOpenSectionIndex] objectForKey:@"subMenus"];
+        NSInteger countOfRowsToDelete = [previousSubMenus count];
+        for (NSInteger i = 0; i < countOfRowsToDelete; i++) 
+        {
+            [indexPathsToDelete addObject:[NSIndexPath indexPathForRow:i inSection:previousOpenSectionIndex]];
+        }
+    }
+    
+    // 애니메이션 스타일.
+    UITableViewRowAnimation insertAnimation;
+    UITableViewRowAnimation deleteAnimation;
+    if (previousOpenSectionIndex == NSNotFound || sectionOpened < previousOpenSectionIndex) 
+    {
+        insertAnimation = UITableViewRowAnimationTop;
+        deleteAnimation = UITableViewRowAnimationBottom;
+    }
+    else 
+    {
+        insertAnimation = UITableViewRowAnimationBottom;
+        deleteAnimation = UITableViewRowAnimationTop;
+    }
+    
+    // 업데이트.
+    [self.menuTable beginUpdates];
+    [self.menuTable insertRowsAtIndexPaths:indexPathsToInsert withRowAnimation:insertAnimation];
+    [self.menuTable deleteRowsAtIndexPaths:indexPathsToDelete withRowAnimation:deleteAnimation];
+    [self.menuTable endUpdates];
+    self.openSectionIndex = sectionOpened;
+    
+    [indexPathsToInsert release];
+    [indexPathsToDelete release];
+}
+
+
+-(void)sectionHeaderView:(SectionHeaderView*)sectionHeaderView sectionClosed:(NSInteger)sectionClosed 
+{    
+    [self.menuTable reloadData];
+    
+    /*
+     Create an array of the index paths of the rows in the section that was closed, then delete those rows from the table view.
+     */
+	SectionInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:sectionClosed];
+	
+    sectionInfo.open = NO;
+    NSInteger countOfRowsToDelete = [self.menuTable numberOfRowsInSection:sectionClosed];
+    
+    if (countOfRowsToDelete > 0) 
+    {
+        NSMutableArray *indexPathsToDelete = [[NSMutableArray alloc] init];
+        for (NSInteger i = 0; i < countOfRowsToDelete; i++) 
+        {
+            [indexPathsToDelete addObject:[NSIndexPath indexPathForRow:i inSection:sectionClosed]];
+        }
+        [self.menuTable deleteRowsAtIndexPaths:indexPathsToDelete withRowAnimation:UITableViewRowAnimationTop];
+        [indexPathsToDelete release];
+    }
+    self.openSectionIndex = NSNotFound;
+}
+
 
 #pragma mark - 커스텀 메서드
 
@@ -296,8 +443,8 @@
     return [dataSetList autorelease];
 }
 
-// 마이메뉴 저장.
-- (void)saveMyMenus
+// 마이메뉴 추가.
+- (void)addMyMenu
 {
     
 }

@@ -9,20 +9,16 @@
 #import <Foundation/Foundation.h>
 
 
-@interface MenuGroup : NSObject {
-	NSString *menuID;
-	NSString *name;
-	NSString *icon;
-	NSString *isUse;
-	NSString *target;
-	NSString *loginType;
+@interface MenuGroup : NSObject 
+{
 }
 
-@property (nonatomic, retain) NSString *menuID;
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *groupID;
 @property (nonatomic, retain) NSString *icon;
-@property (nonatomic, retain) NSString *isUse;
+@property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *target;
-@property (nonatomic, retain) NSString *loginType;
+@property (nonatomic, retain) NSString *titleIcon;
+@property (nonatomic, retain) NSString *headerIcon;
+@property (nonatomic, retain) NSArray *subMenus;
 
 @end

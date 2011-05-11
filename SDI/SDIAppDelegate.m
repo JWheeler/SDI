@@ -14,6 +14,7 @@
 #import "SBCountController.h"
 #import "DataHandler.h"
 #import "SBManager.h"
+#import "Encryption.h"
 
 SOLogger *gLogger;
 
@@ -78,6 +79,9 @@ SOLogger *gLogger;
 //    {
 //        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:@"네트워크에 연결되어 있지 않습니다."];
 //    }
+    
+    Encryption *test = [[Encryption alloc] init];
+    [test testEncryption];
     
     
     NSString *nibTitle = @"SDIContent";

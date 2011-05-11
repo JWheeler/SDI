@@ -277,8 +277,7 @@
 		1DB09255136A84EA00CC777E /* star_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09251136A84E900CC777E /* star_on@2x.png */; };
 		1DB09265136A942300CC777E /* interest_header03.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09263136A942200CC777E /* interest_header03.png */; };
 		1DB09266136A942300CC777E /* interest_header03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09264136A942300CC777E /* interest_header03@2x.png */; };
-		1DB2D652137A708600A0D2D2 /* libcis_cc-3.1_armv6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB2D650137A708600A0D2D2 /* libcis_cc-3.1_armv6.a */; };
-		1DB2D653137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB2D651137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a */; };
+		1DB2D657137A735600A0D2D2 /* Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB2D656137A735600A0D2D2 /* Encryption.m */; };
 		1DB4AAFC1367D82B00345456 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFA1367D82B00345456 /* WebViewController.m */; };
 		1DB4AAFD1367D82B00345456 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFB1367D82B00345456 /* WebViewController.xib */; };
 		1DB870D3135D29460002AA17 /* UISearchBar+Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB870D2135D29460002AA17 /* UISearchBar+Button.m */; };
@@ -947,6 +946,8 @@
 		1DB2D650137A708600A0D2D2 /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_armv6.a"; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_armv6.a"; sourceTree = "<absolute>"; };
 		1DB2D651137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_armv6_opt.a; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_armv6_opt.a"; sourceTree = "<absolute>"; };
 		1DB2D654137A70AB00A0D2D2 /* _Issacwebapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Issacwebapi.h; sourceTree = "<group>"; };
+		1DB2D655137A735600A0D2D2 /* Encryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encryption.h; sourceTree = "<group>"; };
+		1DB2D656137A735600A0D2D2 /* Encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Encryption.m; sourceTree = "<group>"; };
 		1DB4AAF91367D82B00345456 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		1DB4AAFA1367D82B00345456 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		1DB4AAFB1367D82B00345456 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -1309,8 +1310,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1DB2D652137A708600A0D2D2 /* libcis_cc-3.1_armv6.a in Frameworks */,
-				1DB2D653137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a in Frameworks */,
 				1D3300A31355242F007037FA /* libz.1.2.3.dylib in Frameworks */,
 				1D3300A113552409007037FA /* MobileCoreServices.framework in Frameworks */,
 				1D33009F135523F5007037FA /* SystemConfiguration.framework in Frameworks */,
@@ -1351,6 +1350,8 @@
 				1DC6D0F2135FB64C004707AB /* Stock.m */,
 				1D4D81FF137761680047B296 /* Menu.h */,
 				1D4D8200137761680047B296 /* Menu.m */,
+				1DB2D655137A735600A0D2D2 /* Encryption.h */,
+				1DB2D656137A735600A0D2D2 /* Encryption.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -2931,6 +2932,7 @@
 				1DD9A299137145DA00D8E918 /* SectionHeaderView.m in Sources */,
 				1D4D81FC13774A770047B296 /* SectionInfo.m in Sources */,
 				1D4D8201137761680047B296 /* Menu.m in Sources */,
+				1DB2D657137A735600A0D2D2 /* Encryption.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2968,7 +2970,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DC44C470-D295-447B-A4F7-FB21CB9231C0";
 				SDKROOT = iphoneos4.3;
 			};
@@ -2983,7 +2985,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DC44C470-D295-447B-A4F7-FB21CB9231C0";
 				SDKROOT = iphoneos4.3;

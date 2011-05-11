@@ -16,6 +16,7 @@
     #import "LPLibrary.h"
     #import "SOLogger.h"
     #import "SDIConstants.h"
+#import "_Issacwebapi.h"
 #endif
 
 

@@ -277,6 +277,8 @@
 		1DB09255136A84EA00CC777E /* star_on@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09251136A84E900CC777E /* star_on@2x.png */; };
 		1DB09265136A942300CC777E /* interest_header03.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09263136A942200CC777E /* interest_header03.png */; };
 		1DB09266136A942300CC777E /* interest_header03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09264136A942300CC777E /* interest_header03@2x.png */; };
+		1DB2D652137A708600A0D2D2 /* libcis_cc-3.1_armv6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB2D650137A708600A0D2D2 /* libcis_cc-3.1_armv6.a */; };
+		1DB2D653137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB2D651137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a */; };
 		1DB4AAFC1367D82B00345456 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFA1367D82B00345456 /* WebViewController.m */; };
 		1DB4AAFD1367D82B00345456 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFB1367D82B00345456 /* WebViewController.xib */; };
 		1DB870D3135D29460002AA17 /* UISearchBar+Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB870D2135D29460002AA17 /* UISearchBar+Button.m */; };
@@ -942,6 +944,9 @@
 		1DB09251136A84E900CC777E /* star_on@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star_on@2x.png"; sourceTree = "<group>"; };
 		1DB09263136A942200CC777E /* interest_header03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = interest_header03.png; sourceTree = "<group>"; };
 		1DB09264136A942300CC777E /* interest_header03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "interest_header03@2x.png"; sourceTree = "<group>"; };
+		1DB2D650137A708600A0D2D2 /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_armv6.a"; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_armv6.a"; sourceTree = "<absolute>"; };
+		1DB2D651137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_armv6_opt.a; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_armv6_opt.a"; sourceTree = "<absolute>"; };
+		1DB2D654137A70AB00A0D2D2 /* _Issacwebapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Issacwebapi.h; sourceTree = "<group>"; };
 		1DB4AAF91367D82B00345456 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		1DB4AAFA1367D82B00345456 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		1DB4AAFB1367D82B00345456 /* WebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -1304,6 +1309,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DB2D652137A708600A0D2D2 /* libcis_cc-3.1_armv6.a in Frameworks */,
+				1DB2D653137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a in Frameworks */,
 				1D3300A31355242F007037FA /* libz.1.2.3.dylib in Frameworks */,
 				1D3300A113552409007037FA /* MobileCoreServices.framework in Frameworks */,
 				1D33009F135523F5007037FA /* SystemConfiguration.framework in Frameworks */,
@@ -1322,6 +1329,7 @@
 		1D013FF01339600B00B1F81F /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				1DB2D654137A70AB00A0D2D2 /* _Issacwebapi.h */,
 				1DCB5043135E6A3A00CDF363 /* MenuGroup.h */,
 				1DCB5044135E6A3A00CDF363 /* MenuGroup.m */,
 				1D02C93E1338907C00B5415B /* AppInfo.h */,
@@ -1368,6 +1376,8 @@
 		1D02C8F1133871C800B5415B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DB2D650137A708600A0D2D2 /* libcis_cc-3.1_armv6.a */,
+				1DB2D651137A708600A0D2D2 /* libIssacweb_static_armv6_opt.a */,
 				1D3300A21355242F007037FA /* libz.1.2.3.dylib */,
 				1D3300A013552409007037FA /* MobileCoreServices.framework */,
 				1D33009E135523F5007037FA /* SystemConfiguration.framework */,
@@ -2992,6 +3002,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/LPLibrary/lib\"",
+					"\"/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -3009,6 +3020,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/LPLibrary/lib\"",
+					"\"/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;

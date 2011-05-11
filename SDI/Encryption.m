@@ -13,49 +13,36 @@
 
 - (void)testEncryption
 {
-    // 암복화에 사용핛 길이 16byte의 대칭키 선언
-    unsigned char symKey[20] = "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c";
-    int symKeyLen = 16;
-    char	encryptedMsg[1024] = {0,};
-    int ret;
-    NSString	*plainMsg = [[NSString alloc] initWithString:@"암호화핛 텍스트"];
-    const char *szPlainMsg = [plainMsg UTF8String];
-    int	nPlainMsgLen = mbstowcs(NULL, szPlainMsg, 0);
-    // 암호화 함수 호출
-    ret = IW_Encrypt(encryptedMsg, sizeof(encryptedMsg), symKey, symKeyLen,
-                     ALG_ARIA, (unsigned char *)szPlainMsg, nPlainMsgLen);
-    [plainMsg release];
-    if( IW_SUCCESS != ret )
-    {
-        NSMutableString *outVal = [NSMutableString string];
-        [outVal appendFormat:@"Error Code: %i", ret];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"알림"
-                                                        message:outVal delegate:self cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil, nil];
-        [alert show];
-        [alert release];
-        return;
-    }
-//    unsigned char decryptedMsg[1024] = {0,};
-//    unsigned int	decryptedMsg_len	= 0;
-//    // 복호화 함수 호출
-//    ret = IW_Decrypt(decryptedMsg, &decryptedMsg_len, 1024, symKey,
-//                     symKeyLen, ALG_ARIA, encryptedMsg);
+//    Char plainMsg[128] = "This is HybridEncrypted Msg.";
+//    unsigned char sessionKey[20] = {0,};
+//    char encodedEncData[1024] = {0,};
+//    int ret;
+//    ret = IW_HybridEncrypt(encodedEncData,
+//                           sizeof(encodedEncData),
+//                           sessionKey,
+//                           plainMsg,
+//                           strlen(plainMsg),
+//                           "MIGIAoGAcLXicXHD1eDSIL3D3JLb4xsQ7ooPlbKfVQ8Dg2kyWw4sGk
+//                           AxPXex29fpc/RSjzRwRmCWTMZwT+r6ArMb4YgIBTzBmy/lBYWsFozwJ
+//                           /meTQojBNPM+bAdp2aYSwoxsmZ8B1PyAnPDtWGzckB01YB3ZeKGm
+//                           UpvKdqSYRrLuti4Y50CAwEAAQ==",
+//                           ALG_ARIA);
 //    if( IW_SUCCESS == ret )
 //    {
-//        outVal = [ NSMutableString stringWithUTF8String:(const char *) decryptedMsg ];
+//        NSMutableString *outVal = [ NSMutableString
+//                                   stringWithUTF8String:(const char *)encodedEncData ];
+//        [hybridEncryptedText setText:outVal];
 //    }
 //    else
 //    {
-//        outVal = [NSMutableString string];
+//        NSMutableString *outVal = [NSMutableString string];
 //        [outVal appendFormat:@"Error Code: %i", ret];
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"알림"
+//                                                        message:outVal
+//                                                       delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//        [alert show];
+//        [alert release];
 //    }
-//    [encryptedMsg release];
-//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"알림"
-//                                                    message:outVal delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil,
-//                          nil];
-//    [alert show];
-//    [alert release];
 }
 
 @end

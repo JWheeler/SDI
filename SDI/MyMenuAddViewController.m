@@ -513,11 +513,11 @@
     NSString *fileName = [documentDirectory stringByAppendingPathComponent:MY_MENU_FILE];
     
     // 마이메뉴 파일이 존재하면 삭제.
-    if ([self isFileExistence:MY_MENU_FILE]) 
-    {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:fileName error:nil];
-    }
+//    if ([self isFileExistence:MY_MENU_FILE]) 
+//    {
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        [fileManager removeItemAtPath:fileName error:nil];
+//    }
 
     // 마이메뉴 데이터 중 cell 제거: 파일 저장을 위해...
     for (NSMutableDictionary *dict in self.myMenus) 
@@ -525,7 +525,7 @@
         [dict removeObjectForKey:@"cell"];
     }
     
-    [self.myMenus writeToFile:fileName atomically:YES];
+    [self.myMenus writeToFile:fileName atomically:NO];
 }
 
 // 마이메뉴에 포함되어 있는지 확인.

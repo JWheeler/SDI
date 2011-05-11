@@ -366,7 +366,7 @@ static AppInfo *sharedAppInfo = nil;
         // 파일명.
         NSString *fileName = [documentsDirectory stringByAppendingPathComponent:@"StockHistory.plist"];
         
-        [self.stockHistories writeToFile:fileName atomically:YES];
+        [self.stockHistories writeToFile:fileName atomically:NO];
     }
     else
     {

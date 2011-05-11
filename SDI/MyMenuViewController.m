@@ -6,6 +6,7 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 //  TODO: 버튼 링크!
+//  TODO: 리팩토링-마이메뉴  전체 클래스에 대한 중복 제거.
 //
 
 #import "MyMenuViewController.h"

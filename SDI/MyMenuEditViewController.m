@@ -257,13 +257,13 @@
     NSString *fileName = [documentDirectory stringByAppendingPathComponent:MY_MENU_FILE];
     
     // 마이메뉴 파일이 존재하면 삭제.
-    if ([self isFileExistence:MY_MENU_FILE]) 
-    {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:fileName error:nil];
-    }
+//    if ([self isFileExistence:MY_MENU_FILE]) 
+//    {
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        [fileManager removeItemAtPath:fileName error:nil];
+//    }
     
-    [self.myMenus writeToFile:fileName atomically:YES];
+    [self.myMenus writeToFile:fileName atomically:NO];
     
     // 마이메뉴 편집 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];

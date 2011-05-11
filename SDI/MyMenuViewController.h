@@ -34,5 +34,7 @@
 - (void)createButtons;
 - (void)removeButtons;
 - (IBAction)buttonPressed:(id)sender;
+- (void)setLayout;
+- (IBAction)refreshView:(id)sender;
 
 @end

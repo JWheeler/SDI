@@ -72,17 +72,8 @@
     recognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
 	[self.view addGestureRecognizer:recognizerDown];
     
-    // 마이메뉴 로드.
-    [self loadMyMenus];
-    
-    // 편집과 전체설정 버튼을 하단에 두기 위해 currentIndex를 초기화 한다.
-    startIndex = ([self.myMenus count] % MY_MENU_BUTTON_COUNT) + ([self.myMenus count] / MY_MENU_BUTTON_COUNT - 1);
-    currentIndex = [self.myMenus count] - 1;
-    
-    // 버튼 생성.
-    [self createButtons];
-    
-    Debug(@">>>>>>>>>>>>>>>Start index: %d", startIndex);
+    // 화면 셜정.
+    //[self setLayout];
 }
 
 - (void)viewDidUnload
@@ -90,6 +81,18 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // 화면 셜정.
+    [self setLayout];
+    
+    // 마이메뉴 추가/삭제 노티피케이션.
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(refreshView:) name:@"ChangedMyMenu" object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -315,6 +318,30 @@
             [self.view.superview addSubview:navigationController.view];
         }
     }
+}
+
+// 화면 레이아웃 설정.
+- (void)setLayout
+{
+    // 초기화.
+    self.myMenus = nil;
+    
+    // 마이메뉴 로드.
+    [self loadMyMenus];
+    
+    // 편집과 전체설정 버튼을 하단에 두기 위해 currentIndex를 초기화 한다.
+    startIndex = ([self.myMenus count] % MY_MENU_BUTTON_COUNT) + ([self.myMenus count] / MY_MENU_BUTTON_COUNT - 1);
+    currentIndex = [self.myMenus count] - 1;
+    
+    // 버튼 생성.
+    [self createButtons];
+}
+
+// 마이메뉴 다시 로드.
+- (IBAction)refreshView:(id)sender
+{
+    [self setLayout];
+    [self.view setNeedsDisplay];
 }
 
 @end

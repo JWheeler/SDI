@@ -5,6 +5,9 @@
 //  Created by Jong Pil Park on 11. 5. 4..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  TODO: 테이블뷰 애니메이션 세부 조정.
+//  TODO: 리팩토링.
+//
 
 #import "MyMenuAddViewController.h"
 #import "MyMenuEditViewController.h"
@@ -103,9 +106,7 @@
     Debug(@"MenuGroups count: %d, Menu count: %d, MyMenu count: %d", [self.menuGroups count], [self.menus count], [self.myMenus count]);
     Debug(@"DataSets count: %d", [self.dataSets count]);
 	
-    /*
-     Check whether the section info array has been created, and if so whether the section count still matches the current section count. In general, you need to keep the section info synchronized with the rows and section. If you support editing in the table view, you need to appropriately update the section info during editing operations.
-     */
+    // sectionInfoArray 생성여부 확인.
 	if ((self.sectionInfoArray == nil) || ([self.sectionInfoArray count] != [self numberOfSectionsInTableView:self.menuTable])) 
     {
         // For each play, set up a corresponding SectionInfo object to contain the default height for each row.
@@ -131,7 +132,6 @@
 		self.sectionInfoArray = infoArray;
 		[infoArray release];
 	}
-	
 }
 
 - (void)viewDidUnload
@@ -139,6 +139,7 @@
     [super viewDidUnload];
     
     self.sectionInfoArray = nil;
+    [self saveMyMenu];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -171,6 +172,7 @@
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
         cell.selectionStyle = UITableViewCellSelectionStyleGray;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.backgroundColor = [UIColor clearColor];
     }
     
@@ -178,10 +180,28 @@
     NSDictionary *dict = [self.dataSets objectAtIndex:indexPath.section];
     NSArray *subMenus = [dict objectForKey:@"subMenus"];
     NSString *name = [[subMenus objectAtIndex:indexPath.row] objectForKey:@"name"];
-    
+    //Debug(@"%@", dict);
     cell.backgroundColor = RGB(41, 41, 41);
     cell.textLabel.textColor = RGB(192, 192, 192);
     cell.textLabel.text = name;
+    
+    // 체크 처리를 위해 cell을 추가한다.
+    [[subMenus objectAtIndex:indexPath.row] setObject:cell forKey:@"cell"];
+    
+    // 마이메뉴 추가 여부.
+    BOOL isMyMenu = [[[subMenus objectAtIndex:indexPath.row] objectForKey:@"isMyMenu"] boolValue];
+	UIImage *image = (isMyMenu) ? [UIImage imageNamed:@"icon_check.png"] : [UIImage imageNamed:@"icon_ucheck.png"];
+	
+	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+	CGRect frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
+	button.frame = frame;	// 버튼의 사이즈를 이미지의 사이즈로 설정.
+	
+	[button setBackgroundImage:image forState:UIControlStateNormal];
+
+    // 버튼 타겟 설정하여 테이블뷰컨트롤러의 터치이벤트와 NSIndexSet를 막는다.
+	[button addTarget:self action:@selector(toggleMyMenu:event:) forControlEvents:UIControlEventTouchUpInside];
+	button.backgroundColor = [UIColor clearColor];
+	cell.accessoryView = button;
     
     return cell;
 }
@@ -266,7 +286,46 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    // 마이메뉴 추가/삭제에 따른 처리를 한다.
+    NSDictionary *dict = [self.dataSets objectAtIndex:indexPath.section];
+    NSArray *subMenus = [dict objectForKey:@"subMenus"];
+    NSMutableDictionary *currentMyMenu = [subMenus objectAtIndex:indexPath.row];
+    Debug(@"Before: %@", currentMyMenu);
+	
+	BOOL isMyMenu = [[currentMyMenu objectForKey:@"isMyMenu"] boolValue];
+    if (isMyMenu) 
+    {
+        [self removeMyMenu:currentMyMenu];
+    }
+    else
+    {
+        [self addMyMenu:currentMyMenu];
+    }
+    [self saveMyMenu];
+	
+	[currentMyMenu setObject:[NSString stringWithFormat:@"%@", !isMyMenu ? @"YES" : @"NO"] forKey:@"isMyMenu"];
+	
+    // 체크 이미지 변경.
+	UITableViewCell *cell = [[subMenus objectAtIndex:indexPath.row] objectForKey:@"cell"];
+	UIButton *button = (UIButton *)cell.accessoryView;
+	
+	UIImage *newImage = (isMyMenu) ? [UIImage imageNamed:@"icon_check.png"] : [UIImage imageNamed:@"icon_ucheck.png"];
+	[button setBackgroundImage:newImage forState:UIControlStateNormal];
+    
     [self.menuTable deselectRowAtIndexPath:indexPath animated:YES];
+    
+    Debug(@"After: %@", currentMyMenu);
+    
+    // 마이메뉴 추가/삭제 노티피케이션.
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc postNotificationName:@"ChangedMyMenu" object:self];
+}
+
+// 마이메뉴 추가에 따른 처리를 한다.
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{	
+    // 버튼을 직접 선택하게 하려면, 이곳에 구현한다.
+    // 현재는 셀 선택시 처리함.
 }
 
 #pragma mark - 섹션 헤더 델리게이트
@@ -278,10 +337,8 @@
 	SectionInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:sectionOpened];
 	
 	sectionInfo.open = YES;
-    
-    /*
-     Create an array containing the index paths of the rows to insert: These correspond to the rows for each quotation in the current section.
-     */
+
+    // 행에 추가할 인덱스패스 배열 생성.
     NSArray *currentSubMenus = [[self.dataSets objectAtIndex:sectionOpened] objectForKey:@"subMenus"];
     NSInteger countOfRowsToInsert = [currentSubMenus count];
     NSMutableArray *indexPathsToInsert = [[NSMutableArray alloc] init];
@@ -290,9 +347,7 @@
         [indexPathsToInsert addObject:[NSIndexPath indexPathForRow:i inSection:sectionOpened]];
     }
     
-    /*
-     Create an array containing the index paths of the rows to delete: These correspond to the rows for each quotation in the previously-open section, if there was one.
-     */
+    // 행에서 삭제할 인덱스패스 배열 생성.
     NSMutableArray *indexPathsToDelete = [[NSMutableArray alloc] init];
     
     NSInteger previousOpenSectionIndex = self.openSectionIndex;
@@ -339,9 +394,7 @@
 {    
     [self.menuTable reloadData];
     
-    /*
-     Create an array of the index paths of the rows in the section that was closed, then delete those rows from the table view.
-     */
+    // 섹션에서 행의 인덱스패스 배열 생성.
 	SectionInfo *sectionInfo = [self.sectionInfoArray objectAtIndex:sectionClosed];
 	
     sectionInfo.open = NO;
@@ -385,6 +438,18 @@
 	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
+// 파일 존재 유무 확인.
+- (BOOL)isFileExistence:(NSString *)file
+{
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	NSString *documentDirectory = [self applicationDocumentsDirectory];
+	NSString *writableFilePath = [documentDirectory stringByAppendingPathComponent:file];
+	
+	BOOL fileExits = [fileManager fileExistsAtPath:writableFilePath];
+	
+    return fileExits;
+}
+
 // 메뉴그룹 로드.
 - (NSMutableArray *)loadMenuGroups 
 {
@@ -409,6 +474,15 @@
     {
         if ([[dict objectForKey:@"groupID"] isEqualToString:groupID]) 
         {
+            // 마이메뉴 추가 여부 확인하여 isMyMenu 값 설정.
+            NSString *menuID = [dict objectForKey:@"menuID"];
+            NSString *isMyMenu = @"NO";
+            if ([self isMyMenu:groupID menuID:menuID]) 
+            {
+                isMyMenu = @"YES";
+            }
+            [dict setObject:isMyMenu forKey:@"isMyMenu"];
+            
             [filteredMenus addObject:dict];
         }
     }
@@ -429,6 +503,46 @@
     return [myMenuList autorelease];
 }
 
+// 마이메뉴를 파일로 저장.
+- (void)saveMyMenu
+{
+    // Document 디렉토리.
+    NSString *documentDirectory = [self applicationDocumentsDirectory];
+    
+    // 파일명.
+    NSString *fileName = [documentDirectory stringByAppendingPathComponent:MY_MENU_FILE];
+    
+    // 마이메뉴 파일이 존재하면 삭제.
+    if ([self isFileExistence:MY_MENU_FILE]) 
+    {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        [fileManager removeItemAtPath:fileName error:nil];
+    }
+
+    // 마이메뉴 데이터 중 cell 제거: 파일 저장을 위해...
+    for (NSMutableDictionary *dict in self.myMenus) 
+    {
+        [dict removeObjectForKey:@"cell"];
+    }
+    
+    [self.myMenus writeToFile:fileName atomically:YES];
+}
+
+// 마이메뉴에 포함되어 있는지 확인.
+- (BOOL)isMyMenu:(NSString *)groupID menuID:(NSString *)menuID
+{
+    for (NSDictionary *dict in self.myMenus) 
+    {
+        if ([[dict objectForKey:@"groupID"] isEqualToString:groupID] 
+            && [[dict objectForKey:@"menuID"] isEqualToString:menuID]) 
+        {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 // 테이블뷰 출력 용 데이터셋 생성.
 - (NSMutableArray *)createDataSet
 {
@@ -443,10 +557,31 @@
     return [dataSetList autorelease];
 }
 
-// 마이메뉴 추가.
-- (void)addMyMenu
+// 마이메뉴 추가/삭제 토글.
+- (void)toggleMyMenu:(id)sender event:(id)event
 {
-    
+    NSSet *touches = [event allTouches];
+	UITouch *touch = [touches anyObject];
+	CGPoint currentTouchPosition = [touch locationInView:self.menuTable];
+	NSIndexPath *indexPath = [self.menuTable indexPathForRowAtPoint:currentTouchPosition];
+	if (indexPath != nil)
+	{
+		[self tableView:self.menuTable accessoryButtonTappedForRowWithIndexPath:indexPath];
+	}
+}
+
+// 마이메뉴 추가.
+- (void)addMyMenu:(NSDictionary *)dict
+{
+    [self.myMenus insertObject:dict atIndex:0];
+    [self.menuTable reloadData];
+}
+
+// 마이메뉴 삭제.
+- (void)removeMyMenu:(NSDictionary *)dict
+{
+    [self.myMenus removeObject:dict];
+    [self.menuTable reloadData];
 }
 
 @end

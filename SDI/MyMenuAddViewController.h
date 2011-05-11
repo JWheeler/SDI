@@ -28,11 +28,16 @@
 - (IBAction)backAction:(id)sender;
 - (IBAction)myMenuSort:(id)sender;
 - (NSString *)applicationDocumentsDirectory;
+- (BOOL)isFileExistence:(NSString *)file;
 - (NSMutableArray *)loadMenuGroups;
 - (NSMutableArray *)loadMenus;
 - (NSMutableDictionary *)filteredMenus:(NSString *)groupID;
 - (NSMutableArray *)loadMyMenus;
+- (void)saveMyMenu;
+- (BOOL)isMyMenu:(NSString *)groupID menuID:(NSString *)menuID;
 - (NSMutableArray *)createDataSet;
-- (void)addMyMenu;
+- (void)toggleMyMenu:(id)sender event:(id)event;
+- (void)addMyMenu:(NSDictionary *)dict;
+- (void)removeMyMenu:(NSDictionary *)dict;
 
 @end

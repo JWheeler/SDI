@@ -8,7 +8,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_0.png</string>
 		<key>iconForTotal</key>
 		<string>00_00.png</string>
 		<key>menuID</key>
@@ -24,7 +24,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_1.png</string>
 		<key>iconForTotal</key>
 		<string>00_01.png</string>
 		<key>menuID</key>
@@ -40,7 +40,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_2.png</string>
 		<key>iconForTotal</key>
 		<string>00_02.png</string>
 		<key>menuID</key>
@@ -56,7 +56,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_3.png</string>
 		<key>iconForTotal</key>
 		<string>00_03.png</string>
 		<key>menuID</key>
@@ -72,7 +72,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_4.png</string>
 		<key>iconForTotal</key>
 		<string>01_00.png</string>
 		<key>menuID</key>
@@ -88,7 +88,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_5.png</string>
 		<key>iconForTotal</key>
 		<string>01_01.png</string>
 		<key>menuID</key>
@@ -104,7 +104,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_6.png</string>
 		<key>iconForTotal</key>
 		<string>01_02.png</string>
 		<key>menuID</key>
@@ -120,7 +120,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_7.png</string>
 		<key>iconForTotal</key>
 		<string>02_00.png</string>
 		<key>menuID</key>
@@ -136,7 +136,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_8.png</string>
 		<key>iconForTotal</key>
 		<string>02_01.png</string>
 		<key>menuID</key>
@@ -152,7 +152,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_9.png</string>
 		<key>iconForTotal</key>
 		<string>02_02.png</string>
 		<key>menuID</key>
@@ -168,7 +168,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_10.png</string>
 		<key>iconForTotal</key>
 		<string>03_00.png</string>
 		<key>menuID</key>
@@ -184,7 +184,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_11.png</string>
 		<key>iconForTotal</key>
 		<string>03_01.png</string>
 		<key>menuID</key>
@@ -200,7 +200,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_12.png</string>
 		<key>iconForTotal</key>
 		<string>03_02.png</string>
 		<key>menuID</key>
@@ -216,7 +216,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_13.png</string>
 		<key>iconForTotal</key>
 		<string>03_03.png</string>
 		<key>menuID</key>
@@ -232,7 +232,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_14.png</string>
 		<key>iconForTotal</key>
 		<string>04_00.png</string>
 		<key>menuID</key>
@@ -248,7 +248,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_15.png</string>
 		<key>iconForTotal</key>
 		<string>04_01.png</string>
 		<key>menuID</key>
@@ -264,7 +264,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_16.png</string>
 		<key>iconForTotal</key>
 		<string>04_02.png</string>
 		<key>menuID</key>
@@ -280,7 +280,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_17.png</string>
 		<key>iconForTotal</key>
 		<string>05_00.png</string>
 		<key>menuID</key>
@@ -296,7 +296,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_18.png</string>
 		<key>iconForTotal</key>
 		<string>05_01.png</string>
 		<key>menuID</key>
@@ -312,7 +312,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_19.png</string>
 		<key>iconForTotal</key>
 		<string>06_00.png</string>
 		<key>menuID</key>
@@ -328,7 +328,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_20.png</string>
 		<key>iconForTotal</key>
 		<string>06_01.png</string>
 		<key>menuID</key>
@@ -344,7 +344,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_21.png</string>
 		<key>iconForTotal</key>
 		<string>06_02.png</string>
 		<key>menuID</key>
@@ -360,7 +360,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_22.png</string>
 		<key>iconForTotal</key>
 		<string>06_03.png</string>
 		<key>menuID</key>
@@ -376,7 +376,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_23.png</string>
 		<key>iconForTotal</key>
 		<string>07_00.png</string>
 		<key>menuID</key>
@@ -392,7 +392,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_24.png</string>
 		<key>iconForTotal</key>
 		<string>07_01.png</string>
 		<key>menuID</key>
@@ -408,7 +408,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_25.png</string>
 		<key>iconForTotal</key>
 		<string>07_02.png</string>
 		<key>menuID</key>
@@ -424,7 +424,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_26.png</string>
 		<key>iconForTotal</key>
 		<string>07_03.png</string>
 		<key>menuID</key>
@@ -440,7 +440,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_27.png</string>
 		<key>iconForTotal</key>
 		<string>08_00.png</string>
 		<key>menuID</key>
@@ -456,7 +456,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_28.png</string>
 		<key>iconForTotal</key>
 		<string>08_01.png</string>
 		<key>menuID</key>
@@ -472,7 +472,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_29.png</string>
 		<key>iconForTotal</key>
 		<string>08_02.png</string>
 		<key>menuID</key>
@@ -488,7 +488,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_30.png</string>
 		<key>iconForTotal</key>
 		<string>08_03.png</string>
 		<key>menuID</key>
@@ -504,7 +504,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_31.png</string>
 		<key>iconForTotal</key>
 		<string>09_00.png</string>
 		<key>menuID</key>
@@ -520,7 +520,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_32.png</string>
 		<key>iconForTotal</key>
 		<string>10_00.png</string>
 		<key>menuID</key>
@@ -536,7 +536,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_33.png</string>
 		<key>iconForTotal</key>
 		<string>11_00.png</string>
 		<key>menuID</key>
@@ -552,7 +552,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_34.png</string>
 		<key>iconForTotal</key>
 		<string>11_01.png</string>
 		<key>menuID</key>
@@ -568,7 +568,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_35.png</string>
 		<key>iconForTotal</key>
 		<string>11_02.png</string>
 		<key>menuID</key>
@@ -584,7 +584,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_36.png</string>
 		<key>iconForTotal</key>
 		<string>11_03.png</string>
 		<key>menuID</key>
@@ -600,7 +600,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_37.png</string>
 		<key>iconForTotal</key>
 		<string>11_04.png</string>
 		<key>menuID</key>
@@ -616,7 +616,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_38.png</string>
 		<key>iconForTotal</key>
 		<string>11_05.png</string>
 		<key>menuID</key>
@@ -632,7 +632,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_39.png</string>
 		<key>iconForTotal</key>
 		<string>11_06.png</string>
 		<key>menuID</key>
@@ -648,7 +648,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_40.png</string>
 		<key>iconForTotal</key>
 		<string>12_00.png</string>
 		<key>menuID</key>
@@ -664,7 +664,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_41.png</string>
 		<key>iconForTotal</key>
 		<string>13_00.png</string>
 		<key>menuID</key>
@@ -680,7 +680,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_42.png</string>
 		<key>iconForTotal</key>
 		<string>13_01.png</string>
 		<key>menuID</key>
@@ -696,7 +696,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_43.png</string>
 		<key>iconForTotal</key>
 		<string>13_02.png</string>
 		<key>menuID</key>
@@ -712,7 +712,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_44.png</string>
 		<key>iconForTotal</key>
 		<string>13_03.png</string>
 		<key>menuID</key>
@@ -728,7 +728,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_45.png</string>
 		<key>iconForTotal</key>
 		<string>13_04.png</string>
 		<key>menuID</key>
@@ -744,7 +744,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_46.png</string>
 		<key>iconForTotal</key>
 		<string>14_00.png</string>
 		<key>menuID</key>
@@ -760,7 +760,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_47.png</string>
 		<key>iconForTotal</key>
 		<string>14_01.png</string>
 		<key>menuID</key>
@@ -776,7 +776,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_48.png</string>
 		<key>iconForTotal</key>
 		<string>15_00.png</string>
 		<key>menuID</key>
@@ -792,7 +792,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_48.png</string>
 		<key>iconForTotal</key>
 		<string>15_01.png</string>
 		<key>menuID</key>
@@ -808,7 +808,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_50.png</string>
 		<key>iconForTotal</key>
 		<string>15_02.png</string>
 		<key>menuID</key>
@@ -824,7 +824,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_51.png</string>
 		<key>iconForTotal</key>
 		<string>15_03.png</string>
 		<key>menuID</key>
@@ -840,7 +840,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_52.png</string>
 		<key>iconForTotal</key>
 		<string>16_00.png</string>
 		<key>menuID</key>
@@ -856,7 +856,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_53.png</string>
 		<key>iconForTotal</key>
 		<string>16_01.png</string>
 		<key>menuID</key>
@@ -872,7 +872,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_54.png</string>
 		<key>iconForTotal</key>
 		<string>17_00.png</string>
 		<key>menuID</key>
@@ -888,7 +888,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_55.png</string>
 		<key>iconForTotal</key>
 		<string>17_01.png</string>
 		<key>menuID</key>
@@ -904,7 +904,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_56.png</string>
 		<key>iconForTotal</key>
 		<string>17_02.png</string>
 		<key>menuID</key>
@@ -920,7 +920,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_57.png</string>
 		<key>iconForTotal</key>
 		<string>17_03.png</string>
 		<key>menuID</key>
@@ -936,7 +936,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_58.png</string>
 		<key>iconForTotal</key>
 		<string>17_04.png</string>
 		<key>menuID</key>
@@ -952,7 +952,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_59.png</string>
 		<key>iconForTotal</key>
 		<string>17_05.png</string>
 		<key>menuID</key>
@@ -968,7 +968,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_60.png</string>
 		<key>iconForTotal</key>
 		<string>18_00.png</string>
 		<key>menuID</key>
@@ -984,7 +984,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_61.png</string>
 		<key>iconForTotal</key>
 		<string>18_01.png</string>
 		<key>menuID</key>
@@ -1000,7 +1000,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_62.png</string>
 		<key>iconForTotal</key>
 		<string>18_02.png</string>
 		<key>menuID</key>
@@ -1016,7 +1016,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_63.png</string>
 		<key>iconForTotal</key>
 		<string>18_03.png</string>
 		<key>menuID</key>
@@ -1032,7 +1032,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_64.png</string>
 		<key>iconForTotal</key>
 		<string>18_04.png</string>
 		<key>menuID</key>
@@ -1048,7 +1048,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_65.png</string>
 		<key>iconForTotal</key>
 		<string>18_05.png</string>
 		<key>menuID</key>
@@ -1064,7 +1064,7 @@
 		<key>iconForAdd</key>
 		<string></string>
 		<key>iconForMyMenu</key>
-		<string></string>
+		<string>m_66.png</string>
 		<key>iconForTotal</key>
 		<string>19_00.png</string>
 		<key>menuID</key>

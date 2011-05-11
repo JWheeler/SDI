@@ -88,9 +88,9 @@
     [backItem release];
     
     // 정렬 버튼.
-    UIBarButtonItem *syncButton = [[UIBarButtonItem alloc] initWithTitle:@"정렬" style:UIBarButtonItemStylePlain target:self action:@selector(myMenuSort:)];
-	self.navigationItem.rightBarButtonItem = syncButton;
-    [syncButton release];
+    UIBarButtonItem *sortButton = [[UIBarButtonItem alloc] initWithTitle:@"정렬" style:UIBarButtonItemStylePlain target:self action:@selector(myMenuSort:)];
+	self.navigationItem.rightBarButtonItem = sortButton;
+    [sortButton release];
 }
 
 - (void)viewWillAppear:(BOOL)animated 

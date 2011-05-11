@@ -458,7 +458,6 @@
 		1DDC0C491370B9100009B9E7 /* MyMenuEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DDC0C471370B9100009B9E7 /* MyMenuEditViewController.m */; };
 		1DDC0C4A1370B9100009B9E7 /* MyMenuEditViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDC0C481370B9100009B9E7 /* MyMenuEditViewController.xib */; };
 		1DDF74511353D7F0007FB5F5 /* IRStockAddViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */; };
-		1DDF748D13540379007FB5F5 /* libLPLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DDF748B13540379007FB5F5 /* libLPLibrary.a */; };
 		1DE542061377844C007C80F9 /* icon_minus.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE542021377844C007C80F9 /* icon_minus.png */; };
 		1DE542071377844C007C80F9 /* icon_minus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE542031377844C007C80F9 /* icon_minus@2x.png */; };
 		1DE542081377844C007C80F9 /* icon_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE542041377844C007C80F9 /* icon_plus.png */; };
@@ -1148,8 +1147,6 @@
 		1DDC0C471370B9100009B9E7 /* MyMenuEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyMenuEditViewController.m; sourceTree = "<group>"; };
 		1DDC0C481370B9100009B9E7 /* MyMenuEditViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyMenuEditViewController.xib; sourceTree = "<group>"; };
 		1DDF74501353D7F0007FB5F5 /* IRStockAddViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = IRStockAddViewController.xib; sourceTree = "<group>"; };
-		1DDF748B13540379007FB5F5 /* libLPLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libLPLibrary.a; sourceTree = "<group>"; };
-		1DDF748C13540379007FB5F5 /* MathFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathFunctions.h; sourceTree = "<group>"; };
 		1DE542021377844C007C80F9 /* icon_minus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_minus.png; sourceTree = "<group>"; };
 		1DE542031377844C007C80F9 /* icon_minus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_minus@2x.png"; sourceTree = "<group>"; };
 		1DE542041377844C007C80F9 /* icon_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon_plus.png; sourceTree = "<group>"; };
@@ -1316,7 +1313,6 @@
 				1D02C8F3133871C800B5415B /* UIKit.framework in Frameworks */,
 				1D02C8F5133871C800B5415B /* Foundation.framework in Frameworks */,
 				1D02C8F7133871C800B5415B /* CoreGraphics.framework in Frameworks */,
-				1DDF748D13540379007FB5F5 /* libLPLibrary.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1425,7 +1421,6 @@
 			isa = PBXGroup;
 			children = (
 				1DC246DF1357C93F00BDA281 /* SynthesizeSingleton.h */,
-				1DDF748A13540379007FB5F5 /* lib */,
 				1DA0D66D133C0A2600787FB2 /* LPUtils.h */,
 				1DA0D66E133C0A2600787FB2 /* LPUtils.m */,
 				1D4FE10A133B283900AB63A4 /* Categories */,
@@ -2068,15 +2063,6 @@
 				1DCC5AE413398BD5004E366F /* CSVParser.m */,
 			);
 			path = External;
-			sourceTree = "<group>";
-		};
-		1DDF748A13540379007FB5F5 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				1DDF748B13540379007FB5F5 /* libLPLibrary.a */,
-				1DDF748C13540379007FB5F5 /* MathFunctions.h */,
-			);
-			path = lib;
 			sourceTree = "<group>";
 		};
 		1DF48A63136E6EC5005550F8 /* Menu */ = {

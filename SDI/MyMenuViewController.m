@@ -93,6 +93,9 @@
     // 마이메뉴 추가/삭제 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(refreshView:) name:@"ChangedMyMenu" object:nil];
+    
+    // 마이메뉴 편집 노티피케이션.
+    [nc addObserver:self selector:@selector(refreshView:) name:@"EditedMyMenu" object:nil];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

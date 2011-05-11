@@ -11,7 +11,17 @@
 
 @interface MyMenuEditViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    
+    NSMutableArray *defaultMyMenus;
 }
+
+@property (nonatomic, retain) IBOutlet UITableView *menuTable;
+@property (nonatomic, retain) NSMutableArray *myMenus;
+@property (nonatomic, retain) NSMutableArray *displayMyMenus;
+
+- (NSString *)applicationDocumentsDirectory;
+- (BOOL)isFileExistence:(NSString *)file;
+- (NSMutableArray *)loadMyMenus;
+- (IBAction)editMyMenu:(id)sender;
+- (void)saveMyMenu;
 
 @end

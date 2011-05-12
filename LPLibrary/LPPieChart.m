@@ -5,11 +5,14 @@
 //  Created by Jong Pil Park on 11. 5. 12..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  TODO: 라벨 위치/크기 등 조절.
+//
 
 #import "LPPieChart.h"
 
 
 @implementation LPPieComponent
+
 @synthesize value, title, colour, startDeg, endDeg;
 
 - (id)initWithTitle:(NSString*)_title value:(float)_value
@@ -40,6 +43,7 @@
 @end
 
 @implementation LPPieChart
+
 @synthesize  components;
 @synthesize diameter;
 @synthesize titleFont, percentageFont;
@@ -48,47 +52,44 @@
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self) 
+    {
         // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
 		
 		self.titleFont = [UIFont fontWithName:@"GeezaPro" size:10];//[UIFont boldSystemFontOfSize:20];
-		self.percentageFont = [UIFont fontWithName:@"HiraKakuProN-W6" size:20];//[UIFont boldSystemFontOfSize:14];
+		self.percentageFont = [UIFont fontWithName:@"HiraKakuProN-W6" size:14];//[UIFont boldSystemFontOfSize:14];
 		self.showArrow = YES;
 		self.sameColorLabel = NO;
-		
 	}
     return self;
 }
 
-#define LABEL_TOP_MARGIN 15
+#define LABEL_TOP_MARGIN 10
 #define ARROW_HEAD_LENGTH 6
 #define ARROW_HEAD_WIDTH 4
 
 - (void)drawRect:(CGRect)rect
 {
     // Drawing code
-    
     float margin = 15;
-    if (self.diameter==0)
+    if (self.diameter == 0)
     {
-        diameter = MIN(rect.size.width, rect.size.height) - 2*margin;
+        diameter = MIN(rect.size.width, rect.size.height) - 2 * margin;
     }
-    float x = (rect.size.width - diameter)/2;
-    float y = (rect.size.height - diameter)/2;
+    float x = (rect.size.width - diameter) / 2;
+    float y = (rect.size.height - diameter) / 2;
     float gap = 1;
-    float inner_radius = diameter/2;
-    float origin_x = x + diameter/2;
-    float origin_y = y + diameter/2;
+    float inner_radius = diameter / 2;
+    float origin_x = x + diameter / 2;
+    float origin_y = y + diameter / 2;
     
-    // label stuff
+    // 라벨.
     float left_label_y = LABEL_TOP_MARGIN;
     float right_label_y = LABEL_TOP_MARGIN;
     
-    
-    if ([components count]>0)
+    if ([components count] > 0)
     {
-        
         float total = 0;
         for (LPPieComponent *component in components)
         {
@@ -97,9 +98,9 @@
         
         CGContextRef ctx = UIGraphicsGetCurrentContext();
 		UIGraphicsPushContext(ctx);
-		CGContextSetRGBFillColor(ctx, 1.0f, 1.0f, 1.0f, 1.0f);  // white color
+		CGContextSetRGBFillColor(ctx, 1.0f, 1.0f, 1.0f, 1.0f);  // 흰색.
 		CGContextSetShadow(ctx, CGSizeMake(0.0f, 0.0f), margin);
-		CGContextFillEllipseInRect(ctx, CGRectMake(x, y, diameter, diameter));  // a white filled circle with a diameter of 100 pixels, centered in (60, 60)
+		CGContextFillEllipseInRect(ctx, CGRectMake(x, y, diameter, diameter));  // 흰색원의 지름은 100, 중심은 (60, 60).
 		UIGraphicsPopContext();
 		CGContextSetShadow(ctx, CGSizeMake(0.0f, 0.0f), 0);
 		
@@ -107,7 +108,7 @@
 		float endDeg = 0;
 		NSMutableArray *tmpComponents = [NSMutableArray array];
 		int last_insert = -1;
-		for (int i=0; i<[components count]; i++)
+		for (int i = 0; i < [components count]; i++)
 		{
 			LPPieComponent *component  = [components objectAtIndex:i];
 			float perc = [component value]/total;
@@ -128,13 +129,13 @@
 			
 			[component setStartDeg:nextStartDeg];
 			[component setEndDeg:endDeg];
-			if (nextStartDeg<180)
+			if (nextStartDeg < 180)
 			{
 				[tmpComponents addObject:component];
 			}
 			else
 			{
-				if (last_insert==-1)
+				if (last_insert == -1)
 				{
 					last_insert = i;
 					[tmpComponents addObject:component];
@@ -150,8 +151,8 @@
 		
 		nextStartDeg = 0;
 		endDeg = 0;
-		float max_text_width = x -  10;
-		for (int i=0; i<[tmpComponents count]; i++)
+		float max_text_width = x;
+		for (int i = 0; i < [tmpComponents count]; i++)
 		{
 			LPPieComponent *component  = [tmpComponents objectAtIndex:i];
 			nextStartDeg = component.startDeg;
@@ -159,9 +160,9 @@
 			
 			if (nextStartDeg > 180 ||  (nextStartDeg < 180 && endDeg> 270) )
 			{
-				// left
+				// 왼쪽.
 				
-				// display percentage label
+				// 퍼센트 라벨 표시.
 				if (self.sameColorLabel)
 				{
 					CGContextSetFillColorWithColor(ctx, [component.colour CGColor]);
@@ -178,11 +179,11 @@
 				NSString *percentageText = [NSString stringWithFormat:@"%.1f%%", component.value/total*100];
 				CGSize optimumSize = [percentageText sizeWithFont:self.percentageFont constrainedToSize:CGSizeMake(max_text_width,100)];
 				CGRect percFrame = CGRectMake(5, left_label_y,  max_text_width, optimumSize.height);
-				[percentageText drawInRect:percFrame withFont:self.percentageFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentRight];
+				[percentageText drawInRect:percFrame withFont:self.percentageFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
 				
 				if (self.showArrow)
 				{
-					// draw line to point to chart
+					// 포인트에서 차트까지 선 그리기.
 					CGContextSetRGBStrokeColor(ctx, 0.2f, 0.2f, 0.2f, 1);
 					CGContextSetRGBFillColor(ctx, 0.0f, 0.0f, 0.0f, 1.0f);
 					//CGContextSetRGBStrokeColor(ctx, 1.0f, 1.0f, 1.0f, 1.0f);
@@ -281,7 +282,7 @@
 					}
 					
 				}
-				// display title on the left
+				// 왼쪽에 제목 표시.
 				CGContextSetRGBFillColor(ctx, 0.4f, 0.4f, 0.4f, 1.0f);
 				left_label_y += optimumSize.height - 4;
 				optimumSize = [component.title sizeWithFont:self.titleFont constrainedToSize:CGSizeMake(max_text_width,100)];
@@ -291,9 +292,9 @@
 			}
 			else 
 			{
-				// right
+				// 오른쪽.
 				
-				// display percentage label
+				// 퍼센트 라벨 표시.
 				if (self.sameColorLabel)
 				{
 					CGContextSetFillColorWithColor(ctx, [component.colour CGColor]);
@@ -316,7 +317,7 @@
 				
 				if (self.showArrow)
 				{
-					// draw line to point to chart
+					// 포인트에서 차트까지 선 그리기.
 					CGContextSetRGBStrokeColor(ctx, 0.2f, 0.2f, 0.2f, 1);
 					//CGContextSetRGBStrokeColor(ctx, 1.0f, 1.0f, 1.0f, 1.0f);
 					//CGContextSetRGBFillColor(ctx, 1.0f, 1.0f, 1.0f, 1.0f);
@@ -399,8 +400,8 @@
 						}
 					}
 				}
-				
-				// display title on the left
+
+                // 제목을 왼쪽부터 출력한다.
 				CGContextSetRGBFillColor(ctx, 0.4f, 0.4f, 0.4f, 1.0f);
 				right_label_y += optimumSize.height - 4;
 				optimumSize = [component.title sizeWithFont:self.titleFont constrainedToSize:CGSizeMake(max_text_width,100)];
@@ -408,7 +409,6 @@
 				[component.title drawInRect:titleFrame withFont:self.titleFont];
 				right_label_y += optimumSize.height + 10;
 			}
-			
 			
 			nextStartDeg = endDeg;
 		}

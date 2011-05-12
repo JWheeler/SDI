@@ -30,6 +30,9 @@
 		1D065B38137B5A91008E0A76 /* icon_up_daily@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D065B32137B5A91008E0A76 /* icon_up_daily@2x.png */; };
 		1D065B3B137B60C9008E0A76 /* LPMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D065B3A137B60C8008E0A76 /* LPMatrix.m */; };
 		1D065B3E137B6190008E0A76 /* NSIndexPath+LPMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D065B3D137B6190008E0A76 /* NSIndexPath+LPMatrix.m */; };
+		1D065B61137B78C6008E0A76 /* sample_piechart_data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D065B60137B78C6008E0A76 /* sample_piechart_data.plist */; };
+		1D065B74137BAC37008E0A76 /* libcis_cc-3.1_armv6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */; };
+		1D065B75137BAC37008E0A76 /* libIssacweb_static_armv6_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */; };
 		1D0C2E0B134A82130000E88F /* UIView+Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E0A134A82130000E88F /* UIView+Position.m */; };
 		1D0C2E16134A84150000E88F /* UIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E15134A84150000E88F /* UIView+Hierarchy.m */; };
 		1D0C2E21134AA2D40000E88F /* SBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E20134AA2D40000E88F /* SBManager.m */; };
@@ -288,8 +291,6 @@
 		1DB09265136A942300CC777E /* interest_header03.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09263136A942200CC777E /* interest_header03.png */; };
 		1DB09266136A942300CC777E /* interest_header03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DB09264136A942300CC777E /* interest_header03@2x.png */; };
 		1DB2D657137A735600A0D2D2 /* Encryption.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB2D656137A735600A0D2D2 /* Encryption.m */; };
-		1DB2D65E137A7CD800A0D2D2 /* libcis_cc-3.1_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB2D65C137A7CD800A0D2D2 /* libcis_cc-3.1_i386.a */; };
-		1DB2D65F137A7CD800A0D2D2 /* libIssacweb_static_armv6_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB2D65D137A7CD800A0D2D2 /* libIssacweb_static_armv6_opt.a */; };
 		1DB2D661137A853100A0D2D2 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DB2D660137A853100A0D2D2 /* AudioToolbox.framework */; };
 		1DB4AAFC1367D82B00345456 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFA1367D82B00345456 /* WebViewController.m */; };
 		1DB4AAFD1367D82B00345456 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFB1367D82B00345456 /* WebViewController.xib */; };
@@ -656,6 +657,9 @@
 		1D065B3A137B60C8008E0A76 /* LPMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMatrix.m; sourceTree = "<group>"; };
 		1D065B3C137B6190008E0A76 /* NSIndexPath+LPMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+LPMatrix.h"; sourceTree = "<group>"; };
 		1D065B3D137B6190008E0A76 /* NSIndexPath+LPMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+LPMatrix.m"; sourceTree = "<group>"; };
+		1D065B60137B78C6008E0A76 /* sample_piechart_data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sample_piechart_data.plist; sourceTree = "<group>"; };
+		1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcis_cc-3.1_armv6.a"; sourceTree = "<group>"; };
+		1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIssacweb_static_armv6_opt.a; sourceTree = "<group>"; };
 		1D0C2E09134A82130000E88F /* UIView+Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Position.h"; sourceTree = "<group>"; };
 		1D0C2E0A134A82130000E88F /* UIView+Position.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Position.m"; sourceTree = "<group>"; };
 		1D0C2E14134A84150000E88F /* UIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Hierarchy.h"; sourceTree = "<group>"; };
@@ -974,8 +978,6 @@
 		1DB2D654137A70AB00A0D2D2 /* _Issacwebapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Issacwebapi.h; sourceTree = "<group>"; };
 		1DB2D655137A735600A0D2D2 /* Encryption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Encryption.h; sourceTree = "<group>"; };
 		1DB2D656137A735600A0D2D2 /* Encryption.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Encryption.m; sourceTree = "<group>"; };
-		1DB2D65C137A7CD800A0D2D2 /* libcis_cc-3.1_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_i386.a"; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_i386.a"; sourceTree = "<absolute>"; };
-		1DB2D65D137A7CD800A0D2D2 /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_armv6_opt.a; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_armv6_opt.a"; sourceTree = "<absolute>"; };
 		1DB2D660137A853100A0D2D2 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		1DB4AAF91367D82B00345456 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		1DB4AAFA1367D82B00345456 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
@@ -1340,8 +1342,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1DB2D661137A853100A0D2D2 /* AudioToolbox.framework in Frameworks */,
-				1DB2D65E137A7CD800A0D2D2 /* libcis_cc-3.1_i386.a in Frameworks */,
-				1DB2D65F137A7CD800A0D2D2 /* libIssacweb_static_armv6_opt.a in Frameworks */,
 				1D3300A31355242F007037FA /* libz.1.2.3.dylib in Frameworks */,
 				1D3300A113552409007037FA /* MobileCoreServices.framework in Frameworks */,
 				1D33009F135523F5007037FA /* SystemConfiguration.framework in Frameworks */,
@@ -1351,6 +1351,8 @@
 				1D02C8F3133871C800B5415B /* UIKit.framework in Frameworks */,
 				1D02C8F5133871C800B5415B /* Foundation.framework in Frameworks */,
 				1D02C8F7133871C800B5415B /* CoreGraphics.framework in Frameworks */,
+				1D065B74137BAC37008E0A76 /* libcis_cc-3.1_armv6.a in Frameworks */,
+				1D065B75137BAC37008E0A76 /* libIssacweb_static_armv6_opt.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1378,6 +1380,8 @@
 		1D02C8E3133871C800B5415B = {
 			isa = PBXGroup;
 			children = (
+				1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */,
+				1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */,
 				1D02C9121338729300B5415B /* LPLibrary */,
 				1D02C8F8133871C800B5415B /* SDI */,
 				1D02C8F1133871C800B5415B /* Frameworks */,
@@ -1397,8 +1401,6 @@
 			isa = PBXGroup;
 			children = (
 				1DB2D660137A853100A0D2D2 /* AudioToolbox.framework */,
-				1DB2D65C137A7CD800A0D2D2 /* libcis_cc-3.1_i386.a */,
-				1DB2D65D137A7CD800A0D2D2 /* libIssacweb_static_armv6_opt.a */,
 				1D3300A21355242F007037FA /* libz.1.2.3.dylib */,
 				1D3300A013552409007037FA /* MobileCoreServices.framework */,
 				1D33009E135523F5007037FA /* SystemConfiguration.framework */,
@@ -1415,12 +1417,13 @@
 		1D02C8F8133871C800B5415B /* SDI */ = {
 			isa = PBXGroup;
 			children = (
+				1D065B4F137B6B03008E0A76 /* Search */,
 				1D2318CF134304E10029B6ED /* Data */,
 				1D4C6643134B0D7500D86135 /* IRStock */,
 				1D4FE117133B28CA00AB63A4 /* DataHandler */,
 				1D013FF01339600B00B1F81F /* Common */,
 				1DA0D686133C2A3500787FB2 /* Help */,
-				1DA0D685133C29F100787FB2 /* Setup */,
+				1DA0D685133C29F100787FB2 /* Setting */,
 				1DA0D684133C29CB00787FB2 /* Login */,
 				1DA0D683133C29BD00787FB2 /* MyMenu */,
 				1DA0D67D133C28EB00787FB2 /* Home */,
@@ -1515,6 +1518,13 @@
 				1D065B32137B5A91008E0A76 /* icon_up_daily@2x.png */,
 			);
 			name = Daily;
+			sourceTree = "<group>";
+		};
+		1D065B4F137B6B03008E0A76 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Search;
 			sourceTree = "<group>";
 		};
 		1D21CA64134BCE1B00CEF3D9 /* SOLogger */ = {
@@ -1725,6 +1735,7 @@
 		1DA0D67D133C28EB00787FB2 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1D065B60137B78C6008E0A76 /* sample_piechart_data.plist */,
 				1DF60EFE133AC55000A809B5 /* ContentController.h */,
 				1DF60EFF133AC55000A809B5 /* ContentController.m */,
 				1DF60F07133ACB2700A809B5 /* SDIContentController.h */,
@@ -1779,11 +1790,11 @@
 			name = Login;
 			sourceTree = "<group>";
 		};
-		1DA0D685133C29F100787FB2 /* Setup */ = {
+		1DA0D685133C29F100787FB2 /* Setting */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Setup;
+			name = Setting;
 			sourceTree = "<group>";
 		};
 		1DA0D686133C2A3500787FB2 /* Help */ = {
@@ -2911,6 +2922,7 @@
 				1D065B36137B5A91008E0A76 /* icon_down_daily@2x.png in Resources */,
 				1D065B37137B5A91008E0A76 /* icon_up_daily.png in Resources */,
 				1D065B38137B5A91008E0A76 /* icon_up_daily@2x.png in Resources */,
+				1D065B61137B78C6008E0A76 /* sample_piechart_data.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3052,7 +3064,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B58148AA-39F9-4A45-9004-3E3D8B822AE2";
 				SDKROOT = iphoneos4.3;
 			};
@@ -3067,7 +3079,7 @@
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "DC44C470-D295-447B-A4F7-FB21CB9231C0";
 				SDKROOT = iphoneos4.3;
@@ -3083,10 +3095,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SDI/SDI-Prefix.pch";
 				INFOPLIST_FILE = "SDI/SDI-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/LPLibrary/lib\"",
 					"\"/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -3101,10 +3115,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "SDI/SDI-Prefix.pch";
 				INFOPLIST_FILE = "SDI/SDI-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/LPLibrary/lib\"",
 					"\"/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS\"",
+					"\"$(SRCROOT)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALIDATE_PRODUCT = YES;

@@ -106,9 +106,9 @@ SOLogger *gLogger;
     // ----------------------------------------------
     // !!!: 앱스토어에 등록할 때 삭제할 것!
     // ----------------------------------------------
-    [self performSelector:@selector(printViewHierarchy)
-               withObject:nil
-               afterDelay:2.0 /* 뷰가 세팅될 시간 확보 */ ];
+//    [self performSelector:@selector(printViewHierarchy)
+//               withObject:nil
+//               afterDelay:2.0 /* 뷰가 세팅될 시간 확보 */ ];
     
     return YES;
 }

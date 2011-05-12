@@ -75,4 +75,31 @@
 	}
 }
 
+// 문자열 뒤집기.
++ (NSString *)reverseString:(NSString *)string 
+{
+	NSMutableString *reversedString;
+	int len = [string length];
+	reversedString = [NSMutableString stringWithCapacity:len];     
+	
+	while (len > 0)
+		[reversedString appendString:[NSString stringWithFormat:@"%C", [string characterAtIndex:--len]]];   
+	
+	return reversedString;
+}
+
+// 데이터 길이를 문자열로 포맷팅.
++ (NSString *)formatStringNumber:(NSString *)string withCipher:(int)cipher 
+{
+	int stringLength = [string length];
+	NSString *reverseString = [self reverseString:string];
+	
+	for (int i = 0; i < (cipher - stringLength); i++) 
+    {
+		reverseString = [reverseString stringByAppendingString:@"0"];
+	}
+	
+	return [self reverseString:reverseString];
+}
+
 @end

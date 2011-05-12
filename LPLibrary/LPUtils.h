@@ -25,5 +25,7 @@ enum
 + (NSString *)getIPAdress;
 + (NSString *)getMacAddress;
 + (void)showAlert:(int)type andTag:(int)tag withTitle:(NSString *)title andMessage:(NSString *)message;
++ (NSString *)reverseString:(NSString *)string;
++ (NSString *)formatStringNumber:(NSString *)string withCipher:(int)cipher;
 
 @end

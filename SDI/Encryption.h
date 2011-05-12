@@ -15,5 +15,6 @@
 }
 
 - (void)testEncryption;
+- (void)testDecryption:(char *)encryptedMsg;
 
 @end

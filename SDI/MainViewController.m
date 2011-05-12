@@ -570,7 +570,11 @@
         {
             NSDictionary *dict = [self.responseArray  objectAtIndex:i];
             
-            if ([stock.stockCode isEqualToString:[dict objectForKey:@"isNo"]]) 
+            // RQ/RP에서 사용하는 주식코드에는 앞자리에 0을 포맷팅하지 않는다. 그래서...
+            NSString *beforeStockCode = [dict objectForKey:@"isNo"];
+            NSString *afterStockCode = [LPUtils formatStringNumber:beforeStockCode withCipher:6];
+            
+            if ([stock.stockCode isEqualToString:afterStockCode]) 
             {
                 stock.currentPrice = [dict objectForKey:@"nowPrc"];
                 stock.symbol = [dict objectForKey:@"bDyCmprSmbl"];

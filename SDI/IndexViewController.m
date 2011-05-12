@@ -7,6 +7,8 @@
 //
 
 #import "IndexViewController.h"
+#import "LPPieChart.h"
+#import "LPLineChart.h"
 
 
 @implementation IndexViewController
@@ -15,10 +17,34 @@
 @synthesize beforeImageView;
 @synthesize afterImageView;
 
+@synthesize indexBg1;
+@synthesize indexBg2;
+@synthesize indexBg3;
+@synthesize indexBg4;
+@synthesize indexBg5;
+
+@synthesize kIndex;
+@synthesize kArrow;
+@synthesize kFluctuation;
+@synthesize kFluctuationRate;
+@synthesize qIndex;
+@synthesize qArrow;
+@synthesize qFluctuation;
+@synthesize qFluctuationRate;
+@synthesize fIndex;
+@synthesize fArrow;
+@synthesize fFluctuation;
+@synthesize fFluctuationRate;
+@synthesize cIndex;
+@synthesize cArrow;
+@synthesize cFluctuation;
+@synthesize cFluctuationRate;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self) 
+    {
         // Custom initialization
     }
     return self;
@@ -29,6 +55,27 @@
     [ribbonImageView release];
     [beforeImageView release];
     [afterImageView release];
+    [indexBg1 release];
+    [indexBg2 release];
+    [indexBg3 release];
+    [indexBg4 release];
+    [indexBg5 release];
+    [kIndex release];
+    [kArrow release];
+    [kFluctuation release];
+    [kFluctuationRate release];
+    [qIndex release];
+    [qArrow release];
+    [qFluctuation release];
+    [qFluctuationRate release];
+    [fIndex release];
+    [fArrow release];
+    [fFluctuation release];
+    [fFluctuationRate release];
+    [cIndex release];
+    [cArrow release];
+    [cFluctuation release];
+    [cFluctuationRate release];
     [super dealloc];
 }
 
@@ -48,6 +95,10 @@
     
     // 리본 용 제스처 등록.
     [self registerGestureForRibbon];
+    
+    // 차트 테스트.
+    [self drawPieChartForKospi];
+    [self drawPieChartForKosdaq];
 }
 
 - (void)viewDidUnload
@@ -95,6 +146,7 @@
 //        modalView.center = offScreenCenter;
 //        [UIView commitAnimations];
         
+#if NS_BLOCKS_AVAILABLE 
         // iOS4+: Blocks 사용.
         [UIView animateWithDuration:0.5
                               delay:0.2
@@ -110,7 +162,94 @@
                          completion:^(BOOL finished){
                              Debug(@"Animation done!");
                          }];
+#endif
 	}
+}
+
+// 코스티 등락종목 파이차트.
+- (void)drawPieChartForKospi
+{
+    int height = 65.0;
+    int width = 120.0;
+    LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(85.0, 25.0, width, height)];
+    [pieChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
+    [pieChart setShowArrow:NO];
+    [pieChart setDiameter:50.0];
+    [pieChart setSameColorLabel:YES];
+    
+    [self.indexBg4 addSubview:pieChart];
+    [pieChart release];
+    
+    pieChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    pieChart.percentageFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    
+    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"sample_piechart_data.plist"];
+    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    NSMutableArray *components = [NSMutableArray array];
+    for (int i=0; i<[[sampleInfo objectForKey:@"data"] count]; i++)
+    {
+        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
+        [components addObject:component];
+        
+        // 상승/하락/보합 컴포넌트 구분해야 함.
+        if (i == 0)
+        {
+            [component setColour:RGB(255, 133, 156)];   // 상승.
+        }
+        else if ( i== 1)
+        {
+            [component setColour:RGB(125, 202, 241)];   // 하락.
+        }
+        else if (i == 2)
+        {
+            [component setColour:RGB(86, 183, 89)];     // 보합.
+        }
+    }
+    [pieChart setComponents:components];
+}
+
+// 코스닥 등락종목 파이차트
+- (void)drawPieChartForKosdaq
+{
+    int height = 65.0;
+    int width = 120.0;
+    LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(205.0, 25.0, width, height)];
+    [pieChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
+    [pieChart setShowArrow:NO];
+    [pieChart setDiameter:50.0];
+    [pieChart setSameColorLabel:YES];
+    
+    [self.indexBg4 addSubview:pieChart];
+    [pieChart release];
+    
+    pieChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    pieChart.percentageFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    
+    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"sample_piechart_data.plist"];
+    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    NSMutableArray *components = [NSMutableArray array];
+    for (int i=0; i<[[sampleInfo objectForKey:@"data"] count]; i++)
+    {
+        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
+        [components addObject:component];
+        
+        // 상승/하락/보합 컴포넌트 구분해야 함.
+        if (i == 0)
+        {
+            [component setColour:RGB(255, 133, 156)];   // 상승.
+        }
+        else if ( i== 1)
+        {
+            [component setColour:RGB(125, 202, 241)];   // 하락.
+        }
+        else if (i == 2)
+        {
+            [component setColour:RGB(86, 183, 89)];     // 보합.
+        }
+    }
+    [pieChart setComponents:components];
 }
 
 @end

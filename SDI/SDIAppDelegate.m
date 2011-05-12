@@ -14,7 +14,10 @@
 #import "SBCountController.h"
 #import "DataHandler.h"
 #import "SBManager.h"
+
+// 테스트.
 #import "Encryption.h"
+#import "LPMatrix.h"
 
 SOLogger *gLogger;
 
@@ -62,6 +65,20 @@ SOLogger *gLogger;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {   
+    // 암복호화 테스트.
+    Encryption *test = [[Encryption alloc] init];
+    [test testEncryption];
+    
+    // 매트릭스 테스트.
+    LPMatrix *matrix = [[LPMatrix alloc] initWithRows:10 columns:10];
+    [matrix setObject:@"foo" forRow:2 column:8];
+    [matrix setObject:@"bar" forRow:0 column:9];
+    [matrix setObject:@"baz" forRow:9 column:9];
+    
+    NSLog(@"%@", [matrix objectForRow:2 column:8]);
+    NSLog(@"%@", [matrix objectForRow:9 column:9]);
+    NSLog(@"%@", [matrix objectForRow:9 column:8]);
+    
     // 로그.
     gLogger = [[SOLogger alloc] init];
     
@@ -70,10 +87,6 @@ SOLogger *gLogger;
     
     // 네트워크 상태 확인.
     [self isConnect];
-    
-    // 암복호화 테스트.
-    Encryption *test = [[Encryption alloc] init];
-    [test testEncryption];
     
     //APNS
     // Add registration for remote notifications

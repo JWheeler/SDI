@@ -48,6 +48,8 @@
 
 - (void)registerGestureForRibbon;
 - (void)closeDaily:(UISwipeGestureRecognizer *)recognizer;
+- (void)drawHBarChartForKospi;
+- (void)drawHBarChartForKosdaq;
 - (void)drawPieChartForKospi;
 - (void)drawPieChartForKosdaq;
 

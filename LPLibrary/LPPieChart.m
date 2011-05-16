@@ -42,6 +42,7 @@
 
 @end
 
+
 @implementation LPPieChart
 
 @synthesize  components;

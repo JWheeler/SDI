@@ -14,7 +14,9 @@
     
 }
 
+- (char *)hybridEncrypt:(NSString *)plainMsg;
+- (NSMutableString *)decrypt:(char *)encryptedMsg;
+
 - (void)testEncryption;
-- (void)testDecryption:(char *)encryptedMsg;
 
 @end

@@ -30,7 +30,7 @@
 		1D065B38137B5A91008E0A76 /* icon_up_daily@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D065B32137B5A91008E0A76 /* icon_up_daily@2x.png */; };
 		1D065B3B137B60C9008E0A76 /* LPMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D065B3A137B60C8008E0A76 /* LPMatrix.m */; };
 		1D065B3E137B6190008E0A76 /* NSIndexPath+LPMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D065B3D137B6190008E0A76 /* NSIndexPath+LPMatrix.m */; };
-		1D065B61137B78C6008E0A76 /* sample_piechart_data.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D065B60137B78C6008E0A76 /* sample_piechart_data.plist */; };
+		1D065B61137B78C6008E0A76 /* SamplePieChartData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1D065B60137B78C6008E0A76 /* SamplePieChartData.plist */; };
 		1D065B74137BAC37008E0A76 /* libcis_cc-3.1_armv6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */; };
 		1D065B75137BAC37008E0A76 /* libIssacweb_static_armv6_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */; };
 		1D0C2E0B134A82130000E88F /* UIView+Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E0A134A82130000E88F /* UIView+Position.m */; };
@@ -296,6 +296,8 @@
 		1DB4AAFD1367D82B00345456 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DB4AAFB1367D82B00345456 /* WebViewController.xib */; };
 		1DB870D3135D29460002AA17 /* UISearchBar+Button.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DB870D2135D29460002AA17 /* UISearchBar+Button.m */; };
 		1DBC17D01355069000B50564 /* NSDate+Timesince.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBC17CF1355069000B50564 /* NSDate+Timesince.m */; };
+		1DBCABE41380DFE000307824 /* SampleHBarChartData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DBCABE31380DFE000307824 /* SampleHBarChartData.plist */; };
+		1DBCABED138116E300307824 /* LPVBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBCABEC138116E300307824 /* LPVBarChart.m */; };
 		1DC246C31357AEBC00BDA281 /* main_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC246C11357AEBC00BDA281 /* main_bg.png */; };
 		1DC246C41357AEBC00BDA281 /* main_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC246C21357AEBC00BDA281 /* main_bg@2x.png */; };
 		1DC246DA1357C8C800BDA281 /* UIWebView+WebUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC246D91357C8C800BDA281 /* UIWebView+WebUI.m */; };
@@ -616,6 +618,7 @@
 		1DF60F1A133ADA2700A809B5 /* small_two.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF60F14133ADA2700A809B5 /* small_two.png */; };
 		1DF60F1E133B030100A809B5 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DF60F1C133B030000A809B5 /* SecondViewController.m */; };
 		1DF60F1F133B030100A809B5 /* SecondViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DF60F1D133B030100A809B5 /* SecondViewController.xib */; };
+		1DFA62F8137C9BA6002AF945 /* LPHBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DFA62F7137C9BA6002AF945 /* LPHBarChart.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -657,7 +660,7 @@
 		1D065B3A137B60C8008E0A76 /* LPMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMatrix.m; sourceTree = "<group>"; };
 		1D065B3C137B6190008E0A76 /* NSIndexPath+LPMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+LPMatrix.h"; sourceTree = "<group>"; };
 		1D065B3D137B6190008E0A76 /* NSIndexPath+LPMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+LPMatrix.m"; sourceTree = "<group>"; };
-		1D065B60137B78C6008E0A76 /* sample_piechart_data.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sample_piechart_data.plist; sourceTree = "<group>"; };
+		1D065B60137B78C6008E0A76 /* SamplePieChartData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SamplePieChartData.plist; sourceTree = "<group>"; };
 		1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcis_cc-3.1_armv6.a"; sourceTree = "<group>"; };
 		1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIssacweb_static_armv6_opt.a; sourceTree = "<group>"; };
 		1D0C2E09134A82130000E88F /* UIView+Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Position.h"; sourceTree = "<group>"; };
@@ -986,6 +989,9 @@
 		1DB870D2135D29460002AA17 /* UISearchBar+Button.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+Button.m"; sourceTree = "<group>"; };
 		1DBC17CE1355069000B50564 /* NSDate+Timesince.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Timesince.h"; sourceTree = "<group>"; };
 		1DBC17CF1355069000B50564 /* NSDate+Timesince.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Timesince.m"; sourceTree = "<group>"; };
+		1DBCABE31380DFE000307824 /* SampleHBarChartData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleHBarChartData.plist; sourceTree = "<group>"; };
+		1DBCABEB138116E200307824 /* LPVBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPVBarChart.h; sourceTree = "<group>"; };
+		1DBCABEC138116E300307824 /* LPVBarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPVBarChart.m; sourceTree = "<group>"; };
 		1DC246C11357AEBC00BDA281 /* main_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = main_bg.png; sourceTree = "<group>"; };
 		1DC246C21357AEBC00BDA281 /* main_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main_bg@2x.png"; sourceTree = "<group>"; };
 		1DC246D81357C8C800BDA281 /* UIWebView+WebUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+WebUI.h"; sourceTree = "<group>"; };
@@ -1334,6 +1340,8 @@
 		1DF60F1B133B02FF00A809B5 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
 		1DF60F1C133B030000A809B5 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
 		1DF60F1D133B030100A809B5 /* SecondViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SecondViewController.xib; sourceTree = "<group>"; };
+		1DFA62F6137C9BA6002AF945 /* LPHBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHBarChart.h; sourceTree = "<group>"; };
+		1DFA62F7137C9BA6002AF945 /* LPHBarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHBarChart.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1417,6 +1425,7 @@
 		1D02C8F8133871C800B5415B /* SDI */ = {
 			isa = PBXGroup;
 			children = (
+				1DBCABE21380C30B00307824 /* FindBranch */,
 				1D065B4F137B6B03008E0A76 /* Search */,
 				1D2318CF134304E10029B6ED /* Data */,
 				1D4C6643134B0D7500D86135 /* IRStock */,
@@ -1482,6 +1491,10 @@
 				1D065B24137B4D2A008E0A76 /* LPLineChart.m */,
 				1D065B26137B4E28008E0A76 /* LPHalfPieChart.h */,
 				1D065B27137B4E28008E0A76 /* LPHalfPieChart.m */,
+				1DFA62F6137C9BA6002AF945 /* LPHBarChart.h */,
+				1DFA62F7137C9BA6002AF945 /* LPHBarChart.m */,
+				1DBCABEB138116E200307824 /* LPVBarChart.h */,
+				1DBCABEC138116E300307824 /* LPVBarChart.m */,
 			);
 			name = LPPlot;
 			sourceTree = "<group>";
@@ -1735,7 +1748,8 @@
 		1DA0D67D133C28EB00787FB2 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				1D065B60137B78C6008E0A76 /* sample_piechart_data.plist */,
+				1DBCABE31380DFE000307824 /* SampleHBarChartData.plist */,
+				1D065B60137B78C6008E0A76 /* SamplePieChartData.plist */,
 				1DF60EFE133AC55000A809B5 /* ContentController.h */,
 				1DF60EFF133AC55000A809B5 /* ContentController.m */,
 				1DF60F07133ACB2700A809B5 /* SDIContentController.h */,
@@ -1966,6 +1980,13 @@
 				1DA6E1AC136650CD0045BC19 /* 13_04@2x.png */,
 			);
 			name = SubMenu;
+			sourceTree = "<group>";
+		};
+		1DBCABE21380C30B00307824 /* FindBranch */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = FindBranch;
 			sourceTree = "<group>";
 		};
 		1DC246BF1357AEAA00BDA281 /* bg */ = {
@@ -2922,7 +2943,8 @@
 				1D065B36137B5A91008E0A76 /* icon_down_daily@2x.png in Resources */,
 				1D065B37137B5A91008E0A76 /* icon_up_daily.png in Resources */,
 				1D065B38137B5A91008E0A76 /* icon_up_daily@2x.png in Resources */,
-				1D065B61137B78C6008E0A76 /* sample_piechart_data.plist in Resources */,
+				1D065B61137B78C6008E0A76 /* SamplePieChartData.plist in Resources */,
+				1DBCABE41380DFE000307824 /* SampleHBarChartData.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3027,6 +3049,8 @@
 				1D065B28137B4E28008E0A76 /* LPHalfPieChart.m in Sources */,
 				1D065B3B137B60C9008E0A76 /* LPMatrix.m in Sources */,
 				1D065B3E137B6190008E0A76 /* NSIndexPath+LPMatrix.m in Sources */,
+				1DFA62F8137C9BA6002AF945 /* LPHBarChart.m in Sources */,
+				1DBCABED138116E300307824 /* LPVBarChart.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

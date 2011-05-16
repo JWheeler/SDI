@@ -69,6 +69,8 @@ SOLogger *gLogger;
     Encryption *test = [[Encryption alloc] init];
     [test testEncryption];
     
+    
+    
     // 매트릭스 테스트.
     LPMatrix *matrix = [[LPMatrix alloc] initWithRows:10 columns:10];
     [matrix setObject:@"foo" forRow:2 column:8];
@@ -338,92 +340,91 @@ SOLogger *gLogger;
 /**
  * Fetch and Format Device Token and Register Important Information to Remote Server
  */
-- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
-	
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken 
+{
 #if !TARGET_IPHONE_SIMULATOR
     
-	// Get Bundle Info for Remote Registration (handy if you have more than one app)
+    // 원격 등록용 번들 정보.
 	NSString *appName = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"];
 	NSString *appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
 	
-	// Check what Notifications the user has turned on.  We registered for all three, but they may have manually disabled some or all of them.
+    // 노티피케이션 설정 확인.
 	NSUInteger rntypes = [[UIApplication sharedApplication] enabledRemoteNotificationTypes];
 	
-	// Set the defaults to disabled unless we find otherwise...
+    // 기본값 설정.
 	NSString *pushBadge = @"disabled";
 	NSString *pushAlert = @"disabled";
 	NSString *pushSound = @"disabled";
 	
-	// Check what Registered Types are turned on. This is a bit tricky since if two are enabled, and one is off, it will return a number 2... not telling you which
-	// one is actually disabled. So we are literally checking to see if rnTypes matches what is turned on, instead of by number. The "tricky" part is that the 
-	// single notification types will only match if they are the ONLY one enabled.  Likewise, when we are checking for a pair of notifications, it will only be 
-	// true if those two notifications are on.  This is why the code is written this way ;)
-	if(rntypes == UIRemoteNotificationTypeBadge){
+	if(rntypes == UIRemoteNotificationTypeBadge)
+    {
 		pushBadge = @"enabled";
 	}
-	else if(rntypes == UIRemoteNotificationTypeAlert){
+	else if(rntypes == UIRemoteNotificationTypeAlert)
+    {
 		pushAlert = @"enabled";
 	}
-	else if(rntypes == UIRemoteNotificationTypeSound){
+	else if(rntypes == UIRemoteNotificationTypeSound)
+    {
 		pushSound = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert)){
+	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert))
+    {
 		pushBadge = @"enabled";
 		pushAlert = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)){
+	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound))
+    {
 		pushBadge = @"enabled";
 		pushSound = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)){
+	else if(rntypes == ( UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound))
+    {
 		pushAlert = @"enabled";
 		pushSound = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)){
+	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound))
+    {
 		pushBadge = @"enabled";
 		pushAlert = @"enabled";
 		pushSound = @"enabled";
 	}
 	
-	// Get the users Device Model, Display Name, Unique ID, Token & Version Number
+	// 디바이스: Model, Display Name, Unique ID, Token & Version Number
 	UIDevice *dev = [UIDevice currentDevice];
 	NSString *deviceUuid = dev.uniqueIdentifier;
     NSString *deviceName = dev.name;
 	NSString *deviceModel = dev.model;
 	NSString *deviceSystemVersion = dev.systemVersion;
 	
-	// Prepare the Device Token for Registration (remove spaces and < >)
+	// 프로바이더에 등록할 디바이스 토큰 ('스페이스'와 '< >'는 제거)
 	NSString *deviceToken = [[[[devToken description] 
                                stringByReplacingOccurrencesOfString:@"<"withString:@""] 
                               stringByReplacingOccurrencesOfString:@">" withString:@""] 
                              stringByReplacingOccurrencesOfString: @" " withString: @""];
 	
-	// Build URL String for Registration
-	// !!! CHANGE "www.mywebsite.com" TO YOUR WEBSITE. Leave out the http://
-	// !!! SAMPLE: "secure.awesomeapp.com"
+	// 프로바이더 URL.
+	// !!! 'http://'는 사용하지 않는다.
+	// !!! 예: "apns.youfirst.co.kr"
 	NSString *host = APNS_PROVIDER_URL;
 	
-	// !!! CHANGE "/apns.php?" TO THE PATH TO WHERE apns.php IS INSTALLED 
-	// !!! ( MUST START WITH / AND END WITH ? ). 
-	// !!! SAMPLE: "/path/to/apns.php?"
+	// !!! (반드시 '/"로 시작하여 '?' 끝이 되어야 한다). 
+	// !!! 예: "/path/to/apns.php?"
 	NSString *urlString = [NSString stringWithFormat:@"/apns.php?task=%@&appname=%@&appversion=%@&deviceuid=%@&devicetoken=%@&devicename=%@&devicemodel=%@&deviceversion=%@&pushbadge=%@&pushalert=%@&pushsound=%@", @"register", appName,appVersion, deviceUuid, deviceToken, deviceName, deviceModel, deviceSystemVersion, pushBadge, pushAlert, pushSound];
 	
-	// Register the Device Data
-	// !!! CHANGE "http" TO "https" IF YOU ARE USING HTTPS PROTOCOL
+	// 프로바이더에 디바이스 정보 등록
 	NSURL *url = [[NSURL alloc] initWithScheme:@"http" host:host path:urlString];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
 	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 	NSLog(@"Register URL: %@", url);
-	NSLog(@"Return Data: %@", returnData);
+	NSLog(@"Return Data: %@", [NSString stringWithUTF8String:[returnData bytes]]);
 	
 #endif
 }
 
-/**
- * Failed to Register for Remote Notifications
- */
-- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-	
+// 원격 노티피케이션 등록을 실해할 경우.
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error 
+{
 #if !TARGET_IPHONE_SIMULATOR
 	
 	NSLog(@"Error in registration. Error: %@", error);
@@ -431,11 +432,9 @@ SOLogger *gLogger;
 #endif
 }
 
-/**
- * Remote Notification Received while application was open.
- */
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	
+// 앱이 실행되는 동안 원격 노티피케이션을 수신할 경우.
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo 
+{
 #if !TARGET_IPHONE_SIMULATOR
     
 	NSLog(@"remote notification: %@",[userInfo description]);
@@ -463,7 +462,7 @@ SOLogger *gLogger;
     // 1. 워닝은 무시할 것. 
     // 2. 앱스토어에 등록할 때 삭제할 것!
     // ----------------------------------------------
-    NSLog(@"%@", [self.window recursiveDescription]);
+    //Debug(@"%@", [self.window recursiveDescription]);
 }
 
 // 중계 서버와 RQ/RP 서버 접속 여부.

@@ -1,27 +1,29 @@
 //
-//  LPPieChart.h
+//  LPVBarChart.h
 //  SDI
 //
-//  Created by Jong Pil Park on 11. 5. 12..
+//  Created by Jong Pil Park on 11. 5. 16..
 //  Copyright 2011 Lilac Studio. All rights reserved.
+//
+//  Daily의 업종테마흐름을 표시하기위한 바 차트를 그기기 위해...
+//  TODO: 데일리에 특화되어 있으므로 일반화 시키려면 조금 변경해야 함!
 //
 
 #import <Foundation/Foundation.h>
 
-
-@interface LPPieComponent : NSObject
+@interface LPVBarComponent : NSObject
 {
-    float value, startDeg, endDeg;
+    float value;
     NSString *title;
     UIColor *colour;
 }
 
-@property (nonatomic, assign) float value, startDeg, endDeg;
+@property (nonatomic, assign) float value;
 @property (nonatomic, retain) UIColor *colour;
 @property (nonatomic, retain) NSString *title;
 
 - (id)initWithTitle:(NSString*)_title value:(float)_value;
-+ (id)pieComponentWithTitle:(NSString*)_title value:(float)_value;
++ (id)barComponentWithTitle:(NSString*)_title value:(float)_value;
 
 @end
 
@@ -34,17 +36,19 @@
 #define LPColorDefault [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1.0]
 
 
-@interface LPPieChart : UIView 
+@interface LPVBarChart : UIView 
 {
     NSMutableArray *components;
-    int diameter;
-	UIFont *titleFont, *percentageFont;
-	BOOL showArrow, sameColorLabel;
+    UIFont *titleFont;
+    BOOL sameColorLabel;
+    float barWidth;             // 바차트의 각 바의 넓이(폭)
 }
 
-@property (nonatomic, assign) int diameter;
 @property (nonatomic, retain) NSMutableArray *components;
-@property (nonatomic, retain) UIFont *titleFont, *percentageFont;
-@property (nonatomic, assign) BOOL showArrow, sameColorLabel;
+@property (nonatomic, retain) UIFont *titleFont;
+@property (nonatomic, assign) BOOL sameColorLabel;
+@property (nonatomic, assign) float barWidth;
+
+static void drawStrokedLine(CGContextRef context, CGPoint start, CGPoint end);
 
 @end

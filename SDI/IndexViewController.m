@@ -8,6 +8,7 @@
 
 #import "IndexViewController.h"
 #import "LPPieChart.h"
+#import "LPHBarChart.h"
 #import "LPLineChart.h"
 
 
@@ -97,6 +98,8 @@
     [self registerGestureForRibbon];
     
     // 차트 테스트.
+    [self drawHBarChartForKospi];
+    [self drawHBarChartForKosdaq];
     [self drawPieChartForKospi];
     [self drawPieChartForKosdaq];
 }
@@ -166,11 +169,88 @@
 	}
 }
 
+// 코스피 매매동향 가로 바차트.
+- (void)drawHBarChartForKospi
+{
+    int height = 65.0;
+    int width = 110.0;
+    
+    LPHBarChart *hBarChart = [[LPHBarChart alloc] initWithFrame:CGRectMake(98.0, 23.0, width, height)];
+    [hBarChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
+    [hBarChart setSameColorLabel:YES];
+    hBarChart.barWidth = 11.0;
+    [self.indexBg3 addSubview:hBarChart];
+    [hBarChart release];
+    
+    hBarChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    
+    // TODO: 실제 데이터 처리 로직 추가.
+    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SampleHBarChartData.plist"];
+    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    NSMutableArray *components = [NSMutableArray array];
+    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
+    {
+        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
+        [components addObject:component];
+        
+        // 상승/하락에 따른 컬러 설정.
+        if ([[item objectForKey:@"value"] floatValue] > 0) 
+        {
+            [component setColour:RGB(255, 133, 156)];
+        }
+        else
+        {
+            [component setColour:RGB(125, 202, 241)];
+        }
+    }
+    [hBarChart setComponents:components];
+}
+
+// 코스닥 매매동향 가로 바차트.
+- (void)drawHBarChartForKosdaq
+{
+    int height = 65.0;
+    int width = 110.0;
+    
+    LPHBarChart *hBarChart = [[LPHBarChart alloc] initWithFrame:CGRectMake(218.0, 23.0, width, height)];
+    [hBarChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
+    [hBarChart setSameColorLabel:YES];
+    hBarChart.barWidth = 11.0;
+    [self.indexBg3 addSubview:hBarChart];
+    [hBarChart release];
+    
+    hBarChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    
+    // TODO: 실제 데이터 처리 로직 추가.
+    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SampleHBarChartData.plist"];
+    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    NSMutableArray *components = [NSMutableArray array];
+    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
+    {
+        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
+        [components addObject:component];
+        
+        // 상승/하락에 따른 컬러 설정.
+        if ([[item objectForKey:@"value"] floatValue] > 0) 
+        {
+            [component setColour:RGB(255, 133, 156)];
+        }
+        else
+        {
+            [component setColour:RGB(125, 202, 241)];
+        }
+    }
+    [hBarChart setComponents:components];
+}
+
 // 코스티 등락종목 파이차트.
 - (void)drawPieChartForKospi
 {
     int height = 65.0;
     int width = 120.0;
+    
     LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(85.0, 25.0, width, height)];
     [pieChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
     [pieChart setShowArrow:NO];
@@ -183,10 +263,11 @@
     pieChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     pieChart.percentageFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     
-    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"sample_piechart_data.plist"];
+    // TODO: 실제 데이터 처리 로직 추가.
+    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SamplePieChartData.plist"];
     NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
     NSMutableArray *components = [NSMutableArray array];
-    for (int i=0; i<[[sampleInfo objectForKey:@"data"] count]; i++)
+    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
     {
         NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
         LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
@@ -214,6 +295,7 @@
 {
     int height = 65.0;
     int width = 120.0;
+    
     LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(205.0, 25.0, width, height)];
     [pieChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
     [pieChart setShowArrow:NO];
@@ -226,10 +308,10 @@
     pieChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     pieChart.percentageFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     
-    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"sample_piechart_data.plist"];
+    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SamplePieChartData.plist"];
     NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
     NSMutableArray *components = [NSMutableArray array];
-    for (int i=0; i<[[sampleInfo objectForKey:@"data"] count]; i++)
+    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
     {
         NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
         LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];

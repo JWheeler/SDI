@@ -298,6 +298,7 @@
 		1DBC17D01355069000B50564 /* NSDate+Timesince.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBC17CF1355069000B50564 /* NSDate+Timesince.m */; };
 		1DBCABE41380DFE000307824 /* SampleHBarChartData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DBCABE31380DFE000307824 /* SampleHBarChartData.plist */; };
 		1DBCABED138116E300307824 /* LPVBarChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DBCABEC138116E300307824 /* LPVBarChart.m */; };
+		1DBCAC0713812F5400307824 /* SampleVBarChartData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DBCAC0613812F5400307824 /* SampleVBarChartData.plist */; };
 		1DC246C31357AEBC00BDA281 /* main_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC246C11357AEBC00BDA281 /* main_bg.png */; };
 		1DC246C41357AEBC00BDA281 /* main_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DC246C21357AEBC00BDA281 /* main_bg@2x.png */; };
 		1DC246DA1357C8C800BDA281 /* UIWebView+WebUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DC246D91357C8C800BDA281 /* UIWebView+WebUI.m */; };
@@ -992,6 +993,7 @@
 		1DBCABE31380DFE000307824 /* SampleHBarChartData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleHBarChartData.plist; sourceTree = "<group>"; };
 		1DBCABEB138116E200307824 /* LPVBarChart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPVBarChart.h; sourceTree = "<group>"; };
 		1DBCABEC138116E300307824 /* LPVBarChart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPVBarChart.m; sourceTree = "<group>"; };
+		1DBCAC0613812F5400307824 /* SampleVBarChartData.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SampleVBarChartData.plist; sourceTree = "<group>"; };
 		1DC246C11357AEBC00BDA281 /* main_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = main_bg.png; sourceTree = "<group>"; };
 		1DC246C21357AEBC00BDA281 /* main_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "main_bg@2x.png"; sourceTree = "<group>"; };
 		1DC246D81357C8C800BDA281 /* UIWebView+WebUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+WebUI.h"; sourceTree = "<group>"; };
@@ -1748,6 +1750,7 @@
 		1DA0D67D133C28EB00787FB2 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				1DBCAC0613812F5400307824 /* SampleVBarChartData.plist */,
 				1DBCABE31380DFE000307824 /* SampleHBarChartData.plist */,
 				1D065B60137B78C6008E0A76 /* SamplePieChartData.plist */,
 				1DF60EFE133AC55000A809B5 /* ContentController.h */,
@@ -2945,6 +2948,7 @@
 				1D065B38137B5A91008E0A76 /* icon_up_daily@2x.png in Resources */,
 				1D065B61137B78C6008E0A76 /* SamplePieChartData.plist in Resources */,
 				1DBCABE41380DFE000307824 /* SampleHBarChartData.plist in Resources */,
+				1DBCAC0713812F5400307824 /* SampleVBarChartData.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

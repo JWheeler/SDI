@@ -9,7 +9,9 @@
 #import "IndexViewController.h"
 #import "LPPieChart.h"
 #import "LPHBarChart.h"
+#import "LPVBarChart.h"
 #import "LPLineChart.h"
+#import "HTTPHandler.h"
 
 
 @implementation IndexViewController
@@ -102,6 +104,7 @@
     [self drawHBarChartForKosdaq];
     [self drawPieChartForKospi];
     [self drawPieChartForKosdaq];
+    [self drawVBarChartForTheme];
 }
 
 - (void)viewDidUnload
@@ -191,7 +194,7 @@
     for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
     {
         NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
-        LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
+        LPHBarComponent *component = [LPHBarComponent barComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
         [components addObject:component];
         
         // 상승/하락에 따른 컬러 설정.
@@ -229,7 +232,7 @@
     for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
     {
         NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
-        LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
+        LPHBarComponent *component = [LPHBarComponent barComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
         [components addObject:component];
         
         // 상승/하락에 따른 컬러 설정.
@@ -332,6 +335,44 @@
         }
     }
     [pieChart setComponents:components];
+}
+
+// 업종테마흐름 바차트.
+- (void)drawVBarChartForTheme
+{
+    int height = 92.0;
+    int width = 280.0;
+    
+    LPVBarChart *vBarChart = [[LPVBarChart alloc] initWithFrame:CGRectMake(30.0, 0.0, width, height)];
+    [vBarChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
+    [vBarChart setSameColorLabel:YES];
+    vBarChart.barWidth = 20.0;
+    [self.indexBg5 addSubview:vBarChart];
+    [vBarChart release];
+    
+    vBarChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    
+    // TODO: 실제 데이터 처리 로직 추가.
+    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SampleVBarChartData.plist"];
+    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    NSMutableArray *components = [NSMutableArray array];
+    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
+    {
+        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        LPVBarComponent *component = [LPVBarComponent barComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
+        [components addObject:component];
+        
+        // 상승/하락에 따른 컬러 설정.
+        if ([[item objectForKey:@"value"] floatValue] > 0) 
+        {
+            [component setColour:RGB(255, 249, 196)];
+        }
+        else
+        {
+            [component setColour:RGB(125, 202, 241)];
+        }
+    }
+    [vBarChart setComponents:components];
 }
 
 @end

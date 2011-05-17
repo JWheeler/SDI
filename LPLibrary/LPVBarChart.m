@@ -12,7 +12,7 @@
 
 @implementation LPVBarComponent
 
-@synthesize value, title, colour;
+@synthesize value, title, perc, colour;
 
 - (id)initWithTitle:(NSString*)_title value:(float)_value
 {
@@ -20,6 +20,7 @@
     if (self)
     {
         self.title = _title;
+        self.perc = [NSString stringWithFormat:@"%.2f%%", _value];
         self.value = _value;
         self.colour = LPColorDefault;
     }
@@ -46,6 +47,7 @@
 
 @synthesize components;
 @synthesize titleFont;
+@synthesize percFont;
 @synthesize sameColorLabel;
 @synthesize barWidth;
 
@@ -57,15 +59,16 @@
         // Initialization code
         [self setBackgroundColor:[UIColor clearColor]];
 		
-		self.titleFont = [UIFont fontWithName:@"GeezaPro" size:10];//[UIFont boldSystemFontOfSize:20];
+		self.titleFont = [UIFont boldSystemFontOfSize:20];
 		self.sameColorLabel = NO;
 	}
     return self;
 }
 
-#define BAR_MAX_WIDTH 120
-#define BAR_MARGIN 4
-#define LABEL_MARGIN 10
+#define BAR_MAX_HEIGHT 62.0
+#define BAR_MARGIN 30.0
+#define LABEL_MARGIN 16.0
+#define DEFAULT_FONT_SIZE 14
 
 - (void)drawRect:(CGRect)rect
 {
@@ -74,15 +77,10 @@
         CGContextRef ctx = UIGraphicsGetCurrentContext();
 		UIGraphicsPushContext(ctx);
         
-        // 수직선.
-        CGPoint vStart = CGPointMake(0.0, 0.0);
-        CGPoint vEnd = CGPointMake(0.0, rect.size.height);
-        drawStrokedLine(ctx, vStart, vEnd);
-        
         // 수평선.
-        CGPoint hStart = CGPointMake(0.0, rect.size.height);
-        CGPoint hEnd = CGPointMake(rect.size.width, rect.size.height);
-        drawStrokedLine(ctx, hStart, hEnd);
+        CGPoint start = CGPointMake(0.0, 60.0);
+        CGPoint end = CGPointMake(rect.size.width, 60.0);
+        drawStrokedLine(ctx, start, end);
         
         
         for (int i = 0; i < [components count]; i++) 
@@ -94,10 +92,11 @@
             CGContextSetFillColorWithColor(ctx, [component.colour CGColor]);
             
             // 위치와 크기 설정.
-            rect.origin.x = 0.0;
-            rect.origin.y = BAR_MARGIN + i * (barWidth + BAR_MARGIN);
-            rect.size.width = (fabs(perc) * BAR_MAX_WIDTH) / 100.0;
-            rect.size.height = self.barWidth;
+            float currentBarHeight = (fabs(perc) * BAR_MAX_HEIGHT) / 10.0;
+            rect.origin.x = BAR_MARGIN + i * (self.barWidth + BAR_MARGIN);
+            rect.origin.y = BAR_MAX_HEIGHT - currentBarHeight - 2;
+            rect.size.width = self.barWidth;
+            rect.size.height = currentBarHeight - 2;
             
             // 사각형 채우기.
             CGContextFillRect(ctx, rect);
@@ -112,9 +111,20 @@
                 CGContextSetRGBFillColor(ctx, 0.1f, 0.1f, 0.1f, 1.0f);
             }
             
+            // 퍼센트 라벨 폰트 크기.
+            self.percFont = [UIFont boldSystemFontOfSize:DEFAULT_FONT_SIZE - i];
             
-            CGRect titleFrame = CGRectMake(rect.size.width + BAR_MARGIN, rect.origin.y, 50.0, self.barWidth);
-            [component.title drawInRect:titleFrame withFont:self.titleFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentLeft];
+            // 퍼센트 라벨 표시.
+            CGContextSetFillColorWithColor(ctx, [component.colour CGColor]);
+            CGRect percFrame = CGRectMake(rect.origin.x - 20, rect.origin.y - LABEL_MARGIN + i, 60.0, 16.0);
+            [component.perc drawInRect:percFrame withFont:self.percFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
+            
+            Debug(@">>>>>>>>>>>>>>Perc frame: %@", NSStringFromCGRect(percFrame));
+            
+            // 제목 라벨 표시.
+            CGContextSetFillColorWithColor(ctx, [RGB(154, 154, 154) CGColor]);
+            CGRect titleFrame = CGRectMake(rect.origin.x - 20, 62.0, 60.0, 10.0);
+            [component.title drawInRect:titleFrame withFont:self.titleFont lineBreakMode:UILineBreakModeTailTruncation alignment:UITextAlignmentCenter];
         }
     }
 }
@@ -122,6 +132,7 @@
 - (void)dealloc
 {
 	[self.titleFont release];
+    [self.percFont release];
     [self.components release];
     [super dealloc];
 }

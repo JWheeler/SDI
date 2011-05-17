@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>data</key>
+	<array>
+		<dict>
+			<key>title</key>
+			<string>환경오염진단/복원</string>
+			<key>value</key>
+			<real>6.19</real>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>복권</string>
+			<key>value</key>
+			<real>5.54</real>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>전자결제(전자화폐)</string>
+			<key>value</key>
+			<real>3.69</real>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>강관업체(Steel pipe)</string>
+			<key>value</key>
+			<real>3.54</real>
+		</dict>
+		<dict>
+			<key>title</key>
+			<string>여수엑스포</string>
+			<key>value</key>
+			<real>3.48</real>
+		</dict>
+	</array>
+</dict>
+</plist>

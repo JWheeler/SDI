@@ -86,4 +86,28 @@
     }
 }
 
+// RQ 요청.
+- (void)req:(NSString *)trCode
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RQRP_SERVER_URL, trCode]];
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error) 
+    {
+        NSString *responseString = [request responseString];
+        
+        // SBJsonParser 생성.
+        SBJsonParser *jsonParser = [[[SBJsonParser alloc] init] autorelease];
+        
+        // 응답 문자열로부터 딕셔너리 획득. 
+        self.reponseDict = (NSDictionary *)[jsonParser objectWithString:responseString error:NULL];
+        Debug(@"%@", self.reponseDict);
+    }
+    else
+    {
+        Debug(@"Connection error!");
+    }
+}
+
 @end

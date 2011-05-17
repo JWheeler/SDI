@@ -93,7 +93,7 @@
             CGContextSetFillColorWithColor(ctx, [component.colour CGColor]);
             
             // 위치와 크기 설정.
-            rect.origin.x = 0.0;
+            rect.origin.x = 1.0;
             rect.origin.y = BAR_MARGIN + i * (barWidth + BAR_MARGIN);
             rect.size.width = (fabs(perc) * BAR_MAX_WIDTH) / 100.0;
             rect.size.height = self.barWidth;

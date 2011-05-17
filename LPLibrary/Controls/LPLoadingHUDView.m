@@ -23,8 +23,11 @@
 
 @synthesize radius;
 
-- (id)initWithTitle:(NSString*)ttl message:(NSString*)msg {
-	if(self = [super initWithFrame:CGRectMake(0, 0, 280, 200)]) {
+- (id)initWithTitle:(NSString*)ttl message:(NSString*)msg 
+{
+    self = [super initWithFrame:CGRectMake(0, 0, 280, 200)];
+	if(self) 
+    {
 		_title = [ttl copy];
 		_message = [msg copy];
 		_activity = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
@@ -36,14 +39,14 @@
 	return self;
 }
 
-
-- (id)initWithTitle:(NSString*)ttl {
+- (id)initWithTitle:(NSString*)ttl 
+{
 	if(![self initWithTitle:ttl message:nil]) return nil;
 	return self;	
 }
 
-
-- (void)drawRect:(CGRect)rect {
+- (void)drawRect:(CGRect)rect 
+{
 	if(_hidden) return;
 	int width, rWidth, rHeight, x;
 	
@@ -86,33 +89,34 @@
 	[_message drawInRect:r withFont:messageFont lineBreakMode:UILineBreakModeCharacterWrap alignment:UITextAlignmentCenter];
 }
 
-
-- (void)setTitle:(NSString*)str {
+- (void)setTitle:(NSString*)str 
+{
 	[_title release];
 	_title = [str copy];
 	//[self updateHeight];
 	[self setNeedsDisplay];
 }
 
-
-- (NSString*)title {
+- (NSString*)title 
+{
 	return _title;
 }
 
-
-- (void)setMessage:(NSString*)str {
+- (void)setMessage:(NSString*)str 
+{
 	[_message release];
 	_message = [str copy];
 	[self setNeedsDisplay];
 }
 
 
-- (NSString*)message {
+- (NSString*)message 
+{
 	return _message;
 }
 
-
-- (void)setRadius:(float)f {
+- (void)setRadius:(float)f 
+{
 	if(f==radius) return;
 	
 	radius = f;
@@ -120,8 +124,8 @@
 	
 }
 
-
-- (void)startAnimating { 
+- (void)startAnimating 
+{ 
 	if(!_hidden) return;
 	_hidden = NO;
 	[self setNeedsDisplay];
@@ -129,8 +133,8 @@
 	
 }
 
-
-- (void)stopAnimating {
+- (void)stopAnimating 
+{
 	if(_hidden) return;
 	_hidden = YES;
 	[self setNeedsDisplay];
@@ -138,15 +142,15 @@
 	
 }
 
-
-- (CGSize)calculateHeightOfTextFromWidth:(NSString*)text font: (UIFont*)withFont width:(float)width linebreak:(UILineBreakMode)lineBreakMode {
+- (CGSize)calculateHeightOfTextFromWidth:(NSString*)text font: (UIFont*)withFont width:(float)width linebreak:(UILineBreakMode)lineBreakMode 
+{
 	return [text sizeWithFont:withFont 
 			constrainedToSize:CGSizeMake(width, FLT_MAX) 
 				lineBreakMode:lineBreakMode];
 }
 
-
-- (void)adjustHeight {
+- (void)adjustHeight 
+{
 	CGSize s1 = [_title heightWithFont:[UIFont boldSystemFontOfSize:16.0] 
 								 width:200.0 
 							 linebreak:UILineBreakModeTailTruncation];
@@ -160,8 +164,8 @@
 	self.frame = r;
 }
 
-
-- (void)dealloc {
+- (void)dealloc 
+{
 	[_activity release];
 	[_title release];
 	[_message release];

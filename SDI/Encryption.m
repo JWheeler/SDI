@@ -12,23 +12,35 @@
 
 @implementation Encryption
 
-// 복호화를 위한 세션키.
-unsigned char sessionKey[20] = {0,};
-int sessionKeyLen = 16;
+@synthesize sessionKey;
+
+PRIVATEKEY *privKey;
+
+- (void)dealloc
+{
+    [sessionKey release];
+    [super dealloc];
+}
+
+// 세션키 생성.
+- (void)genSessionKey
+{
+    IW_PRIVATEKEY_Create(privKey);
+}
 
 // 대칭키 복호화.
 // !!!: 아이폰에서 생성한 세션키로 복호화 한다.
 - (NSMutableString *)decrypt:(char *)encryptedMsg
 {
-    //unsigned char symKey[20] = "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c";
-    //int symKeyLen = 16;
+    unsigned char symKey[20] =  "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c";
+    int symKeyLen = 16;
     
     unsigned char decryptedMsg[1024] = {0,};
     unsigned int decryptedMsg_len = 0;
     int ret;
     
     // 복호화 함수 호출
-    ret = IW_Decrypt(decryptedMsg, &decryptedMsg_len, 1024, sessionKey, sessionKeyLen, ALG_SEED, encryptedMsg);
+    ret = IW_Decrypt(decryptedMsg, &decryptedMsg_len, 1024, symKey, symKeyLen, ALG_SEED, encryptedMsg);
     
     if (IW_SUCCESS == ret)
     {
@@ -63,16 +75,16 @@ int sessionKeyLen = 16;
     //unsigned char sessionKey[20] = {0,};
     char encodedEncData[1024] = {0,};
     int ret;
-    ret = IW_HybridEncrypt(encodedEncData,
+    ret = IW_HybridEncryptEx(encodedEncData,
                            sizeof(encodedEncData),
-                           sessionKey,
+                           "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c",
+                           20,
                            szPlainMsg,
                            nPlainMsgLen,
                            "ADCBiAKBgHgWQm5CVQBNaGlIgTgv06HhOXQqSuuBPY2EvPvPsEL120jnT5HCU7lMbP8qVvb2qpGmxN+3PUVUXG1yHKqEGkNc77/eOq4KReHFeezH2wPoLnRkivm0pE4MfWwL2N6la5G1lktZdbtsWMAT7GJeEpbbDkTqatbf4XQkG2Cixq/jAgMBAAEA",
                            ALG_SEED);
     
     [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림1" andMessage:[NSString stringWithFormat:@"%p", sessionKey]];
-    //printf(">>>>>>>>>>>>>>>>>>>%d", (char*)sessionKey);
 
     if (IW_SUCCESS == ret)
     {
@@ -101,7 +113,7 @@ int sessionKeyLen = 16;
 {
    char *encryptData =  [self hybridEncrypt:@"하이브리드 암호화 테스트!!!"];
     
-    //sleep(5);
+    sleep(5);
     [self decrypt:encryptData];
 }
 

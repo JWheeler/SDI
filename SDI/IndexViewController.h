@@ -52,5 +52,6 @@
 - (void)drawHBarChartForKosdaq;
 - (void)drawPieChartForKospi;
 - (void)drawPieChartForKosdaq;
+- (void)drawVBarChartForTheme;
 
 @end

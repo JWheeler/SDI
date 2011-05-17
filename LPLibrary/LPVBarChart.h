@@ -15,12 +15,14 @@
 {
     float value;
     NSString *title;
+    NSString *perc;
     UIColor *colour;
 }
 
 @property (nonatomic, assign) float value;
 @property (nonatomic, retain) UIColor *colour;
 @property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSString *perc;
 
 - (id)initWithTitle:(NSString*)_title value:(float)_value;
 + (id)barComponentWithTitle:(NSString*)_title value:(float)_value;
@@ -40,12 +42,14 @@
 {
     NSMutableArray *components;
     UIFont *titleFont;
+    UIFont *percFont;
     BOOL sameColorLabel;
     float barWidth;             // 바차트의 각 바의 넓이(폭)
 }
 
 @property (nonatomic, retain) NSMutableArray *components;
 @property (nonatomic, retain) UIFont *titleFont;
+@property (nonatomic, retain) UIFont *percFont;
 @property (nonatomic, assign) BOOL sameColorLabel;
 @property (nonatomic, assign) float barWidth;
 

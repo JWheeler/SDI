@@ -5,6 +5,9 @@
 //  Created by Jong Pil Park on 11. 5. 12..
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
+//  Daily의 등락종목을 표시하기위한 파이 차트를 그기기 위해...
+//  TODO: 데일리에 특화되어 있으므로 일반화 시키려면 조금 변경해야 함!
+//
 
 #import <Foundation/Foundation.h>
 

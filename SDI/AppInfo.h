@@ -23,6 +23,7 @@ enum
 
 @property (nonatomic, retain) NSArray *stockCodeMasters;
 @property (nonatomic, retain) NSMutableArray *stockHistories;
+@property (nonatomic, retain) NSMutableArray *branchs;
 
 + (AppInfo *)sharedAppInfo;
 
@@ -40,5 +41,8 @@ enum
 - (void)manageStockHistory:(NSInteger)type;
 - (NSMutableArray *)loadStockHistories:(NSString *)file;
 - (void)addStockHistory:(NSDictionary *)dict;
+- (NSString *)searchMarketCode:(NSString *)stockCode;
+- (void)loadBranchs;
+- (void)grabBranchs;
 
 @end

@@ -445,8 +445,11 @@
 			// HTTPRequest: 리얼 시세 데이터 가 들어 오기 전에 종목별 현재가 설정을 위해...
             self.responseArray = [[NSMutableArray alloc] init];
             HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
-           
-            [httpHandler searchCurrentPrice:stockCode];
+            
+            // trCode(실제 사용할 query string) 생성.
+            NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:stockCode];
+            NSString *trCode = [NSString stringWithFormat:@"%@&isCd=%@&infoClsf=%@", TRCD_MAIN5007, stockCode, marketCode];
+            [httpHandler req:trCode];
             if (httpHandler.reponseDict != nil) 
             {
                 [self setupSearchResultView:httpHandler.reponseDict withStockName:stockName];
@@ -554,7 +557,11 @@
     {
         // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
         NSManagedObject *managedObject = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        [httpHandler searchCurrentPrice:[[managedObject valueForKey:@"stockCode"] description]];
+        // trCode(실제 사용할 query string) 생성.
+        NSString *stockCode = [managedObject valueForKey:@"stockCode"];
+        NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:stockCode];
+        NSString *trCode = [NSString stringWithFormat:@"%@&isCd=%@&infoClsf=%@", TRCD_MAIN5007, stockCode, marketCode];
+        [httpHandler req:trCode];
         if (httpHandler.reponseDict != nil) 
         {
             [self.responseArray addObject:httpHandler.reponseDict];

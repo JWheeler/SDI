@@ -7,6 +7,7 @@
 //
 
 #import "Encryption.h"
+#import "Random.h"
 #include "_Issacwebapi.h"
 
 
@@ -25,14 +26,17 @@ PRIVATEKEY *privKey;
 // 세션키 생성.
 - (void)genSessionKey
 {
-    IW_PRIVATEKEY_Create(privKey);
+    // 랜덤 테스트.
+    initRandomSeed( (long) [[NSDate date] timeIntervalSince1970] );
+    float myRandomNumber = nextRandomFloat() * 74;
+    Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>%f", myRandomNumber);
 }
 
 // 대칭키 복호화.
 // !!!: 아이폰에서 생성한 세션키로 복호화 한다.
 - (NSMutableString *)decrypt:(char *)encryptedMsg
 {
-    unsigned char symKey[20] =  "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c";
+    unsigned char symKey[20] = "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c";
     int symKeyLen = 16;
     
     unsigned char decryptedMsg[1024] = {0,};

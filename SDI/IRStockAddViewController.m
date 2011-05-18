@@ -369,7 +369,9 @@
             [self insertNewObject:dict];
             
             // SB 등록 메시지 전송.
-            [[AppInfo sharedAppInfo] regSB:dict idx:@"0" trCode:TRCD_SS01REAL];
+            // !!!: marketCode(장구분코드)를 리얼서버에서는 idx라고 사용함!
+            NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:[dict valueForKey:@"stockCode"]];
+            [[AppInfo sharedAppInfo] regSB:dict idx:marketCode trCode:TRCD_SS01REAL];
             
             // 셀 선택 해제.
             [cell setSelected:NO animated:YES];
@@ -394,7 +396,9 @@
             [self insertNewObject:dict];
             
             // SB 등록 메시지 전송.
-            [[AppInfo sharedAppInfo] regSB:dict idx:@"0" trCode:TRCD_SS01REAL];
+            // !!!: marketCode(장구분코드)를 리얼서버에서는 idx라고 사용함!
+            NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:[dict valueForKey:@"stockCode"]];
+            [[AppInfo sharedAppInfo] regSB:dict idx:marketCode trCode:TRCD_SS01REAL];
             
             // 셀 선택 해제.
             [cell setSelected:NO animated:YES];

@@ -15,12 +15,14 @@
 #import "TRGenerator.h"
 #import "SBCount.h"
 #import "SBManager.h"
+#import "TouchXML.h"
 
 
 @implementation AppInfo
 
 @synthesize stockCodeMasters;
 @synthesize stockHistories;
+@synthesize branchs;
 
 static dispatch_once_t pred;
 static AppInfo *sharedAppInfo = nil;
@@ -65,7 +67,7 @@ static AppInfo *sharedAppInfo = nil;
     self = [super init];
 	if (self) 
     {
-        
+        [self loadBranchs];
 	}
 	
 	return self;
@@ -412,6 +414,87 @@ static AppInfo *sharedAppInfo = nil;
         [self.stockHistories removeObjectAtIndex:0];
         [self.stockHistories addObject:dict];
     }
+}
+
+// marketCode(장구분 코드) 검색.
+- (NSString *)searchMarketCode:(NSString *)stockCode
+{
+    NSString *retVal = nil;
+    for (NSDictionary *dict in self.stockCodeMasters) 
+    {
+        
+        if ([[dict objectForKey:@"stockCode"] isEqualToString:stockCode]) 
+        {
+            NSString *currentMarketCode = [dict objectForKey:@"marketCode"];
+            
+            if ([currentMarketCode isEqualToString:@"K"]) 
+            {
+                retVal = @"0";
+            }
+            if ([currentMarketCode isEqualToString:@"Q"]) 
+            {
+                retVal = @"1";
+            }
+            if ([currentMarketCode isEqualToString:@"T"]) 
+            {
+                retVal = @"2";
+            }
+        }
+    }
+    
+    return retVal;
+}
+
+// 지점 데이터 로드: 큐 사용을 위해...
+- (void)loadBranchs 
+{
+	NSOperationQueue *queue = [NSOperationQueue new];
+	NSInvocationOperation *operation = [[NSInvocationOperation alloc] initWithTarget:self 
+																			selector:@selector(grabBranchs) 
+																			  object:nil];
+	[queue addOperation:operation];
+	[queue release];
+	[operation release];
+}
+
+
+// 지점 데이터 로드.
+- (void)grabBranchs 
+{
+	NSMutableArray *branchEntries = [[[NSMutableArray alloc] init] autorelease];	
+    NSURL *contentsURL = [NSURL URLWithString:SERVER_URL_FOR_BRANCH];
+	
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+	// 인코딩: utf-8
+    //CXMLDocument *xmlParser = [[[CXMLDocument alloc] initWithContentsOfURL:url options:0 error:nil] autorelease];
+	// 인코딩: euc-kr
+	CXMLDocument *xmlParser = [[[CXMLDocument alloc] initWithContentsOfURL:contentsURL encoding:-2147481280 options:0 error:nil] autorelease];
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+	
+    NSArray *resultNodes = NULL;
+    // Branch XML의 item 노드를 resultNodes에 세팅.
+	resultNodes = [xmlParser nodesForXPath:@"//item" error:nil];
+	
+    for (CXMLElement *resultElement in resultNodes) {
+		//Debug(@"%@", resultElement);
+        
+		// 각 item의 필드를 저장하기 위해 임시 MutableDictionary 타입의 branchgItem 생성.
+		NSMutableDictionary *branchItem = [[[NSMutableDictionary alloc] init] autorelease];
+		
+		// 카운트 용.
+		int counter;
+		
+		// 현재 노드 루프.
+		for(counter = 0; counter < [resultElement childCount]; counter++) {
+			// 키-값 형태로 데이터 저장.
+			[branchItem setObject:[[resultElement childAtIndex:counter] stringValue] forKey:[[resultElement childAtIndex:counter] name]];
+		}
+		
+		// articleItem을 articleEntries에 저장. 
+		[branchEntries addObject:[branchItem copy]];
+	}
+	
+	self.branchs = branchEntries;
 }
 
 @end

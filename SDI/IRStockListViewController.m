@@ -404,7 +404,9 @@
         [dict setValue:[managedObject valueForKey:@"stockName"] forKey:@"stockName"];
         
         // SB 해제 메시지 전송.
-        [[AppInfo sharedAppInfo] clearSB:dict idx:@"0" trCode:TRCD_SS01REAL];
+        // !!!: marketCode(장구분코드)를 리얼서버에서는 idx라고 사용함!
+        NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:[dict valueForKey:@"stockCode"]];
+        [[AppInfo sharedAppInfo] clearSB:dict idx:marketCode trCode:TRCD_SS01REAL];
         
         NSManagedObjectContext *context = [self.fetchedResultsControllerForIRStock managedObjectContext];
         [context deleteObject:[self.fetchedResultsControllerForIRStock objectAtIndexPath:indexPath]];
@@ -780,7 +782,12 @@
     {
         // NSIndexPath의 indexPathWithIndex 메서드를 사용하기 위해, NSInteger를 사용함!
         NSManagedObject *managedObject = [self.fetchedResultsControllerForIRStock objectAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-        [httpHandler searchCurrentPrice:[[managedObject valueForKey:@"stockCode"] description]];
+        
+        // trCode(실제 사용할 query string) 생성.
+        NSString *stockCode = [managedObject valueForKey:@"stockCode"];
+        NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:stockCode];
+        NSString *trCode = [NSString stringWithFormat:@"%@&isCd=%@&infoClsf=%@", TRCD_MAIN5007, stockCode, marketCode];
+        [httpHandler req:trCode];
         if (httpHandler.reponseDict != nil) 
         {
             [self.responseArray addObject:httpHandler.reponseDict];

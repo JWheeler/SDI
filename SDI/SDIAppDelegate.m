@@ -17,7 +17,6 @@
 
 // 테스트.
 #import "Encryption.h"
-#import "LPMatrix.h"
 
 SOLogger *gLogger;
 
@@ -69,18 +68,6 @@ SOLogger *gLogger;
     Encryption *test = [[Encryption alloc] init];
     [test testEncryption];
     
-    
-    
-    // 매트릭스 테스트.
-    LPMatrix *matrix = [[LPMatrix alloc] initWithRows:10 columns:10];
-    [matrix setObject:@"foo" forRow:2 column:8];
-    [matrix setObject:@"bar" forRow:0 column:9];
-    [matrix setObject:@"baz" forRow:9 column:9];
-    
-    NSLog(@"%@", [matrix objectForRow:2 column:8]);
-    NSLog(@"%@", [matrix objectForRow:9 column:9]);
-    NSLog(@"%@", [matrix objectForRow:9 column:8]);
-    
     // 로그.
     gLogger = [[SOLogger alloc] init];
     
@@ -90,12 +77,11 @@ SOLogger *gLogger;
     // 네트워크 상태 확인.
     [self isConnect];
     
-    //APNS
-    // Add registration for remote notifications
+    // APNS 등록.
 	[[UIApplication sharedApplication] 
      registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
 	
-	// Clear application badge when app launches
+	// 앱 런칭 시 뱃지 지우기.
 	application.applicationIconBadgeNumber = 0;
     
     

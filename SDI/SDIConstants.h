@@ -15,11 +15,11 @@
 // 마스터 코드 URL.
 #define STOCK_CODE_MASTER_URL @"http://10.200.2.47/common/master/%@.mast"    // 테스트.
 
-// 종별별 현재가 조회 URL:RQ
-#define SEARCH_CURRENT_PRICE @"http://10.200.2.47/common/jsp/trcode/main5007.jsp?isNo=%@"  // 테스트
-
 // RQ/RP 통합 서버 URL.
 #define RQRP_SERVER_URL @"http://10.200.2.47/common/jsp/hdstrToJson.jsp?HDSTR_SRC=trcode/%@" // 테스트.
+
+// 지점 정보 서버 URL.
+#define SERVER_URL_FOR_BRANCH @"http://m.youfirst.co.kr/app/branch_list.xml"    
 
 // 마스터 코드 저장용 파일명(확장자 제외).
 // 필드 구분: 종목코드, 종목명, 장구분코드(K,Q,T), 주문단위, 증거금율(A,B,C,D,E), 신용증거금율, 투자주의/경고(감리), 투자경고(위험)거래정지구분
@@ -48,5 +48,6 @@
 #define SUIK_MASTER @"Suik"                 // 상장수익증권.
 
 // RQ/RP용 TR 코드.
+#define TRCD_MAIN5007 @"MAIN5007"
 #define TRCD_SVC10313 @"SV10310"
 

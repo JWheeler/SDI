@@ -51,7 +51,7 @@
     }
 }
 
-#pragma mark - 커스터 메서드.
+#pragma mark - 커스텀 메서드.
 
 // 종목의 현재가 검색: 비동기.
 //- (void)searchCurrentPrice:(NSString *)stockCode
@@ -65,7 +65,7 @@
 // 종목의 현재가 검색: 동기.
 - (void)searchCurrentPrice:(NSString *)stockCode
 {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:SEARCH_CURRENT_PRICE, stockCode]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RQRP_SERVER_URL, stockCode]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request startSynchronous];
     NSError *error = [request error];
@@ -86,10 +86,12 @@
     }
 }
 
-// RQ 요청.
+// RQ 요청: 통합 버전.
+// trCode는 실제 query string 이다.
 - (void)req:(NSString *)trCode
 {
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RQRP_SERVER_URL, trCode]];
+    Debug(@"Request URL: %@", url);
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request startSynchronous];
     NSError *error = [request error];

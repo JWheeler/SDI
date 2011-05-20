@@ -18,6 +18,9 @@
 // RQ/RP 통합 서버 URL.
 #define RQRP_SERVER_URL @"http://10.200.2.47/common/jsp/hdstrToJson.jsp?HDSTR_SRC=trcode/%@" // 테스트.
 
+// RQ/RP 통합 암/복호화 서버 URL.
+#define RQRP_ENCRYPT_SERVER_URL @"http://10.200.2.47/common/jsp/hdstrToJson.jsp?issacweb_data=%@" // 테스트.
+
 // 지점 정보 서버 URL.
 #define SERVER_URL_FOR_BRANCH @"http://m.youfirst.co.kr/app/branch_list.xml"    
 
@@ -48,6 +51,8 @@
 #define SUIK_MASTER @"Suik"                 // 상장수익증권.
 
 // RQ/RP용 TR 코드.
-#define TRCD_MAIN5007 @"MAIN5007"
-#define TRCD_SVC10313 @"SV10310"
+#define TRCD_MAIN5007 @"MAIN5007"           // 현재가: 메인, 관심종목.
+#define TRCD_SVC10313 @"SVC10313"           // 매매동향: 수평 바 차트.
+#define TRCD_DL01BASE @"DL01BASE"           // 등락종목: 파이 차트(코스피).
+#define TRCD_OUTDBASE @"OUTDBASE"           // 등락종목: 파이 차트(코스닥).
 

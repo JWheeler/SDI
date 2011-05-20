@@ -793,6 +793,7 @@
             [self.responseArray addObject:httpHandler.reponseDict];
         }
     }
+    [httpHandler release];
     
     for (int i = 0; i < [self.stocks count]; i++) 
     {

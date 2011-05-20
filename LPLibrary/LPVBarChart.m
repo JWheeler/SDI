@@ -119,8 +119,6 @@
             CGRect percFrame = CGRectMake(rect.origin.x - 20, rect.origin.y - LABEL_MARGIN + i, 60.0, 16.0);
             [component.perc drawInRect:percFrame withFont:self.percFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentCenter];
             
-            Debug(@">>>>>>>>>>>>>>Perc frame: %@", NSStringFromCGRect(percFrame));
-            
             // 제목 라벨 표시.
             CGContextSetFillColorWithColor(ctx, [RGB(154, 154, 154) CGColor]);
             CGRect titleFrame = CGRectMake(rect.origin.x - 20, 62.0, 60.0, 10.0);

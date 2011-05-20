@@ -95,7 +95,9 @@
             // 위치와 크기 설정.
             rect.origin.x = 1.0;
             rect.origin.y = BAR_MARGIN + i * (barWidth + BAR_MARGIN);
-            rect.size.width = (fabs(perc) * BAR_MAX_WIDTH) / 100.0;
+            // TODO: 계산 공식이 맞는 지 최종 확인이 필요하다.
+            // 데이터가 100%가 넘게 나오는 경우가 있기 때문에 100로 나누지 않았다.
+            rect.size.width = (fabs(perc) * BAR_MAX_WIDTH) / 500.0;
             rect.size.height = self.barWidth;
             
             // 사각형 채우기.
@@ -110,7 +112,6 @@
             {
                 CGContextSetRGBFillColor(ctx, 0.1f, 0.1f, 0.1f, 1.0f);
             }
-       
 
             CGRect titleFrame = CGRectMake(rect.size.width + BAR_MARGIN, rect.origin.y, 50.0, self.barWidth);
             [component.title drawInRect:titleFrame withFont:self.titleFont lineBreakMode:UILineBreakModeWordWrap alignment:UITextAlignmentLeft];

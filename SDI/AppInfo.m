@@ -228,10 +228,6 @@ static AppInfo *sharedAppInfo = nil;
 	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
 	[dateFormat setDateFormat:@"yyyy-MM-dd"];
 	
-	// 시간 포맷.
-	NSDateFormatter *timeFormat = [[NSDateFormatter alloc] init];
-	[timeFormat setDateFormat:@"HH:mm:ss"];
-	
 	// 비교할 시간 생성.
 	NSString *theDate = [dateFormat stringFromDate:now];
 	NSString *theTime = @"07:10:00";
@@ -246,7 +242,7 @@ static AppInfo *sharedAppInfo = nil;
 	
 	[now release];
 	[dateFormat release];
-	[timeFormat release];
+	[formatter release];
 	
 	Debug(@"-----------------------------------------------------------------");
 	Debug(@"compareDate: %@", stringDate);

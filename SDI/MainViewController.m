@@ -449,7 +449,8 @@
             // trCode(실제 사용할 query string) 생성.
             NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:stockCode];
             NSString *trCode = [NSString stringWithFormat:@"%@&isCd=%@&infoClsf=%@", TRCD_MAIN5007, stockCode, marketCode];
-            [httpHandler req:trCode];
+            //[httpHandler req:trCode];
+            [httpHandler reqForEncrypt:trCode];
             if (httpHandler.reponseDict != nil) 
             {
                 [self setupSearchResultView:httpHandler.reponseDict withStockName:stockName];
@@ -460,6 +461,7 @@
                 
                 return;
             }
+            [httpHandler release];
 		}
         
         if (dict == [self.stockList lastObject]) 
@@ -567,6 +569,7 @@
             [self.responseArray addObject:httpHandler.reponseDict];
         }
     }
+    [httpHandler release];
     
     for (int i = 0; i < [self.stocks count]; i++) 
     {

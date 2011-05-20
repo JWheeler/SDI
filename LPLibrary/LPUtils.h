@@ -27,5 +27,8 @@ enum
 + (void)showAlert:(int)type andTag:(int)tag withTitle:(NSString *)title andMessage:(NSString *)message;
 + (NSString *)reverseString:(NSString *)string;
 + (NSString *)formatStringNumber:(NSString *)string withCipher:(int)cipher;
++ (BOOL)matchString:(NSString *)theString withString:(NSString*)withString;
++ (NSString *)stringToHex:(NSString *)string;
++ (float)convertStringToNumber:(NSString *)string;
 
 @end

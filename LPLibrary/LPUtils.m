@@ -7,6 +7,7 @@
 //
 
 #import "LPUtils.h"
+#import "IPAddress.h"
 
 
 @implementation LPUtils
@@ -100,6 +101,74 @@
 	}
 	
 	return [self reverseString:reverseString];
+}
+
+// 해당 문자열이 포함되어 있는지 비교.
++ (BOOL)matchString:(NSString *)theString withString:(NSString*)withString 
+{
+	NSRange range = [theString rangeOfString:withString];
+	int length = range.length;
+	
+	if (length == 0) 
+    {
+		return NO;
+	}
+	
+	return YES;
+}
+
+/**
+ -----------------------------------------------------------------
+ NSString > char*
+ -----------------------------------------------------------------
+ NSString *nsString = @"My NSString" ;
+ const char *cString = [nsString cStringUsingEncoding:ASCIIEncoding];
+ 
+ // 또는
+ const char *cString = [nsString UTF8String];
+ 
+ -----------------------------------------------------------------
+ char* > NSString
+ -----------------------------------------------------------------
+ const char *cString = "HELLO!!" ;
+ NSString *nsString = [NSString stringWithUTF8String:cString];
+ 
+ // 또는
+ NSString *nsString = [[NSString alloc] initWithUTF8String:cString]
+ */
+
+// NSString을 Hexa string로 변환.
++ (NSString *)stringToHex:(NSString *)string 
+{	
+	const char *utf8 = [string UTF8String];
+    NSMutableString *hex = [NSMutableString string];
+    while (*utf8) [hex appendFormat:@"%02X", *utf8++ & 0x00FF];
+	
+    return [NSString stringWithFormat:@"%@", hex];
+}
+
+// 0으로 시작하는 문자열을 숫자(float)로 변환(예: 00500 -> 500).
++ (float)convertStringToNumber:(NSString *)string
+{
+    int index = 0;
+    for (int i = 0; i < [string length]; i++) 
+    {
+        
+        if (![[NSString stringWithFormat:@"%C", [string characterAtIndex:i]] isEqualToString:@"0"]) 
+        {
+            index = i;
+            break;
+        }
+        else
+        {
+            index = [string length];
+        }
+    }
+    
+    NSString *chunk = [[[NSString alloc] init] autorelease];
+	chunk = [string substringFromIndex:index];
+    
+    return [chunk floatValue];
 }
 
 @end

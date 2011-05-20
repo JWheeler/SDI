@@ -20,6 +20,13 @@
 @synthesize beforeImageView;
 @synthesize afterImageView;
 
+@synthesize indexBg11;
+@synthesize indexBg21;
+@synthesize indexBg31;
+@synthesize indexBg41;
+@synthesize indexBg51;
+
+@synthesize indexBg12;
 @synthesize indexBg1;
 @synthesize indexBg2;
 @synthesize indexBg3;
@@ -43,6 +50,10 @@
 @synthesize cFluctuation;
 @synthesize cFluctuationRate;
 
+@synthesize hBarChartData;
+@synthesize pieChartDataForKospi;
+@synthesize pieChartDataForKosdaq;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -58,6 +69,12 @@
     [ribbonImageView release];
     [beforeImageView release];
     [afterImageView release];
+    [indexBg11 release];
+    [indexBg21 release];
+    [indexBg31 release];
+    [indexBg41 release];
+    [indexBg51 release];
+    [indexBg12 release];
     [indexBg1 release];
     [indexBg2 release];
     [indexBg3 release];
@@ -79,6 +96,9 @@
     [cArrow release];
     [cFluctuation release];
     [cFluctuationRate release];
+    [hBarChartData release];
+    [pieChartDataForKospi release];
+    [pieChartDataForKosdaq release];
     [super dealloc];
 }
 
@@ -99,12 +119,53 @@
     // 리본 용 제스처 등록.
     [self registerGestureForRibbon];
     
-    // 차트 테스트.
-    [self drawHBarChartForKospi];
-    [self drawHBarChartForKosdaq];
-    [self drawPieChartForKospi];
-    [self drawPieChartForKosdaq];
-    [self drawVBarChartForTheme];
+    // 장 전후(NO), 중(YES) 구분.
+    // !!!: 테스트 또는 개발 시에는 토글 하여 사용하면 된다.
+    if ([self isViewChangeTime]) 
+    {
+        // 장 전, 후...
+        self.beforeImageView.hidden = NO;
+        self.indexBg11.hidden = NO;
+        self.indexBg21.hidden = NO;
+        self.indexBg31.hidden = NO;
+        self.indexBg41.hidden = NO;
+        self.indexBg51.hidden = NO;
+        
+        self.afterImageView.hidden = YES;
+        self.indexBg1.hidden = YES;
+        self.indexBg2.hidden = YES;
+        self.indexBg3.hidden = YES;
+        self.indexBg4.hidden = YES;
+        self.indexBg5.hidden = YES;
+    }
+    else
+    {
+        // 장 중...
+        self.beforeImageView.hidden = YES;
+        self.indexBg11.hidden = YES;
+        self.indexBg21.hidden = YES;
+        self.indexBg31.hidden = YES;
+        self.indexBg41.hidden = YES;
+        self.indexBg51.hidden = YES;
+        
+        self.afterImageView.hidden = NO;
+        self.indexBg1.hidden = NO;
+        self.indexBg2.hidden = NO;
+        self.indexBg3.hidden = NO;
+        self.indexBg4.hidden = NO;
+        self.indexBg5.hidden = NO;
+        
+        // 차트용 데이터 로드.
+        self.hBarChartData = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_SVC10313]];
+        self.pieChartDataForKospi = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_DL01BASE]];
+        self.pieChartDataForKosdaq = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_OUTDBASE]];
+        
+        // 차트.
+        [self drawHBarChartForKospi];
+        [self drawHBarChartForKosdaq];
+        [self drawPieChartForKospi];
+        [self drawPieChartForKosdaq];
+    }
 }
 
 - (void)viewDidUnload
@@ -112,6 +173,13 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    //self.hBarChartData = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_SVC10313]];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -172,6 +240,360 @@
 	}
 }
 
+// 장 전, 후 여부에 따라 뷰를 변경.
+- (BOOL)isViewChangeTime
+{
+    // 현재 날짜와 시간.
+	NSDate *now = [[NSDate alloc] init];
+	
+	// 날짜 포맷.
+	NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+	[dateFormat setDateFormat:@"yyyy-MM-dd"];
+    
+    // 날짜, 시간 포맷.
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+	[formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+	
+	// 비교할 시작 시간 생성.
+	NSString *startDate = [dateFormat stringFromDate:now];
+	NSString *startTime = @"09:00:00";
+	NSString *stringStartDate = @"";
+	stringStartDate = [stringStartDate stringByAppendingString:startDate];
+	stringStartDate = [stringStartDate stringByAppendingString:@" "];
+	stringStartDate = [stringStartDate stringByAppendingString:startTime];
+	NSDate *compareStartDate = [formatter dateFromString:stringStartDate];
+    
+    // 비교할 종료 시간 생성.
+	NSString *endDate = [dateFormat stringFromDate:now];
+	NSString *endTime = @"15:00:00";
+	NSString *stringEndDate = @"";
+	stringEndDate = [stringEndDate stringByAppendingString:endDate];
+	stringEndDate = [stringEndDate stringByAppendingString:@" "];
+	stringEndDate = [stringStartDate stringByAppendingString:endTime];
+	NSDate *compareEndDate = [formatter dateFromString:stringEndDate];
+    
+    // 시간(날짜) 비교.
+	if ([now compare:compareStartDate] == NSOrderedDescending 
+        && [now compare:compareEndDate] == NSOrderedAscending) 
+    {
+        // 장 중.
+        return YES;
+    }
+  
+	[now release];
+	[dateFormat release];
+	[formatter release];
+    
+    return NO;
+}
+
+// 차트를 그리기 위한 데이터 가져오기.
+- (NSDictionary *)fetchData:(NSString *)trCode
+{
+    HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
+    [httpHandler req:trCode];
+    
+    if (httpHandler.reponseDict != nil) 
+    {
+        Debug(@"%@", httpHandler.reponseDict);
+        return httpHandler.reponseDict;
+    }
+    
+    [httpHandler release];
+    
+    return nil;
+}
+
+// 매매동향 코스피 가로 바차트 용 데이터 생성.
+- (NSMutableArray *)genDataForHBarChartKospi:(NSDictionary *)data
+{
+    // 외국인(krx14), 개인(krx11), 기관(krx10), 국가/지자체(krx8).
+    int krx14 = 0;
+    int krx11 = 0;
+    int krx10 = 0;
+    int krx8 = 0;
+    int sum = 0;
+    for (NSString *key in [data allKeys])
+    {
+        if ([LPUtils matchString:key withString:@"krx"]) 
+        {
+            sum += [[data valueForKey:key] intValue];
+        }
+        
+        if ([key isEqualToString:@"krx14"]) 
+        {
+            krx14 = [[data valueForKey:@"krx14"] intValue];
+        }
+        
+        if ([key isEqualToString:@"krx11"]) 
+        {
+            krx11 = [[data valueForKey:@"krx11"] intValue];
+        }
+        
+        if ([key isEqualToString:@"krx10"]) 
+        {
+            krx10 = [[data valueForKey:@"krx10"] intValue];
+        }
+        
+        if ([key isEqualToString:@"krx8"]) 
+        {
+            krx8 = [[data valueForKey:@"krx8"] intValue];
+        }
+    }
+    
+    krx14 = (krx14 * 100) / sum;
+    krx11 = (krx11 * 100) / sum;
+    krx10 = (krx10 * 100) / sum;
+    krx8 = (krx8 * 100) / sum;
+    
+    NSMutableArray *components = [[NSMutableArray alloc] initWithCapacity:4];
+    
+    NSMutableDictionary *dict0 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict0 setValue:[NSString stringWithFormat:@"%d%%", krx14] forKey:@"title"];
+    [dict0 setValue:[NSNumber numberWithFloat:krx14] forKey:@"value"];
+    [components addObject:dict0];
+    [dict0 release];
+    
+    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict1 setValue:[NSString stringWithFormat:@"%d%%", krx11] forKey:@"title"];
+    [dict1 setValue:[NSNumber numberWithFloat:krx11] forKey:@"value"];
+    [components addObject:dict1];
+    [dict1 release];
+    
+    NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict2 setValue:[NSString stringWithFormat:@"%d%%", krx10] forKey:@"title"];
+    [dict2 setValue:[NSNumber numberWithFloat:krx10] forKey:@"value"];
+    [components addObject:dict2];
+    [dict2 release];
+    
+    NSMutableDictionary *dict3 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict3 setValue:[NSString stringWithFormat:@"%d%%", krx8] forKey:@"title"];
+    [dict3 setValue:[NSNumber numberWithFloat:krx8] forKey:@"value"];
+    [components addObject:dict3];
+    [dict3 release];
+    
+    // 디버그.
+//    for (NSDictionary *dict in components) 
+//    {
+//        Debug(@">>>>>>>>>>>>>>>>%@", dict);
+//    }
+    
+    return components;
+}
+
+// 매매동향 코스닥 가로 바차트 용 데이터 생성.
+- (NSMutableArray *)genDataForHBarChartKosdaq:(NSDictionary *)data
+{
+    // 외국인(krx14), 개인(krx11), 기관(krx10), 국가/지자체(krx8).
+    int ksdq14 = 0;
+    int ksdq11 = 0;
+    int ksdq10 = 0;
+    int ksdq8 = 0;
+    int sum = 0;
+    for (NSString *key in [data allKeys])
+    {
+        if ([LPUtils matchString:key withString:@"ksdq"]) 
+        {
+            sum += [[data valueForKey:key] intValue];
+        }
+        
+        if ([key isEqualToString:@"ksdq14"]) 
+        {
+            ksdq14 = [[data valueForKey:@"ksdq14"] intValue];
+        }
+        
+        if ([key isEqualToString:@"ksdq11"]) 
+        {
+            ksdq11 = [[data valueForKey:@"ksdq11"] intValue];
+        }
+        
+        if ([key isEqualToString:@"ksdq10"]) 
+        {
+            ksdq10 = [[data valueForKey:@"ksdq10"] intValue];
+        }
+        
+        if ([key isEqualToString:@"ksdq8"]) 
+        {
+            ksdq8 = [[data valueForKey:@"ksdq8"] intValue];
+        }
+    }
+    
+    ksdq14 = (ksdq14 * 100) / sum;
+    ksdq11 = (ksdq11 * 100) / sum;
+    ksdq10 = (ksdq10 * 100) / sum;
+    ksdq8 = (ksdq8 * 100) / sum;
+    
+    NSMutableArray *components = [[NSMutableArray alloc] initWithCapacity:4];
+    
+    NSMutableDictionary *dict0 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict0 setValue:[NSString stringWithFormat:@"%d%%", ksdq14] forKey:@"title"];
+    [dict0 setValue:[NSNumber numberWithFloat:ksdq14] forKey:@"value"];
+    [components addObject:dict0];
+    [dict0 release];
+    
+    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict1 setValue:[NSString stringWithFormat:@"%d%%", ksdq11] forKey:@"title"];
+    [dict1 setValue:[NSNumber numberWithFloat:ksdq11] forKey:@"value"];
+    [components addObject:dict1];
+    [dict1 release];
+    
+    NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict2 setValue:[NSString stringWithFormat:@"%d%%", ksdq10] forKey:@"title"];
+    [dict2 setValue:[NSNumber numberWithFloat:ksdq10] forKey:@"value"];
+    [components addObject:dict2];
+    [dict2 release];
+    
+    NSMutableDictionary *dict3 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    [dict3 setValue:[NSString stringWithFormat:@"%d%%", ksdq8] forKey:@"title"];
+    [dict3 setValue:[NSNumber numberWithFloat:ksdq8] forKey:@"value"];
+    [components addObject:dict3];
+    [dict3 release];
+    
+    // 디버그.
+//    for (NSDictionary *dict in components) 
+//    {
+//        Debug(@">>>>>>>>>>>>>>>>%@", dict);
+//    }
+    
+    return components;
+}
+
+// 등락종목 코스피 파이 차트 용 데이터 생성.
+- (NSMutableArray *)genDataForPieChartKospi:(NSDictionary *)data
+{
+    // 전체종목수(tltIsC), 상증종목수(upC, 상한 포함), 하락종목수(downC, 하한 포함), 보합종목수(unchngIsC).
+    float tltIsC = 0;
+    float upC = 0;
+    float downC = 0;
+    float unchngIsC = 0;
+    
+    for (NSString *key in [data allKeys])
+    {
+        if ([key isEqualToString:@"tltIsC"]) 
+        {
+            tltIsC = [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+        
+        if ([key isEqualToString:@"upIsC"] || [key isEqualToString:@"uLmtIsC"]) 
+        {
+            upC += [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+        
+        if ([key isEqualToString:@"dwnIsC"] || [key isEqualToString:@"lLmtIsC"]) 
+        {
+            downC += [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+        
+        if ([key isEqualToString:@"unchngIsC"]) 
+        {
+            unchngIsC = [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+    }
+    
+    upC = (upC * 100) / tltIsC;
+    downC = (downC * 100) / tltIsC;
+    unchngIsC = (unchngIsC * 100) / tltIsC;
+    
+    NSMutableArray *components = [[NSMutableArray alloc] initWithCapacity:4];
+    
+    NSMutableDictionary *dict0 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    //[dict0 setValue:[NSString stringWithFormat:@"%d", upC] forKey:@"title"];
+    [dict0 setValue:@"" forKey:@"title"];
+    [dict0 setValue:[NSNumber numberWithFloat:upC] forKey:@"value"];
+    [components addObject:dict0];
+    [dict0 release];
+    
+    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    //[dict1 setValue:[NSString stringWithFormat:@"%d", upC] forKey:@"title"];
+    [dict1 setValue:@"" forKey:@"title"];
+    [dict1 setValue:[NSNumber numberWithFloat:downC] forKey:@"value"];
+    [components addObject:dict1];
+    [dict1 release];
+    
+    NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    //[dict1 setValue:[NSString stringWithFormat:@"%d", upC] forKey:@"title"];
+    [dict1 setValue:@"" forKey:@"title"];
+    [dict2 setValue:[NSNumber numberWithFloat:unchngIsC] forKey:@"value"];
+    [components addObject:dict2];
+    [dict2 release];
+    
+    // 디버그.
+//    for (NSDictionary *dict in components) 
+//    {
+//        Debug(@">>>>>>>>>>>>>>>>%@", dict);
+//    }
+    
+    return components;
+}
+
+// 등락종목 코스닥 파이 차트 용 데이터 생성.
+- (NSMutableArray *)genDataForPieChartKosdaq:(NSDictionary *)data
+{
+    // 전체종목수(tltIsC), 상증종목수(upC, 상한 포함), 하락종목수(downC, 하한 포함), 보합종목수(unchngIsC).
+    float tltIsC = 0;
+    float upC = 0;
+    float downC = 0;
+    float unchngIsC = 0;
+    
+    for (NSString *key in [data allKeys])
+    {
+        if ([key isEqualToString:@"tltIsC"]) 
+        {
+            tltIsC = [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+        
+        if ([key isEqualToString:@"upIsC"] || [key isEqualToString:@"uLmtIsC"]) 
+        {
+            upC += [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+        
+        if ([key isEqualToString:@"dwnIsC"] || [key isEqualToString:@"lLmtIsC"]) 
+        {
+            downC += [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+        
+        if ([key isEqualToString:@"unchngIsC"]) 
+        {
+            unchngIsC = [LPUtils convertStringToNumber:[data valueForKey:key]];
+        }
+    }
+    
+    upC = (upC * 100.0) / tltIsC;
+    downC = (downC * 100.0) / tltIsC;
+    unchngIsC = (unchngIsC * 100.0) / tltIsC;
+    
+    NSMutableArray *components = [[NSMutableArray alloc] initWithCapacity:4];
+    
+    NSMutableDictionary *dict0 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    //[dict0 setValue:[NSString stringWithFormat:@"%d", upC] forKey:@"title"];
+    [dict0 setValue:@"" forKey:@"title"];
+    [dict0 setValue:[NSNumber numberWithFloat:upC] forKey:@"value"];
+    [components addObject:dict0];
+    [dict0 release];
+    
+    NSMutableDictionary *dict1 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    //[dict1 setValue:[NSString stringWithFormat:@"%d", upC] forKey:@"title"];
+    [dict1 setValue:@"" forKey:@"title"];
+    [dict1 setValue:[NSNumber numberWithFloat:downC] forKey:@"value"];
+    [components addObject:dict1];
+    [dict1 release];
+    
+    NSMutableDictionary *dict2 = [[NSMutableDictionary alloc] initWithCapacity:2];
+    //[dict2 setValue:[NSString stringWithFormat:@"%d", upC] forKey:@"title"];
+    [dict2 setValue:@"" forKey:@"title"];
+    [dict2 setValue:[NSNumber numberWithFloat:unchngIsC] forKey:@"value"];
+    [components addObject:dict2];
+    [dict2 release];
+    
+    // 디버그.
+    for (NSDictionary *dict in components) 
+    {
+        Debug(@">>>>>>>>>>>>>>>>%@", dict);
+    }
+    
+    return components;
+}
+
 // 코스피 매매동향 가로 바차트.
 - (void)drawHBarChartForKospi
 {
@@ -186,14 +608,12 @@
     [hBarChart release];
     
     hBarChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
-    
-    // TODO: 실제 데이터 처리 로직 추가.
-    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SampleHBarChartData.plist"];
-    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    // 데이터.
+    NSMutableArray *dataArray = [self genDataForHBarChartKospi:self.hBarChartData];
     NSMutableArray *components = [NSMutableArray array];
-    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
+    for (int i = 0; i < [dataArray count]; i++)
     {
-        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        NSDictionary *item = [dataArray objectAtIndex:i];
         LPHBarComponent *component = [LPHBarComponent barComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
         [components addObject:component];
         
@@ -208,6 +628,7 @@
         }
     }
     [hBarChart setComponents:components];
+    [dataArray release];
 }
 
 // 코스닥 매매동향 가로 바차트.
@@ -224,14 +645,12 @@
     [hBarChart release];
     
     hBarChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
-    
-    // TODO: 실제 데이터 처리 로직 추가.
-    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SampleHBarChartData.plist"];
-    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    // 데이터.
+    NSMutableArray *dataArray = [self genDataForHBarChartKosdaq:self.hBarChartData];
     NSMutableArray *components = [NSMutableArray array];
-    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
+    for (int i = 0; i < [dataArray count]; i++)
     {
-        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        NSDictionary *item = [dataArray objectAtIndex:i];
         LPHBarComponent *component = [LPHBarComponent barComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
         [components addObject:component];
         
@@ -246,6 +665,7 @@
         }
     }
     [hBarChart setComponents:components];
+    [dataArray release];
 }
 
 // 코스티 등락종목 파이차트.
@@ -266,13 +686,13 @@
     pieChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     pieChart.percentageFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     
-    // TODO: 실제 데이터 처리 로직 추가.
-    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SamplePieChartData.plist"];
-    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    // 데이터.
+    NSMutableArray *dataArray = [self genDataForPieChartKospi:self.pieChartDataForKospi];
     NSMutableArray *components = [NSMutableArray array];
-    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
+    
+    for (int i = 0; i < [dataArray count]; i++)
     {
-        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        NSDictionary *item = [dataArray objectAtIndex:i];
         LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
         [components addObject:component];
         
@@ -291,6 +711,7 @@
         }
     }
     [pieChart setComponents:components];
+    [dataArray release];
 }
 
 // 코스닥 등락종목 파이차트
@@ -311,12 +732,13 @@
     pieChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     pieChart.percentageFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
     
-    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SamplePieChartData.plist"];
-    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
+    // 데이터.
+    NSMutableArray *dataArray = [self genDataForPieChartKosdaq:self.pieChartDataForKosdaq];
     NSMutableArray *components = [NSMutableArray array];
-    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
+    
+    for (int i = 0; i < [dataArray count]; i++)
     {
-        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
+        NSDictionary *item = [dataArray objectAtIndex:i];
         LPPieComponent *component = [LPPieComponent pieComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
         [components addObject:component];
         
@@ -335,6 +757,7 @@
         }
     }
     [pieChart setComponents:components];
+    [dataArray release];
 }
 
 // 업종테마흐름 바차트.

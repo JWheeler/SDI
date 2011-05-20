@@ -18,7 +18,7 @@
 
 @property (nonatomic, retain) NSDictionary *reponseDict;
 
-- (void)searchCurrentPrice:(NSString *)stockCode;
 - (void)req:(NSString *)trCode;
+- (void)reqForEncrypt:(NSString *)data;
 
 @end

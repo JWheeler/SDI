@@ -598,10 +598,10 @@ SOLogger *gLogger;
     [[AppInfo sharedAppInfo] loadStockCodeMaster:JONGMOK_MASTER];
     
     // 데이터핸들러.
-    [DataHandler sharedDataHandler];
+    //[DataHandler sharedDataHandler];
     
     // SB 등록 관리.
-    [SBManager sharedSBManager];
+    //[SBManager sharedSBManager];
     
     // 종목검색 히스토리 읽기.
     [[AppInfo sharedAppInfo] manageStockHistory:Read];

@@ -52,7 +52,9 @@
 
 // RQ/RP용 TR 코드.
 #define TRCD_MAIN5007 @"MAIN5007"           // 현재가: 메인, 관심종목.
-#define TRCD_SVC10313 @"SVC10313"           // 매매동향: 수평 바 차트.
+#define TRCD_JS01BASE @"JS01BASE"           // 실시간지수: 코스피.
+#define TRCD_SVC10313 @"SVC10313"           // 매매동향: 가로 바 차트.
 #define TRCD_DL01BASE @"DL01BASE"           // 등락종목: 파이 차트(코스피).
 #define TRCD_OUTDBASE @"OUTDBASE"           // 등락종목: 파이 차트(코스닥).
+#define TRCD_POWR5011 @"POWR5011"           // 업종테마흐름: 세로 바 차트.
 

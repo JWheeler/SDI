@@ -28,8 +28,6 @@
 		1D065B38137B5A91008E0A76 /* icon_up_daily@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1D065B32137B5A91008E0A76 /* icon_up_daily@2x.png */; };
 		1D065B3B137B60C9008E0A76 /* LPMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D065B3A137B60C8008E0A76 /* LPMatrix.m */; };
 		1D065B3E137B6190008E0A76 /* NSIndexPath+LPMatrix.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D065B3D137B6190008E0A76 /* NSIndexPath+LPMatrix.m */; };
-		1D065B74137BAC37008E0A76 /* libcis_cc-3.1_armv6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */; };
-		1D065B75137BAC37008E0A76 /* libIssacweb_static_armv6_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */; };
 		1D0C2E0B134A82130000E88F /* UIView+Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E0A134A82130000E88F /* UIView+Position.m */; };
 		1D0C2E16134A84150000E88F /* UIView+Hierarchy.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E15134A84150000E88F /* UIView+Hierarchy.m */; };
 		1D0C2E21134AA2D40000E88F /* SBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C2E20134AA2D40000E88F /* SBManager.m */; };
@@ -582,6 +580,10 @@
 		1DE906AC1386255500041BAB /* daily_txt03@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE906A41386255500041BAB /* daily_txt03@2x.png */; };
 		1DE906AD1386255500041BAB /* daily_txt04.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE906A51386255500041BAB /* daily_txt04.png */; };
 		1DE906AE1386255500041BAB /* daily_txt04@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DE906A61386255500041BAB /* daily_txt04@2x.png */; };
+		1DE906CB138665A700041BAB /* libcis_cc-3.1_armv6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE906C7138665A700041BAB /* libcis_cc-3.1_armv6.a */; };
+		1DE906CC138665A700041BAB /* libcis_cc-3.1_i386.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE906C8138665A700041BAB /* libcis_cc-3.1_i386.a */; };
+		1DE906CD138665A700041BAB /* libIssacweb_static_armv6_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE906C9138665A700041BAB /* libIssacweb_static_armv6_opt.a */; };
+		1DE906CE138665A700041BAB /* libIssacweb_static_win32_opt.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DE906CA138665A700041BAB /* libIssacweb_static_win32_opt.a */; };
 		1DF48A62136E6EBF005550F8 /* MyMenu.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1DF48A61136E6EBF005550F8 /* MyMenu.plist */; };
 		1DF48AEA136E88DE005550F8 /* m_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF48A65136E88DD005550F8 /* m_0.png */; };
 		1DF48AEB136E88DE005550F8 /* m_0@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DF48A66136E88DD005550F8 /* m_0@2x.png */; };
@@ -685,8 +687,6 @@
 		1D065B3A137B60C8008E0A76 /* LPMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMatrix.m; sourceTree = "<group>"; };
 		1D065B3C137B6190008E0A76 /* NSIndexPath+LPMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSIndexPath+LPMatrix.h"; sourceTree = "<group>"; };
 		1D065B3D137B6190008E0A76 /* NSIndexPath+LPMatrix.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexPath+LPMatrix.m"; sourceTree = "<group>"; };
-		1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libcis_cc-3.1_armv6.a"; sourceTree = "<group>"; };
-		1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libIssacweb_static_armv6_opt.a; sourceTree = "<group>"; };
 		1D0C2E09134A82130000E88F /* UIView+Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Position.h"; sourceTree = "<group>"; };
 		1D0C2E0A134A82130000E88F /* UIView+Position.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Position.m"; sourceTree = "<group>"; };
 		1D0C2E14134A84150000E88F /* UIView+Hierarchy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Hierarchy.h"; sourceTree = "<group>"; };
@@ -1342,6 +1342,10 @@
 		1DE906A41386255500041BAB /* daily_txt03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_txt03@2x.png"; sourceTree = "<group>"; };
 		1DE906A51386255500041BAB /* daily_txt04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_txt04.png; sourceTree = "<group>"; };
 		1DE906A61386255500041BAB /* daily_txt04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_txt04@2x.png"; sourceTree = "<group>"; };
+		1DE906C7138665A700041BAB /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_armv6.a"; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_armv6.a"; sourceTree = "<group>"; };
+		1DE906C8138665A700041BAB /* libcis_cc-3.1_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_i386.a"; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_i386.a"; sourceTree = "<group>"; };
+		1DE906C9138665A700041BAB /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_armv6_opt.a; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_armv6_opt.a"; sourceTree = "<group>"; };
+		1DE906CA138665A700041BAB /* libIssacweb_static_win32_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_win32_opt.a; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_win32_opt.a"; sourceTree = "<group>"; };
 		1DF48A61136E6EBF005550F8 /* MyMenu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyMenu.plist; sourceTree = "<group>"; };
 		1DF48A65136E88DD005550F8 /* m_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_0.png; sourceTree = "<group>"; };
 		1DF48A66136E88DD005550F8 /* m_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "m_0@2x.png"; sourceTree = "<group>"; };
@@ -1419,6 +1423,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DE906CB138665A700041BAB /* libcis_cc-3.1_armv6.a in Frameworks */,
+				1DE906CC138665A700041BAB /* libcis_cc-3.1_i386.a in Frameworks */,
+				1DE906CD138665A700041BAB /* libIssacweb_static_armv6_opt.a in Frameworks */,
+				1DE906CE138665A700041BAB /* libIssacweb_static_win32_opt.a in Frameworks */,
 				1D2E1B2E1384F6FC00DF9A3A /* libamsLibrary.a in Frameworks */,
 				1DE2A51313833CE60021A81C /* MapKit.framework in Frameworks */,
 				1DE2A51113833CDD0021A81C /* CoreLocation.framework in Frameworks */,
@@ -1432,8 +1440,6 @@
 				1D02C8F3133871C800B5415B /* UIKit.framework in Frameworks */,
 				1D02C8F5133871C800B5415B /* Foundation.framework in Frameworks */,
 				1D02C8F7133871C800B5415B /* CoreGraphics.framework in Frameworks */,
-				1D065B74137BAC37008E0A76 /* libcis_cc-3.1_armv6.a in Frameworks */,
-				1D065B75137BAC37008E0A76 /* libIssacweb_static_armv6_opt.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1462,6 +1468,10 @@
 		1D02C8E3133871C800B5415B = {
 			isa = PBXGroup;
 			children = (
+				1DE906C7138665A700041BAB /* libcis_cc-3.1_armv6.a */,
+				1DE906C8138665A700041BAB /* libcis_cc-3.1_i386.a */,
+				1DE906C9138665A700041BAB /* libIssacweb_static_armv6_opt.a */,
+				1DE906CA138665A700041BAB /* libIssacweb_static_win32_opt.a */,
 				1D2E1B2D1384F6FC00DF9A3A /* libamsLibrary.a */,
 				1D02C9121338729300B5415B /* LPLibrary */,
 				1D02C8F8133871C800B5415B /* SDI */,
@@ -1483,8 +1493,6 @@
 			children = (
 				1DE2A51213833CE60021A81C /* MapKit.framework */,
 				1DE2A51013833CDD0021A81C /* CoreLocation.framework */,
-				1D065B72137BAC32008E0A76 /* libcis_cc-3.1_armv6.a */,
-				1D065B73137BAC34008E0A76 /* libIssacweb_static_armv6_opt.a */,
 				1DB2D660137A853100A0D2D2 /* AudioToolbox.framework */,
 				1D3300A21355242F007037FA /* libz.1.2.3.dylib */,
 				1D3300A013552409007037FA /* MobileCoreServices.framework */,

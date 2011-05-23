@@ -33,26 +33,45 @@
 @synthesize indexBg4;
 @synthesize indexBg5;
 
+// 실시간지수: 코스피.
 @synthesize kIndex;
 @synthesize kArrow;
 @synthesize kFluctuation;
 @synthesize kFluctuationRate;
+
+// 실시간지수: 코스닥.
 @synthesize qIndex;
 @synthesize qArrow;
 @synthesize qFluctuation;
 @synthesize qFluctuationRate;
+
+// 실시간지수: 선물.
 @synthesize fIndex;
 @synthesize fArrow;
 @synthesize fFluctuation;
 @synthesize fFluctuationRate;
+
+// 실시간지수: 원/달러.
 @synthesize cIndex;
 @synthesize cArrow;
 @synthesize cFluctuation;
 @synthesize cFluctuationRate;
 
+@synthesize val1;
+@synthesize val2;
+@synthesize val3;
+@synthesize val4;
+@synthesize val5;
+@synthesize title1;
+@synthesize title2;
+@synthesize title3;
+@synthesize title4;
+@synthesize title5;
+
 @synthesize hBarChartData;
 @synthesize pieChartDataForKospi;
 @synthesize pieChartDataForKosdaq;
+@synthesize vBarChartDataForTheme;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -96,9 +115,20 @@
     [cArrow release];
     [cFluctuation release];
     [cFluctuationRate release];
+    [val1 release];
+    [val2 release];
+    [val3 release];
+    [val4 release];
+    [val5 release];
+    [title1 release];
+    [title2 release];
+    [title3 release];
+    [title4 release];
+    [title5 release];
     [hBarChartData release];
     [pieChartDataForKospi release];
     [pieChartDataForKosdaq release];
+    [vBarChartDataForTheme release];
     [super dealloc];
 }
 
@@ -155,16 +185,21 @@
         self.indexBg4.hidden = NO;
         self.indexBg5.hidden = NO;
         
+        // 실시간지수.
+        [self settingRealForKospi];
+        
         // 차트용 데이터 로드.
         self.hBarChartData = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_SVC10313]];
         self.pieChartDataForKospi = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_DL01BASE]];
         self.pieChartDataForKosdaq = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_OUTDBASE]];
+        self.vBarChartDataForTheme = [NSDictionary dictionaryWithDictionary:[self fetchData:TRCD_POWR5011]];
         
         // 차트.
         [self drawHBarChartForKospi];
         [self drawHBarChartForKosdaq];
         [self drawPieChartForKospi];
         [self drawPieChartForKosdaq];
+        [self drawVBarChartForTheme];
     }
 }
 
@@ -586,19 +621,109 @@
     [dict2 release];
     
     // 디버그.
-    for (NSDictionary *dict in components) 
-    {
-        Debug(@">>>>>>>>>>>>>>>>%@", dict);
-    }
+//    for (NSDictionary *dict in components) 
+//    {
+//        Debug(@">>>>>>>>>>>>>>>>%@", dict);
+//    }
     
     return components;
+}
+
+// 업종테마흐름 세로 차트 용 데이터 생성.
+- (NSMutableArray *)genDataForVBarChartTheme:(NSDictionary *)data
+{
+    NSMutableArray *themes = [[NSMutableArray alloc] init];
+    for (NSDictionary *dict in [data objectForKey:@"grid"]) 
+    {
+        [themes addObject:dict];
+    }
+    
+    NSSortDescriptor *descriptor = [[[NSSortDescriptor alloc] initWithKey:@"upDwnR" ascending:NO] autorelease];
+    [themes sortUsingDescriptors:[NSArray arrayWithObjects:descriptor, nil]];
+    NSMutableArray *sortedThemes = [[NSMutableArray alloc] init];
+    sortedThemes = [themes copy];
+    
+    return sortedThemes;
+}
+
+// 실시간지수 코스피.
+- (void)settingRealForKospi
+{
+    NSString *queryString = [NSString stringWithFormat:@"%@&cd001", TRCD_JS01BASE];
+    NSDictionary *dict = [NSDictionary dictionaryWithDictionary:[self fetchData:queryString]];
+    
+    int index = 0.0;                                        // 지수.
+    int rest = 0;                                           // 소숫점 이하 2자리.
+    float comparisonRate = 0.0;                             // 대비.
+    float rate = 0.0;                                       // 대비율.
+    int symbol = [[dict objectForKey:@"smbl"] intValue];    // 등락 심벌.
+    UIColor *color = [UIColor whiteColor];
+    
+    switch (symbol) 
+    {
+        case 1:
+        {
+            self.kArrow.image = [UIImage imageNamed:@"icon_up_daily.png"];
+            color = RGB(255, 133, 156);
+            break;
+        }
+        case 2:
+        {
+            self.kArrow.image = [UIImage imageNamed:@"icon_up_daily.png"];
+            color = RGB(255, 133, 156);
+            break;
+        }
+        case 3:
+        {
+            self.kArrow.image = nil;
+            color = [UIColor whiteColor];
+            break;
+        }
+        case 4:
+        {
+            self.kArrow.image = [UIImage imageNamed:@"icon_down_daily.png"];
+            color = RGB(125, 202, 241);
+            break;
+        }
+        case 5:
+        {
+            self.kArrow.image = [UIImage imageNamed:@"icon_down_daily.png"];
+            color = RGB(125, 202, 241);
+            break;
+        }
+        default:
+            break;
+    }
+    
+    // 지수.
+    NSString *stringIndex = [dict objectForKey:@"indx"];
+    index = [[stringIndex substringToIndex:([stringIndex length] - 2)] intValue];
+    rest = [[stringIndex substringFromIndex:([stringIndex length] - 2)] intValue];
+    
+    // 대비율 계산을 위해.
+    stringIndex = [NSString stringWithFormat:@"%@.%@", [stringIndex substringToIndex:([stringIndex length] - 2)], [stringIndex substringFromIndex:([stringIndex length] - 2)]];
+    float floatIndex = [stringIndex floatValue];
+    
+    // 대비.
+    NSString *stringComparisonRate = [dict objectForKey:@"cmpr"];
+    stringComparisonRate = [NSString stringWithFormat:@"%@.%@", [stringComparisonRate substringToIndex:([stringComparisonRate length] - 2)], [stringComparisonRate substringFromIndex:([stringComparisonRate length] - 2)]];
+    comparisonRate = [stringComparisonRate floatValue];
+    
+    // 대비율.
+    rate = (comparisonRate * 100) / floatIndex;
+    
+    self.kIndex.text = [NSString stringWithFormat:@"%@.%d", [LPUtils formatNumber:index], rest];
+    self.kFluctuation.text = stringComparisonRate;
+    self.kFluctuation.textColor = color;
+    self.kFluctuationRate.text = [NSString stringWithFormat:@"%.2f%%", rate];
+    self.kFluctuationRate.textColor = color;
 }
 
 // 코스피 매매동향 가로 바차트.
 - (void)drawHBarChartForKospi
 {
-    int height = 65.0;
-    int width = 110.0;
+    float height = 65.0;
+    float width = 110.0;
     
     LPHBarChart *hBarChart = [[LPHBarChart alloc] initWithFrame:CGRectMake(98.0, 23.0, width, height)];
     [hBarChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
@@ -634,8 +759,8 @@
 // 코스닥 매매동향 가로 바차트.
 - (void)drawHBarChartForKosdaq
 {
-    int height = 65.0;
-    int width = 110.0;
+    float height = 65.0;
+    float width = 110.0;
     
     LPHBarChart *hBarChart = [[LPHBarChart alloc] initWithFrame:CGRectMake(218.0, 23.0, width, height)];
     [hBarChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
@@ -671,10 +796,10 @@
 // 코스티 등락종목 파이차트.
 - (void)drawPieChartForKospi
 {
-    int height = 65.0;
-    int width = 120.0;
+    float height = 65.0;
+    float width = 120.0;
     
-    LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(85.0, 25.0, width, height)];
+    LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(80.0, 25.0, width, height)];
     [pieChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
     [pieChart setShowArrow:NO];
     [pieChart setDiameter:50.0];
@@ -717,10 +842,10 @@
 // 코스닥 등락종목 파이차트
 - (void)drawPieChartForKosdaq
 {
-    int height = 65.0;
-    int width = 120.0;
+    float height = 65.0;
+    float width = 120.0;
     
-    LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(205.0, 25.0, width, height)];
+    LPPieChart *pieChart = [[LPPieChart alloc] initWithFrame:CGRectMake(200.0, 25.0, width, height)];
     [pieChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
     [pieChart setShowArrow:NO];
     [pieChart setDiameter:50.0];
@@ -760,42 +885,28 @@
     [dataArray release];
 }
 
-// 업종테마흐름 바차트.
+// 업종테마흐름 세로 바 차트.
 - (void)drawVBarChartForTheme
 {
-    int height = 92.0;
-    int width = 280.0;
+    // 데이터.
+    NSMutableArray *dataArray = [self genDataForVBarChartTheme:self.vBarChartDataForTheme];
     
-    LPVBarChart *vBarChart = [[LPVBarChart alloc] initWithFrame:CGRectMake(30.0, 0.0, width, height)];
-    [vBarChart setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin|UIViewAutoresizingFlexibleRightMargin|UIViewAutoresizingFlexibleTopMargin|UIViewAutoresizingFlexibleBottomMargin];
-    [vBarChart setSameColorLabel:YES];
-    vBarChart.barWidth = 20.0;
-    [self.indexBg5 addSubview:vBarChart];
-    [vBarChart release];
+    self.val1.text = [NSString stringWithFormat:@"%@%%", [[dataArray objectAtIndex:0] objectForKey:@"upDwnR"]]; 
+    self.title1.text = [[dataArray objectAtIndex:0] objectForKey:@"thmNm"];
     
-    vBarChart.titleFont = [UIFont fontWithName:@"HelveticaNeue-Bold" size:9];
+    self.val2.text = [NSString stringWithFormat:@"%@%%", [[dataArray objectAtIndex:1] objectForKey:@"upDwnR"]]; 
+    self.title2.text = [[dataArray objectAtIndex:1] objectForKey:@"thmNm"];
     
-    // TODO: 실제 데이터 처리 로직 추가.
-    NSString *sampleFile = [[[NSBundle mainBundle] bundlePath] stringByAppendingPathComponent:@"SampleVBarChartData.plist"];
-    NSDictionary *sampleInfo = [NSDictionary dictionaryWithContentsOfFile:sampleFile];
-    NSMutableArray *components = [NSMutableArray array];
-    for (int i = 0; i < [[sampleInfo objectForKey:@"data"] count]; i++)
-    {
-        NSDictionary *item = [[sampleInfo objectForKey:@"data"] objectAtIndex:i];
-        LPVBarComponent *component = [LPVBarComponent barComponentWithTitle:[item objectForKey:@"title"] value:[[item objectForKey:@"value"] floatValue]];
-        [components addObject:component];
-        
-        // 상승/하락에 따른 컬러 설정.
-        if ([[item objectForKey:@"value"] floatValue] > 0) 
-        {
-            [component setColour:RGB(255, 249, 196)];
-        }
-        else
-        {
-            [component setColour:RGB(125, 202, 241)];
-        }
-    }
-    [vBarChart setComponents:components];
+    self.val3.text = [NSString stringWithFormat:@"%@%%", [[dataArray objectAtIndex:2] objectForKey:@"upDwnR"]]; 
+    self.title3.text = [[dataArray objectAtIndex:2] objectForKey:@"thmNm"];
+    
+    self.val4.text = [NSString stringWithFormat:@"%@%%", [[dataArray objectAtIndex:3] objectForKey:@"upDwnR"]]; 
+    self.title4.text = [[dataArray objectAtIndex:3] objectForKey:@"thmNm"];
+    
+    self.val5.text = [NSString stringWithFormat:@"%@%%", [[dataArray objectAtIndex:4] objectForKey:@"upDwnR"]]; 
+    self.title5.text = [[dataArray objectAtIndex:4] objectForKey:@"thmNm"];
+    
+    [dataArray release];
 }
 
 @end

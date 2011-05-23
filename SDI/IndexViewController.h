@@ -54,12 +54,27 @@
 @property (nonatomic, retain) IBOutlet UILabel *cFluctuation;
 @property (nonatomic, retain) IBOutlet UILabel *cFluctuationRate;
 
+// 업종테마흐름 값/제목 라벨.
+@property (nonatomic, retain) IBOutlet UILabel *val1;
+@property (nonatomic, retain) IBOutlet UILabel *val2;
+@property (nonatomic, retain) IBOutlet UILabel *val3;
+@property (nonatomic, retain) IBOutlet UILabel *val4;
+@property (nonatomic, retain) IBOutlet UILabel *val5;
+@property (nonatomic, retain) IBOutlet UILabel *title1;
+@property (nonatomic, retain) IBOutlet UILabel *title2;
+@property (nonatomic, retain) IBOutlet UILabel *title3;
+@property (nonatomic, retain) IBOutlet UILabel *title4;
+@property (nonatomic, retain) IBOutlet UILabel *title5;
+
 // 매매동향 가로 바 차트 출력용 데이터.
 @property (nonatomic, retain) NSDictionary *hBarChartData;
 
 // 매매동향 파이 차트 출력용 데이터.
 @property (nonatomic, retain) NSDictionary *pieChartDataForKospi;
 @property (nonatomic, retain) NSDictionary *pieChartDataForKosdaq;
+
+// 업종테마흐름 세로 바 차트 출력용 데이터.
+@property (nonatomic, retain) NSDictionary *vBarChartDataForTheme;
 
 - (void)registerGestureForRibbon;
 - (void)closeDaily:(UISwipeGestureRecognizer *)recognizer;
@@ -69,6 +84,8 @@
 - (NSMutableArray *)genDataForHBarChartKosdaq:(NSDictionary *)data;
 - (NSMutableArray *)genDataForPieChartKospi:(NSDictionary *)data;
 - (NSMutableArray *)genDataForPieChartKosdaq:(NSDictionary *)data;
+- (NSMutableArray *)genDataForVBarChartTheme:(NSDictionary *)data;
+- (void)settingRealForKospi;
 - (void)drawHBarChartForKospi;
 - (void)drawHBarChartForKosdaq;
 - (void)drawPieChartForKospi;

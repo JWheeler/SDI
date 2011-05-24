@@ -85,6 +85,7 @@
 - (NSMutableArray *)genDataForPieChartKospi:(NSDictionary *)data;
 - (NSMutableArray *)genDataForPieChartKosdaq:(NSDictionary *)data;
 - (NSMutableArray *)genDataForVBarChartTheme:(NSDictionary *)data;
+- (void)regRealForIndexes;
 - (void)settingRealForKospi;
 - (void)drawHBarChartForKospi;
 - (void)drawHBarChartForKosdaq;

@@ -448,7 +448,7 @@
             
             // trCode(실제 사용할 query string) 생성.
             NSString *marketCode = [[AppInfo sharedAppInfo] searchMarketCode:stockCode];
-            NSString *trCode = [NSString stringWithFormat:@"%@&isCd=%@&infoClsf=%@", TRCD_MAIN5007, stockCode, marketCode];
+            NSString *trCode = [NSString stringWithFormat:@"HDSTR_SRC=trcode/%@&isCd=%@&infoClsf=%@", TRCD_MAIN5007, stockCode, marketCode];
             //[httpHandler req:trCode];
             [httpHandler reqForEncrypt:trCode];
             if (httpHandler.reponseDict != nil) 

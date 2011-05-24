@@ -646,6 +646,13 @@
     return sortedThemes;
 }
 
+// 코스피, 코스닥, 선물, 원/달러 리얼 지수를 위한 SB 등록.
+- (void)regRealForIndexes
+{
+    
+}
+
+// TODO: 리팩토링(일반화)!!  
 // 실시간지수 코스피.
 - (void)settingRealForKospi
 {
@@ -656,6 +663,7 @@
     int rest = 0;                                           // 소숫점 이하 2자리.
     float comparisonRate = 0.0;                             // 대비.
     float rate = 0.0;                                       // 대비율.
+    int numberSign = 1;                                     // 등락에 따른 +, - 결정.
     int symbol = [[dict objectForKey:@"smbl"] intValue];    // 등락 심벌.
     UIColor *color = [UIColor whiteColor];
     
@@ -665,30 +673,35 @@
         {
             self.kArrow.image = [UIImage imageNamed:@"icon_up_daily.png"];
             color = RGB(255, 133, 156);
+            numberSign = 1;
             break;
         }
         case 2:
         {
             self.kArrow.image = [UIImage imageNamed:@"icon_up_daily.png"];
             color = RGB(255, 133, 156);
+            numberSign = 1;
             break;
         }
         case 3:
         {
             self.kArrow.image = nil;
             color = [UIColor whiteColor];
+            numberSign = 1;
             break;
         }
         case 4:
         {
             self.kArrow.image = [UIImage imageNamed:@"icon_down_daily.png"];
             color = RGB(125, 202, 241);
+            numberSign = -1;
             break;
         }
         case 5:
         {
             self.kArrow.image = [UIImage imageNamed:@"icon_down_daily.png"];
             color = RGB(125, 202, 241);
+            numberSign = -1;
             break;
         }
         default:
@@ -709,8 +722,8 @@
     stringComparisonRate = [NSString stringWithFormat:@"%@.%@", [stringComparisonRate substringToIndex:([stringComparisonRate length] - 2)], [stringComparisonRate substringFromIndex:([stringComparisonRate length] - 2)]];
     comparisonRate = [stringComparisonRate floatValue];
     
-    // 대비율.
-    rate = (comparisonRate * 100) / floatIndex;
+    // 대비율 = (대비 * 100.0) / (지수 - (+/-대비)).
+    rate = (comparisonRate * 100.0) / (floatIndex - (numberSign * comparisonRate));
     
     self.kIndex.text = [NSString stringWithFormat:@"%@.%d", [LPUtils formatNumber:index], rest];
     self.kFluctuation.text = stringComparisonRate;

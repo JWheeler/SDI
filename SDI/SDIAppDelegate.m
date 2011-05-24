@@ -64,10 +64,6 @@ SOLogger *gLogger;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {   
-    // 암복호화 테스트.
-    Encryption *test = [[Encryption alloc] init];
-    [test testEncryption];
-    
     // 로그.
     gLogger = [[SOLogger alloc] init];
     

@@ -94,7 +94,7 @@
 {
     // 데이터 암호화.
     Encryption *encrypt = [[Encryption alloc] init];
-    NSMutableString *encryptData = [encrypt hybridEncrypt:data];
+    NSString *encryptData = [encrypt hybridEncrypt:data];
     
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RQRP_ENCRYPT_SERVER_URL, encryptData]];
     Debug(@"Request URL: %@", url);

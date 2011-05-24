@@ -11,17 +11,12 @@
 
 @interface Encryption : NSObject 
 {
-
+    unsigned char m_pbSessionKey[16];
 }
 
 @property (nonatomic, retain) NSString *sessionKey;
 
-- (NSString *)genSessionKey;
-- (NSMutableString *)decrypt:(char *)encryptedMsg;
-- (NSMutableString *)hybridEncrypt:(NSString *)plainMsg;
-- (NSMutableString *)hybridDecrypt:(NSData *)encryptedMsg;
-- (NSData *)hybridEncryptEx:(NSString *)plainMsg;
-
-- (void)testEncryption;
+- (NSString *)decrypt:(NSString *)encryptedMsg;
+- (NSString *)hybridEncrypt:(NSString *)plainMsg;
 
 @end

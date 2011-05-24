@@ -461,6 +461,8 @@
 		1DD1F60A137A44620094E330 /* m_65@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD1F5B3137A44610094E330 /* m_65@2x.png */; };
 		1DD1F60B137A44620094E330 /* m_66.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD1F5B4137A44610094E330 /* m_66.png */; };
 		1DD1F60C137A44620094E330 /* m_66@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD1F5B5137A44610094E330 /* m_66@2x.png */; };
+		1DD2E7D5138B39F800AF1610 /* IndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E7D4138B39F800AF1610 /* IndexView.m */; };
+		1DD2E7D9138B47AA00AF1610 /* Index.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E7D8138B47AA00AF1610 /* Index.m */; };
 		1DD75424134E6FCE003867AE /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD75422134E6FCE003867AE /* LoginViewController.m */; };
 		1DD75425134E6FCE003867AE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD75423134E6FCE003867AE /* LoginViewController.xib */; };
 		1DD754B4134E989E003867AE /* SDI.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1DD754B3134E989E003867AE /* SDI.sqlite */; };
@@ -731,7 +733,7 @@
 		1D2318F513431A460029B6ED /* SBCountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBCountController.m; sourceTree = "<group>"; };
 		1D239C251340017C00A9DA45 /* SBRegBodyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBRegBodyHeader.h; sourceTree = "<group>"; };
 		1D239C261340017C00A9DA45 /* SBRegBodyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBRegBodyHeader.m; sourceTree = "<group>"; };
-		1D2E1B2D1384F6FC00DF9A3A /* libamsLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libamsLibrary.a; path = "../../../../../Users/lambert/Desktop/보안모듈/Ahn/JBScanner_1.0.0.2/libamsLibrary.a"; sourceTree = "<group>"; };
+		1D2E1B2D1384F6FC00DF9A3A /* libamsLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libamsLibrary.a; path = "/Users/lambert/Desktop/보안모듈/Ahn/JBScanner_1.0.0.2/libamsLibrary.a"; sourceTree = "<absolute>"; };
 		1D2E1B301384F71000DF9A3A /* amsLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = amsLibrary.h; sourceTree = "<group>"; };
 		1D33007913552219007037FA /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		1D33007A13552219007037FA /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
@@ -1202,6 +1204,10 @@
 		1DD1F5B3137A44610094E330 /* m_65@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "m_65@2x.png"; sourceTree = "<group>"; };
 		1DD1F5B4137A44610094E330 /* m_66.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_66.png; sourceTree = "<group>"; };
 		1DD1F5B5137A44610094E330 /* m_66@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "m_66@2x.png"; sourceTree = "<group>"; };
+		1DD2E7D3138B39F800AF1610 /* IndexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IndexView.h; sourceTree = "<group>"; };
+		1DD2E7D4138B39F800AF1610 /* IndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexView.m; sourceTree = "<group>"; };
+		1DD2E7D7138B47AA00AF1610 /* Index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Index.h; sourceTree = "<group>"; };
+		1DD2E7D8138B47AA00AF1610 /* Index.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Index.m; sourceTree = "<group>"; };
 		1DD75421134E6FCE003867AE /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		1DD75422134E6FCE003867AE /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		1DD75423134E6FCE003867AE /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -1342,10 +1348,10 @@
 		1DE906A41386255500041BAB /* daily_txt03@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_txt03@2x.png"; sourceTree = "<group>"; };
 		1DE906A51386255500041BAB /* daily_txt04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = daily_txt04.png; sourceTree = "<group>"; };
 		1DE906A61386255500041BAB /* daily_txt04@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daily_txt04@2x.png"; sourceTree = "<group>"; };
-		1DE906C7138665A700041BAB /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_armv6.a"; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_armv6.a"; sourceTree = "<group>"; };
-		1DE906C8138665A700041BAB /* libcis_cc-3.1_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_i386.a"; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_i386.a"; sourceTree = "<group>"; };
-		1DE906C9138665A700041BAB /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_armv6_opt.a; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_armv6_opt.a"; sourceTree = "<group>"; };
-		1DE906CA138665A700041BAB /* libIssacweb_static_win32_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_win32_opt.a; path = "../../../../../Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_win32_opt.a"; sourceTree = "<group>"; };
+		1DE906C7138665A700041BAB /* libcis_cc-3.1_armv6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_armv6.a"; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_armv6.a"; sourceTree = "<absolute>"; };
+		1DE906C8138665A700041BAB /* libcis_cc-3.1_i386.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libcis_cc-3.1_i386.a"; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libcis_cc-3.1_i386.a"; sourceTree = "<absolute>"; };
+		1DE906C9138665A700041BAB /* libIssacweb_static_armv6_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_armv6_opt.a; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_armv6_opt.a"; sourceTree = "<absolute>"; };
+		1DE906CA138665A700041BAB /* libIssacweb_static_win32_opt.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libIssacweb_static_win32_opt.a; path = "/Users/lambert/Desktop/보안모듈/issacweb_lib_iOS/libIssacweb_static_win32_opt.a"; sourceTree = "<absolute>"; };
 		1DF48A61136E6EBF005550F8 /* MyMenu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MyMenu.plist; sourceTree = "<group>"; };
 		1DF48A65136E88DD005550F8 /* m_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = m_0.png; sourceTree = "<group>"; };
 		1DF48A66136E88DD005550F8 /* m_0@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "m_0@2x.png"; sourceTree = "<group>"; };
@@ -1461,6 +1467,10 @@
 				1D0C2E20134AA2D40000E88F /* SBManager.m */,
 				1DB2D655137A735600A0D2D2 /* Encryption.h */,
 				1DB2D656137A735600A0D2D2 /* Encryption.m */,
+				1DD2E7D3138B39F800AF1610 /* IndexView.h */,
+				1DD2E7D4138B39F800AF1610 /* IndexView.m */,
+				1DD2E7D7138B47AA00AF1610 /* Index.h */,
+				1DD2E7D8138B47AA00AF1610 /* Index.m */,
 			);
 			name = Common;
 			sourceTree = "<group>";
@@ -1468,11 +1478,6 @@
 		1D02C8E3133871C800B5415B = {
 			isa = PBXGroup;
 			children = (
-				1DE906C7138665A700041BAB /* libcis_cc-3.1_armv6.a */,
-				1DE906C8138665A700041BAB /* libcis_cc-3.1_i386.a */,
-				1DE906C9138665A700041BAB /* libIssacweb_static_armv6_opt.a */,
-				1DE906CA138665A700041BAB /* libIssacweb_static_win32_opt.a */,
-				1D2E1B2D1384F6FC00DF9A3A /* libamsLibrary.a */,
 				1D02C9121338729300B5415B /* LPLibrary */,
 				1D02C8F8133871C800B5415B /* SDI */,
 				1D02C8F1133871C800B5415B /* Frameworks */,
@@ -1491,6 +1496,11 @@
 		1D02C8F1133871C800B5415B /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1DE906C7138665A700041BAB /* libcis_cc-3.1_armv6.a */,
+				1DE906C8138665A700041BAB /* libcis_cc-3.1_i386.a */,
+				1DE906C9138665A700041BAB /* libIssacweb_static_armv6_opt.a */,
+				1DE906CA138665A700041BAB /* libIssacweb_static_win32_opt.a */,
+				1D2E1B2D1384F6FC00DF9A3A /* libamsLibrary.a */,
 				1DE2A51213833CE60021A81C /* MapKit.framework */,
 				1DE2A51013833CDD0021A81C /* CoreLocation.framework */,
 				1DB2D660137A853100A0D2D2 /* AudioToolbox.framework */,
@@ -3223,6 +3233,8 @@
 				1DE2A50E13833ACD0021A81C /* CXMLNode.m in Sources */,
 				1DE2A50F13833ACD0021A81C /* CTidy.m in Sources */,
 				1DE906851385CCB800041BAB /* SearchViewController.m in Sources */,
+				1DD2E7D5138B39F800AF1610 /* IndexView.m in Sources */,
+				1DD2E7D9138B47AA00AF1610 /* Index.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

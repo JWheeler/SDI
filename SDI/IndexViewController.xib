@@ -147,7 +147,7 @@
 								<string key="NSFrame">{{37, 28}, {124, 30}}</string>
 								<reference key="NSSuperview" ref="183250794"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="592574104"/>
+								<reference key="NSNextKeyView" ref="255350028"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -209,7 +209,7 @@
 								<string key="NSFrame">{{64, 66}, {48, 21}}</string>
 								<reference key="NSSuperview" ref="183250794"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="224668313"/>
+								<reference key="NSNextKeyView" ref="592574104"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<int key="IBUIContentMode">7</int>
@@ -233,7 +233,7 @@
 								<string key="NSFrame">{{64, 71}, {10, 10}}</string>
 								<reference key="NSSuperview" ref="183250794"/>
 								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="255350028"/>
+								<reference key="NSNextKeyView" ref="224668313"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<object class="NSCustomResource" key="IBUIImage">
@@ -572,6 +572,7 @@
 						<string key="NSFrame">{{254, 380}, {320, 40}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
@@ -1145,7 +1146,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">76</int>
+			<int key="maxID">77</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

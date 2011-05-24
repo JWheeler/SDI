@@ -22,194 +22,110 @@
     [super dealloc];
 }
 
+- (id)init
+{
+    self = [super init];
+    if (self) 
+    {
+        memset(m_pbSessionKey, 0, sizeof(m_pbSessionKey));
+    }
+    
+    return self;
+}
+
 #pragma mark - 커스텀 메서드
 
-// 세션키 생성.
-- (NSString *)genSessionKey
+// 복호화.
+- (NSString *)decrypt:(NSString *)encryptedMsg
 {
-    NSString *letters = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    NSMutableString *randomString = [NSMutableString stringWithCapacity:SESSION_KEY_LEN];
+    char plainMsg[8192] = {0,};
+    unsigned int nPlainMsgLen;
     
-    for (int i = 0; i < SESSION_KEY_LEN; i++) 
-    {
-        [randomString appendFormat:@"%c", [letters characterAtIndex:rand()%[letters length]]];
-    }
+    IW_RETURN ret = IW_Decrypt((unsigned char *)plainMsg, 
+                               &nPlainMsgLen, 
+                               sizeof(plainMsg), 
+                               m_pbSessionKey, 
+                               sizeof(m_pbSessionKey), 
+                               ALG_SEED, 
+                               [encryptedMsg UTF8String]);
     
-    Debug(@"\n---------------------------------------------------------------\
-          \nCurrent sessionKey: %@\
-          \n---------------------------------------------------------------", randomString);
-    
-    return randomString;
-}
-
-// 대칭키 복호화.
-// !!!: 아이폰에서 생성한 세션키로 복호화 한다.
-- (NSMutableString *)decrypt:(char *)encryptedMsg
-{
-    //unsigned char symKey[20] = "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c";
-    const unsigned char *string = (const unsigned char *) [self.sessionKey UTF8String];
-    int symKeyLen = 20;
-    
-    unsigned char decryptedMsg[1024] = {0,};
-    unsigned int decryptedMsg_len = 0;
-    int ret;
-    
-    // 복호화 함수 호출
-    ret = IW_Decrypt(decryptedMsg, &decryptedMsg_len, 1024, string, symKeyLen, ALG_SEED, encryptedMsg);
+    /**
+     *  [한글 인코딩]
+     *  1. CP949: CFStringConvertEncodingToNSStringEncoding(0x0422)
+     *  2. EUC-KR: -2147481280
+     *  3. NSASCIIStringEncoding
+     *  4. NSUTF8StringEncoding
+     */
+    NSString *retVal = [NSString stringWithCString:plainMsg encoding:NSUTF8StringEncoding];
     
     if (IW_SUCCESS == ret)
     {
-        NSMutableString *retVal = [NSMutableString stringWithUTF8String:(const char*)encryptedMsg];
+        Debug(@"Decrypted data: %@", retVal);
         
         // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
+        //[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
         
         return retVal;
     }
     else
     {
         NSMutableString *retVal = [NSMutableString string];
-        [retVal appendFormat:@"대칭키 복호화에 실패했습니다. [Error Code: %i]", ret];
+        [retVal appendFormat:@"복호화에 실패했습니다. [Error Code: %i]", ret];
         Debug(@"%@", retVal);
         
         // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
+        //[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
         
         return nil;
     }
 }
 
 // 하이브리드 암호화.
-// !!!: 공개키로 세션키를 암호화하여 서버에 전달한다.
-- (NSMutableString *)hybridEncrypt:(NSString *)plainMsg
-{
+- (NSString *)hybridEncrypt:(NSString *)plainMsg
+{    
+    char encodedEncData[8192] = {0,};
     const char *szPlainMsg = [plainMsg UTF8String];
-    //int	nPlainMsgLen = mbstowcs(NULL, szPlainMsg, 0);
+    // TODO: 공개키 사용 정책 확인!
+    // 다음 변수는 사용 안함, 현재는 소스코드에 집적 입력함!
+    //const char *szPubKey = [m_pubKey UTF8String];
     
-    // 복호화를 위한 세션키.
-    //unsigned char sessionKey[20] = {0,};
-    void *pKey = (void *) [[self genSessionKey] UTF8String];
-    char encodedEncData[1024] = {0,};
-    int ret;
-    ret = IW_HybridEncryptEx(encodedEncData,
-                           sizeof(encodedEncData), 
-                             pKey,
-                           SESSION_KEY_LEN,
-                           szPlainMsg,
-                           strlen(szPlainMsg),
-                           "ADCBiAKBgHgWQm5CVQBNaGlIgTgv06HhOXQqSuuBPY2EvPvPsEL120jnT5HCU7lMbP8qVvb2qpGmxN+3PUVUXG1yHKqEGkNc77/eOq4KReHFeezH2wPoLnRkivm0pE4MfWwL2N6la5G1lktZdbtsWMAT7GJeEpbbDkTqatbf4XQkG2Cixq/jAgMBAAEA",      // 공개키.
-                           ALG_SEED);
-
+    int ret = IW_HybridEncrypt(encodedEncData, 
+                               sizeof(encodedEncData), 
+                               m_pbSessionKey, 
+                               szPlainMsg, 
+                               mbstowcs(NULL, szPlainMsg, 0),
+                               "ADCBiAKBgHgWQm5CVQBNaGlIgTgv06HhOXQqSuuBPY2EvPvPsEL120jnT5HCU7lMbP8qVvb2qpGmxN+3PUVUXG1yHKqEGkNc77/eOq4KReHFeezH2wPoLnRkivm0pE4MfWwL2N6la5G1lktZdbtsWMAT7GJeEpbbDkTqatbf4XQkG2Cixq/jAgMBAAEA", 
+                               ALG_SEED);
+    
+    NSString *encData = [NSString stringWithFormat:@"%s", encodedEncData];
+    Debug(@"Encrypted data: %@", encData);
+    
+    // Base64 encode된 문자열의 ?, = 등의 특수문자를 URLEncode처리.
+    NSString *escaped = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,                                                               
+                                                                            (CFStringRef)encData, 
+                                                                            NULL, 
+                                                                            CFSTR("!*'();:@&=+$,/?%#[]"), 
+                                                                            kCFStringEncodingUTF8);
+    
     if (IW_SUCCESS == ret)
     {
-        //char *retVal = encodedEncData;
-        
+        Debug(@"Escaped(in encrypted) data: %@", escaped);
         // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:[NSMutableString stringWithUTF8String:(char *)encodedEncData]];
+        //[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:escaped];
         
-        return [NSData dataWithBytes:encodedEncData length:1024];//[NSMutableString stringWithUTF8String:(const char *)encodedEncData];
+        return escaped;
     }
     else
     {
         NSMutableString *retVal = [NSMutableString string];
-        [retVal appendFormat:@"하이브리드 암호화에 실패했습니다. [Error Code: %i]", ret];
+        [retVal appendFormat:@"암호화에 실패했습니다. [Error Code: %i]", ret];
         Debug(@"%@", retVal);
         
         // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
+        //[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
         
         return nil;
     }
-}
-
-// 대칭키 복호화.
-// !!!: 아이폰에서 생성한 세션키로 복호화 한다.
-- (NSMutableString *)hybridDecrypt:(NSData *)encryptedMsg
-{
-    //unsigned char symKey[20] = "\x7e\xa5\xbf\x7e\xa8\x04\x85\x19\x15\x0e\x44\x46\xd9\xe6\x18\x1c";
-    const unsigned char *string = (const unsigned char *) [self.sessionKey UTF8String];
-    int symKeyLen = 20;
-    
-    unsigned char decryptedMsg[1024] = {0,};
-    unsigned int decryptedMsg_len = 0;
-    int ret;
-    
-    // 복호화 함수 호출
-    ret = IW_Decrypt(decryptedMsg, &decryptedMsg_len, 1024, string, symKeyLen, ALG_SEED, encryptedMsg);
-    
-    if (IW_SUCCESS == ret)
-    {
-        NSMutableString *retVal = [NSMutableString stringWithUTF8String:(const char*)encryptedMsg];
-        
-        // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
-        
-        return retVal;
-    }
-    else
-    {
-        NSMutableString *retVal = [NSMutableString string];
-        [retVal appendFormat:@"대칭키 복호화에 실패했습니다. [Error Code: %i]", ret];
-        Debug(@"%@", retVal);
-        
-        // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
-        
-        return nil;
-    }
-}
-
-// 하이브리드 암호화.
-// !!!: 공개키로 세션키를 암호화하여 서버에 전달한다.
-- (NSData *)hybridEncryptEx:(NSString *)plainMsg
-{
-    const char *szPlainMsg = [plainMsg UTF8String];
-    //int	nPlainMsgLen = mbstowcs(NULL, szPlainMsg, 0);
-    
-    // 복호화를 위한 세션키.
-    //unsigned char sessionKey[20] = {0,};
-    void *pKey = (void *) [[self genSessionKey] UTF8String];
-    char encodedEncData[1024] = {0,};
-    int ret;
-    ret = IW_HybridEncryptEx(encodedEncData,
-                             sizeof(encodedEncData), 
-                             pKey,
-                             SESSION_KEY_LEN,
-                             szPlainMsg,
-                             strlen(szPlainMsg),
-                             "ADCBiAKBgHgWQm5CVQBNaGlIgTgv06HhOXQqSuuBPY2EvPvPsEL120jnT5HCU7lMbP8qVvb2qpGmxN+3PUVUXG1yHKqEGkNc77/eOq4KReHFeezH2wPoLnRkivm0pE4MfWwL2N6la5G1lktZdbtsWMAT7GJeEpbbDkTqatbf4XQkG2Cixq/jAgMBAAEA",      // 공개키.
-                             ALG_SEED);
-    
-    if (IW_SUCCESS == ret)
-    {
-        //char *retVal = encodedEncData;
-        
-        // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:[NSMutableString stringWithUTF8String:(char *)encodedEncData]];
-        
-        return [NSData dataWithBytes:encodedEncData length:1024];//[NSMutableString stringWithUTF8String:(const char *)encodedEncData];
-    }
-    else
-    {
-        NSMutableString *retVal = [NSMutableString string];
-        [retVal appendFormat:@"하이브리드 암호화에 실패했습니다. [Error Code: %i]", ret];
-        Debug(@"%@", retVal);
-        
-        // 확인용.
-        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
-        
-        return nil;
-    }
-}
-
-// 테스트.
-- (void)testEncryption
-{
-    NSData *test = [self hybridEncryptEx:@"암호화 테스트"];
-    sleep(5);
-
-    [self decrypt:(char *)test];
-    
 }
 
 @end

@@ -9,16 +9,11 @@
 #import "Encryption.h"
 #include "_Issacwebapi.h"
 
-#define SESSION_KEY_LEN 20
-
 
 @implementation Encryption
 
-@synthesize sessionKey;
-
 - (void)dealloc
 {
-    [sessionKey release];
     [super dealloc];
 }
 
@@ -74,7 +69,7 @@
         Debug(@"%@", retVal);
         
         // 확인용.
-        //[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
+        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
         
         return nil;
     }
@@ -110,6 +105,7 @@
     if (IW_SUCCESS == ret)
     {
         Debug(@"Escaped(in encrypted) data: %@", escaped);
+        
         // 확인용.
         //[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:escaped];
         
@@ -122,7 +118,7 @@
         Debug(@"%@", retVal);
         
         // 확인용.
-        //[LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
+        [LPUtils showAlert:LPAlertTypeFirst andTag:0 withTitle:@"알림" andMessage:retVal];
         
         return nil;
     }

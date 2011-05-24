@@ -14,8 +14,6 @@
     unsigned char m_pbSessionKey[16];
 }
 
-@property (nonatomic, retain) NSString *sessionKey;
-
 - (NSString *)decrypt:(NSString *)encryptedMsg;
 - (NSString *)hybridEncrypt:(NSString *)plainMsg;
 

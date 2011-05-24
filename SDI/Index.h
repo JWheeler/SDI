@@ -17,7 +17,6 @@
 @property (nonatomic, retain) NSString *index;              // 지수.
 @property (nonatomic, retain) NSString *fluctuation;        // 등락.
 @property (nonatomic, retain) NSString *fluctuationRate;    // 등락비율.
-@property (assign) BOOL isFluctuationRate;                  // 등락비율 사용 여부.
 
 - (NSString *)calcFluctionRate;
 - (NSString *)changeFormat:(NSString *)unfromatted;

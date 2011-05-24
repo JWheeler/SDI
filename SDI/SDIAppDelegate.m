@@ -45,13 +45,61 @@ SOLogger *gLogger;
     Debug(@"url path: %@", [url path]);
     NSDictionary *dict = [self parseQueryString:[url query]];
     Debug(@"query dict: %@", dict);
+    
+    // 웹뷰에서 로그인을 호출했을 경우.
+	if ([[url host] isEqualToString:@"login"]) 
+    {
+        [self removeWebView:self.contentController.view.superview];
+	}
 	
 	// 웹뷰에서 홈을 호출했을 경우.
 	if ([[url host] isEqualToString:@"home"]) 
     {
         [self removeWebView:self.contentController.view.superview];
 	}
-	
+    
+    // 웹뷰에서 지점안내를 호출했을 경우.
+	if ([[url host] isEqualToString:@"branch"]) 
+    {
+        [self removeWebView:self.contentController.view.superview];
+	}
+    
+    // 웹뷰에서 관심종목을 호출했을 경우.
+	if ([[url host] isEqualToString:@"irStock"]) 
+    {
+        [self removeWebView:self.contentController.view.superview];
+	}
+    
+    // 웹뷰에서 종목검색을 호출했을 경우.
+	if ([[url host] isEqualToString:@"searchStock"]) 
+    {
+        [self removeWebView:self.contentController.view.superview];
+	}
+    
+    // 웹뷰에서 종목검색 히스토리를 요청했을 경우.
+	if ([[url host] isEqualToString:@"history"]) 
+    {
+        
+	}
+    
+    // 웹뷰에서 실시간 데이터를 요청했을 경우.
+	if ([[url host] isEqualToString:@"real"]) 
+    {
+        
+	}
+    
+    // 웹뷰에서 RQ/RP 데이터를 요청했을 경우.
+	if ([[url host] isEqualToString:@"rq"]) 
+    {
+        
+	}
+    
+    // 웹뷰에서 addHistory 등록을 요청했을 경우.
+	if ([[url host] isEqualToString:@"rq"]) 
+    {
+        
+	}
+    
     return YES;
 }
 

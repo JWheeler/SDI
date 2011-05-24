@@ -28,12 +28,14 @@
 // 등락비율 계산.
 - (NSString *)calcFluctionRate
 {
+    
+    
     return nil;
 }
 
 // 입력된 데이터의 포맷팅.
 // 예: 212262 -> 2,122.62
-- (NSString *)changeFormat:(NSString *)unfromatted
+- (NSString *)changeFormat:(NSString *)string
 {
     return nil; 
 }

@@ -16,6 +16,7 @@
 
 @property (nonatomic, retain) IBOutlet UIWebView *web;
 
+- (void)runJavaScriptForRQ:(NSNotification *)notification;
 - (void)removeWebViewTapGesture:(UITapGestureRecognizer *)recognizer;
 - (IBAction)backAction:(id)sender;
 

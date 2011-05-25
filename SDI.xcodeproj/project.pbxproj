@@ -463,6 +463,7 @@
 		1DD1F60C137A44620094E330 /* m_66@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1DD1F5B5137A44610094E330 /* m_66@2x.png */; };
 		1DD2E7D5138B39F800AF1610 /* IndexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E7D4138B39F800AF1610 /* IndexView.m */; };
 		1DD2E7D9138B47AA00AF1610 /* Index.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2E7D8138B47AA00AF1610 /* Index.m */; };
+		1DD72FEB138C6E8700D6CC19 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD72FEA138C6E8700D6CC19 /* User.m */; };
 		1DD75424134E6FCE003867AE /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1DD75422134E6FCE003867AE /* LoginViewController.m */; };
 		1DD75425134E6FCE003867AE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DD75423134E6FCE003867AE /* LoginViewController.xib */; };
 		1DD754B4134E989E003867AE /* SDI.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 1DD754B3134E989E003867AE /* SDI.sqlite */; };
@@ -1208,6 +1209,8 @@
 		1DD2E7D4138B39F800AF1610 /* IndexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IndexView.m; sourceTree = "<group>"; };
 		1DD2E7D7138B47AA00AF1610 /* Index.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Index.h; sourceTree = "<group>"; };
 		1DD2E7D8138B47AA00AF1610 /* Index.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Index.m; sourceTree = "<group>"; };
+		1DD72FE9138C6E8700D6CC19 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		1DD72FEA138C6E8700D6CC19 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 		1DD75421134E6FCE003867AE /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		1DD75422134E6FCE003867AE /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		1DD75423134E6FCE003867AE /* LoginViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
@@ -1455,9 +1458,10 @@
 		1D013FF01339600B00B1F81F /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				1D2E1B301384F71000DF9A3A /* amsLibrary.h */,
+				1DD72FED138C72C500D6CC19 /* Ext */,
+				1DD72FE9138C6E8700D6CC19 /* User.h */,
+				1DD72FEA138C6E8700D6CC19 /* User.m */,
 				1D065B29137B5687008E0A76 /* Models */,
-				1DB2D654137A70AB00A0D2D2 /* _Issacwebapi.h */,
 				1D02C93E1338907C00B5415B /* AppInfo.h */,
 				1D02C93F1338907C00B5415B /* AppInfo.m */,
 				1D013FF11339602B00B1F81F /* SDIConstants.h */,
@@ -2285,6 +2289,15 @@
 				1DCC5AE413398BD5004E366F /* CSVParser.m */,
 			);
 			path = External;
+			sourceTree = "<group>";
+		};
+		1DD72FED138C72C500D6CC19 /* Ext */ = {
+			isa = PBXGroup;
+			children = (
+				1D2E1B301384F71000DF9A3A /* amsLibrary.h */,
+				1DB2D654137A70AB00A0D2D2 /* _Issacwebapi.h */,
+			);
+			name = Ext;
 			sourceTree = "<group>";
 		};
 		1DE2A4E513833AC10021A81C /* TouchXML */ = {
@@ -3235,6 +3248,7 @@
 				1DE906851385CCB800041BAB /* SearchViewController.m in Sources */,
 				1DD2E7D5138B39F800AF1610 /* IndexView.m in Sources */,
 				1DD2E7D9138B47AA00AF1610 /* Index.m in Sources */,
+				1DD72FEB138C6E8700D6CC19 /* User.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3273,7 +3287,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D6B782EA-AF94-460D-8951-57BCE620A83E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E81B9245-41CA-429A-A48B-B117F6AFF4DA";
 				SDKROOT = iphoneos4.3;
 			};
 			name = Debug;

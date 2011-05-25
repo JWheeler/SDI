@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class User;
 
 // 종목검색 히스토리.
 enum 
@@ -21,6 +22,7 @@ enum
 
 }
 
+@property (nonatomic, retain) User *user;
 @property (nonatomic, retain) NSArray *stockCodeMasters;
 @property (nonatomic, retain) NSMutableArray *stockHistories;
 @property (nonatomic, retain) NSMutableArray *branchs;

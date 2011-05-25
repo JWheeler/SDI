@@ -13,10 +13,12 @@
 @implementation HTTPHandler
 
 @synthesize reponseDict;
+@synthesize reponse;
 
 - (void)dealloc
 {
     [reponseDict release];
+    [reponse release];
     [super dealloc];
 }
 
@@ -63,7 +65,7 @@
 //    [request startAsynchronous];
 //}
 
-// RQ 요청: 통합 버전.
+// RQ 요청: App 용 통합 버전. -----------------------------------------------------
 // trCode는 실제 query string 이다.
 - (void)req:(NSString *)trCode
 {
@@ -106,7 +108,7 @@
         NSString *responseString = [request responseString];
         
         // 데이터 복호화.
-        NSString *decryptedData = [encrypt decrypt:(NSMutableString *)responseString];
+        NSString *decryptedData = [encrypt decrypt:responseString];
         
         // SBJsonParser 생성.
         SBJsonParser *jsonParser = [[[SBJsonParser alloc] init] autorelease];
@@ -120,5 +122,53 @@
         Debug(@"Connection error!");
     }
 }
+// RQ 요청: App 용 통합 버전. -----------------------------------------------------
+
+// RQ 요청: Web 용 통합 버전. -----------------------------------------------------
+- (void)reqForWeb:(NSString *)trCode
+{
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RQRP_SERVER_URL, trCode]];
+    Debug(@"Request URL: %@", url);
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error) 
+    {
+        self.reponse = [request responseString];
+        
+        Debug(@"%@", self.reponseDict);
+    }
+    else
+    {
+        Debug(@"Connection error!");
+    }
+}
+
+// 암호화된 데이터 전송.
+- (void)reqForEncryptForWeb:(NSString *)data
+{
+    // 데이터 암호화.
+    Encryption *encrypt = [[Encryption alloc] init];
+    NSString *encryptData = [encrypt hybridEncrypt:data];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:RQRP_ENCRYPT_SERVER_URL, encryptData]];
+    Debug(@"Request URL: %@", url);
+    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
+    [request startSynchronous];
+    NSError *error = [request error];
+    if (!error) 
+    {
+        
+        // 데이터 복호화.
+        self.reponse = [encrypt decrypt:[request responseString]];
+        
+        Debug(@"%@", self.reponseDict);
+    }
+    else
+    {
+        Debug(@"Connection error!");
+    }
+}
+// RQ 요청: Web 용 통합 버전. -----------------------------------------------------
 
 @end

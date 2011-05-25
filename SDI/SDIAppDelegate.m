@@ -13,12 +13,11 @@
 #import "ContentController.h"
 #import "SBCountController.h"
 #import "DataHandler.h"
+#import "HTTPHandler.h"
 #import "SBManager.h"
 
-// 테스트.
-#import "Encryption.h"
-
 SOLogger *gLogger;
+
 
 @implementation SDIAppDelegate
 
@@ -33,11 +32,8 @@ SOLogger *gLogger;
 
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url 
 {
-	if (!url) 
-    {
-		// URL이 nil인 경우.
-		return NO;
-	}
+    // URL이 nil인 경우.
+	if (!url) { return NO; }
 	
     Debug(@"url recieved: %@", url);
     Debug(@"query string: %@", [url query]);
@@ -50,6 +46,19 @@ SOLogger *gLogger;
 	if ([[url host] isEqualToString:@"login"]) 
     {
         [self removeWebView:self.contentController.view.superview];
+        
+//        [AppInfo sharedAppInfo].user.loginType = [dict objectForKey:@"loginType"];
+//		[AppInfo sharedAppInfo].targetURL = [dict objectForKey:@"target"];
+//        
+//		// 로그인 여부에 따른 분기.
+//		if ([[[AppInfo sharedAppInfo] user] isLogin]) 
+//        {
+//			
+//		}
+//		else 
+//        {
+//			
+//		}
 	}
 	
 	// 웹뷰에서 홈을 호출했을 경우.
@@ -85,17 +94,54 @@ SOLogger *gLogger;
     // 웹뷰에서 실시간 데이터를 요청했을 경우.
 	if ([[url host] isEqualToString:@"real"]) 
     {
+        NSString *trCode = [dict objectForKey:@"trCode"];
+        NSString *stockCode = [dict objectForKey:@"stockCode"];
+        NSString *marketcode = [dict objectForKey:@"idx"];
+        NSString *target = [dict objectForKey:@"target"];
+        NSString *jsName = [dict objectForKey:@"jsName"];
+        
         
 	}
     
     // 웹뷰에서 RQ/RP 데이터를 요청했을 경우.
 	if ([[url host] isEqualToString:@"rq"]) 
     {
+        int isEncrypt = [[dict objectForKey:@"isEncrypt"] intValue];
+        NSString *trCode = [dict objectForKey:@"trCode"];
+        NSString *queryString = [dict objectForKey:@"queryString"];
+        NSString *jsName = [dict objectForKey:@"jsName"];
+
+        HTTPHandler *httpHandler = [[HTTPHandler alloc] init];
         
+        if (isEncrypt == 0) 
+        {
+            // 암호화.
+            NSString *query = [NSString stringWithFormat:@"HDSTR_SRC=trcode/%@%@", trCode, queryString];
+            [httpHandler reqEncryptForWeb:query];
+        }
+        else
+        {
+            NSString *query = [NSString stringWithFormat:@"%@%@", trCode, queryString];
+            [httpHandler reqForWeb:query];
+        }
+        
+        if (httpHandler.reponse != nil) 
+        {
+            NSMutableDictionary *rpDict = [[NSMutableDictionary alloc] init];
+            [rpDict setObject:trCode forKey:@"trCode"];
+            [rpDict setObject:jsName forKey:@"jsName"];
+            [rpDict setObject:httpHandler.reponse forKey:@"data"];
+            
+            NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+            [nc postNotificationName:@"RP" object:self userInfo:rpDict];
+            
+            [rpDict release];
+        }
+        [httpHandler release];
 	}
     
     // 웹뷰에서 addHistory 등록을 요청했을 경우.
-	if ([[url host] isEqualToString:@"rq"]) 
+	if ([[url host] isEqualToString:@"addHistory"]) 
     {
         
 	}
@@ -386,34 +432,34 @@ SOLogger *gLogger;
 	NSString *pushAlert = @"disabled";
 	NSString *pushSound = @"disabled";
 	
-	if(rntypes == UIRemoteNotificationTypeBadge)
+	if (rntypes == UIRemoteNotificationTypeBadge)
     {
 		pushBadge = @"enabled";
 	}
-	else if(rntypes == UIRemoteNotificationTypeAlert)
+	else if (rntypes == UIRemoteNotificationTypeAlert)
     {
 		pushAlert = @"enabled";
 	}
-	else if(rntypes == UIRemoteNotificationTypeSound)
+	else if (rntypes == UIRemoteNotificationTypeSound)
     {
 		pushSound = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert))
+	else if (rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert))
     {
 		pushBadge = @"enabled";
 		pushAlert = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound))
+	else if (rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound))
     {
 		pushBadge = @"enabled";
 		pushSound = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound))
+	else if (rntypes == ( UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound))
     {
 		pushAlert = @"enabled";
 		pushSound = @"enabled";
 	}
-	else if(rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound))
+	else if (rntypes == ( UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound))
     {
 		pushBadge = @"enabled";
 		pushAlert = @"enabled";

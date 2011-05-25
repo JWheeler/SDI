@@ -57,6 +57,10 @@
     recognizerTap.delegate = self;
     [self.web addGestureRecognizer:recognizerTap];
     
+    // RP 노티피케이션.
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(runJavaScriptForRQ:) name:@"RP" object:nil];
+    
     [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.200.2.47/common/html/list.html"]]];
 }
 
@@ -75,6 +79,23 @@
 
 #pragma mark - 커스텀 메서드
 
+// 웹뷰로 데이터 전달.
+- (void)runJavaScriptForRQ:(NSNotification *)notification 
+{
+    // 트림 및 이스케이프 처리.
+    NSString *data = [[notification userInfo] objectForKey:@"data"];
+    data = [data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    data = [data stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    
+    NSString *jsCommand = [NSString stringWithFormat:@"%@('%@', '%@');", 
+                           [[notification userInfo] objectForKey:@"jsName"],
+                           [[notification userInfo] objectForKey:@"trCode"], 
+                           data];
+
+    [self.web stringByEvaluatingJavaScriptFromString:jsCommand];
+}
+
+// 웹뷰 제거.
 - (void)removeWebViewTapGesture:(UITapGestureRecognizer *)recognizer
 {
     // TODO: 애니메이션 효과 결정할 것!

@@ -16,10 +16,12 @@
 #import "SBCount.h"
 #import "SBManager.h"
 #import "TouchXML.h"
+#import "User.h"
 
 
 @implementation AppInfo
 
+@synthesize user;
 @synthesize stockCodeMasters;
 @synthesize stockHistories;
 @synthesize branchs;
@@ -68,6 +70,11 @@ static AppInfo *sharedAppInfo = nil;
 	if (self) 
     {
         [self loadBranchs];
+        
+        // 사용자 정보.
+        self.user = [User sharedUser];
+		self.user.loginType = nil;
+		self.user.loginState = @"1";
 	}
 	
 	return self;

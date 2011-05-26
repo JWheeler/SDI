@@ -90,6 +90,7 @@ static User *sharedUser = nil;
     return self;
 }
 
+// TODO: 중계서버가 기존 소켓서버가 아닌 웹서버이고 데이터 포맷은 JSON 임, 그에 맞춰 수정할 것!
 // 파싱된 전문 중 사용자정보 설정.
 //- (void)parseAccount:(NSMutableDictionary *)dict 
 //{

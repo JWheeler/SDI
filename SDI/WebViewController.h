@@ -23,6 +23,8 @@
 - (void)runJavaScriptForRqRp:(NSNotification *)notification;
 - (void)configNotification:(NSNotification *)notification;
 - (void)runJavaScriptForReal:(NSNotification *)notification;
+- (void)runJavaScriptForHistory:(NSNotification *)notification;
+- (void)runJavaScriptForLogin:(NSNotification *)notification;
 - (void)removeWebViewTapGesture:(UITapGestureRecognizer *)recognizer;
 - (IBAction)backAction:(id)sender;
 

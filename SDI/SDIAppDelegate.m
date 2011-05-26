@@ -42,24 +42,39 @@ SOLogger *gLogger;
     NSDictionary *dict = [self parseQueryString:[url query]];
     Debug(@"query dict: %@", dict);
     
-    // TODO: 로그인 프로세스 먼저 구현할 것!
+    // TODO: 로그인 화면 개발 후 실제 로직 추가할 것!
     // 웹뷰에서 로그인을 호출했을 경우.
 	if ([[url host] isEqualToString:@"login"]) 
     {
-//        [self removeWebView:self.contentController.view.superview];
-//        
-//        [AppInfo sharedAppInfo].user.loginType = [dict objectForKey:@"loginType"];
-//		[AppInfo sharedAppInfo].targetURL = [dict objectForKey:@"target"];
-//        
-//		// 로그인 여부에 따른 분기.
-//		if ([[[AppInfo sharedAppInfo] user] isLogin]) 
-//        {
-//			
-//		}
-//		else 
-//        {
-//			
-//		}
+        NSString *loginType = [dict objectForKey:@"loginType"];
+        NSString *target = [dict objectForKey:@"target"];
+        NSString *jsName = [dict objectForKey:@"jsName"];
+        
+        //[self removeWebView:self.contentController.view.superview];
+        
+        [[AppInfo sharedAppInfo] user].loginType = loginType;
+        
+        // !!!: 현재는 로그인 됐다는 전제하에, 데이터만 넘겨줌...
+        [[AppInfo sharedAppInfo] user].isLogin = YES;
+        /////////////////////////////////////////////////
+		// 로그인 여부에 따른 분기.
+		if ([[[AppInfo sharedAppInfo] user] isLogin]) 
+        {
+			// 로그인 정보 전달.
+            NSMutableDictionary *loginDict = [[NSMutableDictionary alloc] init];
+            [loginDict setObject:loginType forKey:@"loginType"];
+            [loginDict setObject:@"0" forKey:@"loginState"];
+            [loginDict setObject:jsName forKey:@"jsName"];
+            
+            NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+            [nc postNotificationName:@"Login" object:self userInfo:loginDict];
+            
+            [loginDict release];
+		}
+		else 
+        {
+			// 로그인 화면으로 이동.
+		}
 	}
 	
 	// 웹뷰에서 홈을 호출했을 경우.
@@ -89,7 +104,16 @@ SOLogger *gLogger;
     // 웹뷰에서 종목검색 히스토리를 요청했을 경우.
 	if ([[url host] isEqualToString:@"history"]) 
     {
+        NSString *jsName = [dict objectForKey:@"jsName"];
         
+        NSMutableDictionary *historyDict = [[NSMutableDictionary alloc] init];
+        [historyDict setObject:jsName forKey:@"jsName"];
+        [historyDict setObject:[AppInfo sharedAppInfo].stockHistories forKey:@"data"];
+        
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:@"History" object:self userInfo:historyDict];
+
+        [historyDict release];
 	}
     
     // 웹뷰에서 실시간 데이터를 요청했을 경우.
@@ -100,11 +124,12 @@ SOLogger *gLogger;
         NSString *marketCode = [dict objectForKey:@"marketCode"];
         NSString *jsName = [dict objectForKey:@"jsName"];
         
-        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-        [dict setValue:stockCode forKey:@"stockCode"];
+        // TODO: 확인 후 정리할 것.
+        NSMutableDictionary *sbDict = [[NSMutableDictionary alloc] init];
+        [sbDict setValue:stockCode forKey:@"stockCode"];
         
         // SB 등록 메시지 전송.
-        [[AppInfo sharedAppInfo] regSB:dict idx:marketCode trCode:trCode];
+        [[AppInfo sharedAppInfo] regSB:sbDict idx:marketCode trCode:trCode];
         
         NSMutableDictionary *realDict = [[NSMutableDictionary alloc] init];
         [realDict setObject:trCode forKey:@"trCode"];
@@ -157,7 +182,18 @@ SOLogger *gLogger;
     // 웹뷰에서 addHistory 등록을 요청했을 경우.
 	if ([[url host] isEqualToString:@"addHistory"]) 
     {
+        NSString *marketCode = [dict objectForKey:@"marketCode"];
+        NSString *stockCode = [dict objectForKey:@"stockCode"];
+        NSString *stockName = [dict objectForKey:@"stockName"];
         
+        NSMutableDictionary *historyDict = [[NSMutableDictionary alloc] init];
+        [historyDict setObject:marketCode forKey:@"marketCode"];
+        [historyDict setObject:stockCode forKey:@"stockCode"];
+        [historyDict setObject:stockName forKey:@"stockName"];
+        
+        [[AppInfo sharedAppInfo] addStockHistory:historyDict];
+        
+        [historyDict release];
 	}
     
     return YES;
@@ -725,7 +761,7 @@ SOLogger *gLogger;
     [[AppInfo sharedAppInfo] manageStockHistory:Save];
 }
 
-// URL 파싱.
+// URL의 쿼리스트링 파싱.
 - (NSDictionary *)parseQueryString:(NSString *)query 
 {
     NSMutableDictionary *dict = [[[NSMutableDictionary alloc] initWithCapacity:8] autorelease];

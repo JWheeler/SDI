@@ -65,10 +65,12 @@
     recognizerTap.delegate = self;
     [self.web addGestureRecognizer:recognizerTap];
     
-    // RqRp와 Real 노티피케이션.
+    // RqRp, Real, history, login 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(runJavaScriptForRqRp:) name:@"RqRp" object:nil];
     [nc addObserver:self selector:@selector(configNotification:) name:@"Real" object:nil];
+    [nc addObserver:self selector:@selector(runJavaScriptForHistory:) name:@"History" object:nil];
+    [nc addObserver:self selector:@selector(runJavaScriptForLogin:) name:@"Login" object:nil];
     
     [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.200.2.47/common/html/list.html"]]];
 }
@@ -132,6 +134,40 @@
         
         [self.web stringByEvaluatingJavaScriptFromString:jsCommand]; 
     }
+}
+
+// 웹뷰로 히스토리 데이터 전달.
+- (void)runJavaScriptForHistory:(NSNotification *)notification
+{
+    // 데이터 포맷.
+    NSMutableDictionary *dataDict = [[NSMutableDictionary alloc] init];
+    [dataDict setObject:[[notification userInfo] objectForKey:@"data"] forKey:@"histories"];
+    
+    // JSON 포맷.
+    NSString *json = [dataDict JSONRepresentation];
+    
+    // 이스케이프 처리.
+    json = [json stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    
+    NSString *jsCommand = [NSString stringWithFormat:@"%@('%@');", 
+                           [[notification userInfo] objectForKey:@"jsName"],
+                           json];
+    
+    [self.web stringByEvaluatingJavaScriptFromString:jsCommand];
+}
+
+// 웹뷰로 로그인 정보 전달.
+- (void)runJavaScriptForLogin:(NSNotification *)notification
+{
+    // JSON 포맷.
+    NSString *json = [[notification userInfo] JSONRepresentation];
+    json = [json stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    
+    NSString *jsCommand = [NSString stringWithFormat:@"%@('%@');", 
+                           [[notification userInfo] objectForKey:@"jsName"],
+                           json];
+
+    [self.web stringByEvaluatingJavaScriptFromString:jsCommand]; 
 }
 
 // 웹뷰 제거.

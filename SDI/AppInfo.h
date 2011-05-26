@@ -7,8 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@class User;
+#import "User.h"
 
 // 종목검색 히스토리.
 enum 
@@ -42,7 +41,7 @@ enum
 - (void)removeSBManager:(NSString *)idx trCode:(NSString *)trCode stockCode:(NSString *)stockCode;
 - (void)manageStockHistory:(NSInteger)type;
 - (NSMutableArray *)loadStockHistories:(NSString *)file;
-- (void)addStockHistory:(NSDictionary *)dict;
+- (void)addStockHistory:(NSMutableDictionary *)dict;
 - (NSString *)searchMarketCode:(NSString *)stockCode;
 - (void)loadBranchs;
 - (void)grabBranchs;

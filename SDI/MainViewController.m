@@ -456,8 +456,19 @@
                 [self setupSearchResultView:httpHandler.reponseDict withStockName:stockName];
                 self.searchBar.text = nil;
                 
+                // TODO: 상세 검색에도 꼭 추가할 것!
                 // 검색 성공 후, 종목검색 히스토리 추가.
-                [[AppInfo sharedAppInfo] addStockHistory:dict];
+                NSMutableDictionary *historyDict = [[NSMutableDictionary alloc] init];
+                [historyDict setObject:marketCode forKey:@"marketCode"];
+                [historyDict setObject:stockCode forKey:@"stockCode"];
+                [historyDict setObject:stockName forKey:@"stockName"];
+                
+                [[AppInfo sharedAppInfo] addStockHistory:historyDict];
+                
+                [historyDict release];
+                
+//                // 검색 성공 후, 종목검색 히스토리 추가.
+//                [[AppInfo sharedAppInfo] addStockHistory:dict];
                 
                 return;
             }

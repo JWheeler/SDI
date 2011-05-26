@@ -16,7 +16,6 @@
 #import "SBCount.h"
 #import "SBManager.h"
 #import "TouchXML.h"
-#import "User.h"
 
 
 @implementation AppInfo
@@ -387,7 +386,7 @@ static AppInfo *sharedAppInfo = nil;
 }
 
 // 종목검색 히스토리 저장.
-- (void)addStockHistory:(NSDictionary *)dict
+- (void)addStockHistory:(NSMutableDictionary *)dict
 {
     int stockHistoryCnt = [self.stockHistories count];
     

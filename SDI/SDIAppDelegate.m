@@ -42,11 +42,12 @@ SOLogger *gLogger;
     NSDictionary *dict = [self parseQueryString:[url query]];
     Debug(@"query dict: %@", dict);
     
+    // TODO: 로그인 프로세스 먼저 구현할 것!
     // 웹뷰에서 로그인을 호출했을 경우.
 	if ([[url host] isEqualToString:@"login"]) 
     {
-        [self removeWebView:self.contentController.view.superview];
-        
+//        [self removeWebView:self.contentController.view.superview];
+//        
 //        [AppInfo sharedAppInfo].user.loginType = [dict objectForKey:@"loginType"];
 //		[AppInfo sharedAppInfo].targetURL = [dict objectForKey:@"target"];
 //        
@@ -96,11 +97,24 @@ SOLogger *gLogger;
     {
         NSString *trCode = [dict objectForKey:@"trCode"];
         NSString *stockCode = [dict objectForKey:@"stockCode"];
-        NSString *marketcode = [dict objectForKey:@"idx"];
-        NSString *target = [dict objectForKey:@"target"];
+        NSString *marketCode = [dict objectForKey:@"marketCode"];
         NSString *jsName = [dict objectForKey:@"jsName"];
         
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+        [dict setValue:stockCode forKey:@"stockCode"];
         
+        // SB 등록 메시지 전송.
+        [[AppInfo sharedAppInfo] regSB:dict idx:marketCode trCode:trCode];
+        
+        NSMutableDictionary *realDict = [[NSMutableDictionary alloc] init];
+        [realDict setObject:trCode forKey:@"trCode"];
+        [realDict setObject:stockCode forKey:@"stockCode"];
+        [realDict setObject:jsName forKey:@"jsName"];
+        
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:@"Real" object:self userInfo:realDict];
+        
+        [realDict release];
 	}
     
     // 웹뷰에서 RQ/RP 데이터를 요청했을 경우.
@@ -133,7 +147,7 @@ SOLogger *gLogger;
             [rpDict setObject:httpHandler.reponse forKey:@"data"];
             
             NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-            [nc postNotificationName:@"RP" object:self userInfo:rpDict];
+            [nc postNotificationName:@"RqRp" object:self userInfo:rpDict];
             
             [rpDict release];
         }
@@ -688,10 +702,10 @@ SOLogger *gLogger;
     [[AppInfo sharedAppInfo] loadStockCodeMaster:JONGMOK_MASTER];
     
     // 데이터핸들러.
-    //[DataHandler sharedDataHandler];
+    [DataHandler sharedDataHandler];
     
     // SB 등록 관리.
-    //[SBManager sharedSBManager];
+    [SBManager sharedSBManager];
     
     // 종목검색 히스토리 읽기.
     [[AppInfo sharedAppInfo] manageStockHistory:Read];

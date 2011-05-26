@@ -7,11 +7,15 @@
 //
 
 #import "WebViewController.h"
+#import "NSObject+JSON.h"
 
 
 @implementation WebViewController
 
 @synthesize web;
+@synthesize trCd;
+@synthesize stockCode;
+@synthesize jsFunction;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -25,6 +29,10 @@
 - (void)dealloc
 {
     [web release];
+    [trCd release];
+    [stockCode release];
+    [jsFunction release];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
@@ -57,9 +65,10 @@
     recognizerTap.delegate = self;
     [self.web addGestureRecognizer:recognizerTap];
     
-    // RP 노티피케이션.
+    // RqRp와 Real 노티피케이션.
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(runJavaScriptForRQ:) name:@"RP" object:nil];
+    [nc addObserver:self selector:@selector(runJavaScriptForRqRp:) name:@"RqRp" object:nil];
+    [nc addObserver:self selector:@selector(configNotification:) name:@"Real" object:nil];
     
     [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.200.2.47/common/html/list.html"]]];
 }
@@ -79,8 +88,8 @@
 
 #pragma mark - 커스텀 메서드
 
-// 웹뷰로 데이터 전달.
-- (void)runJavaScriptForRQ:(NSNotification *)notification 
+// 웹뷰로 RQ/RP 데이터 전달.
+- (void)runJavaScriptForRqRp:(NSNotification *)notification 
 {
     // 트림 및 이스케이프 처리.
     NSString *data = [[notification userInfo] objectForKey:@"data"];
@@ -93,6 +102,36 @@
                            data];
 
     [self.web stringByEvaluatingJavaScriptFromString:jsCommand];
+}
+
+// 웹뷰로 실시간 데이터 전달하기 위해...
+- (void)configNotification:(NSNotification *)notification
+{
+    self.trCd = [[notification userInfo] objectForKey:@"trCode"];
+    self.stockCode = [[notification userInfo] objectForKey:@"stockCode"];
+    self.jsFunction = [[notification userInfo] objectForKey:@"jsName"];
+    
+    // 실시간 시세 노티피케이션.
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    [nc addObserver:self selector:@selector(runJavaScriptForReal:) name:self.trCd object:nil];
+}
+
+// 웹뷰로 실시간 데이터 전달.
+- (void)runJavaScriptForReal:(NSNotification *)notification
+{
+    if ([self.stockCode isEqualToString:[[notification userInfo] objectForKey:@"isCd"]]) 
+    {
+        // JSON 포맷.
+        NSString *json = [[notification userInfo] JSONRepresentation];
+        json = [json stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+        
+        NSString *jsCommand = [NSString stringWithFormat:@"%@('%@', '%@');", 
+                               self.jsFunction,
+                               self.trCd, 
+                               json];
+        
+        [self.web stringByEvaluatingJavaScriptFromString:jsCommand]; 
+    }
 }
 
 // 웹뷰 제거.

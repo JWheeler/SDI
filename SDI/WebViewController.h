@@ -15,8 +15,14 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWebView *web;
+@property (nonatomic, retain) NSString *trCd;
+@property (nonatomic, retain) NSString *stockCode;
+@property (nonatomic, retain) NSString *jsFunction;
 
-- (void)runJavaScriptForRQ:(NSNotification *)notification;
+
+- (void)runJavaScriptForRqRp:(NSNotification *)notification;
+- (void)configNotification:(NSNotification *)notification;
+- (void)runJavaScriptForReal:(NSNotification *)notification;
 - (void)removeWebViewTapGesture:(UITapGestureRecognizer *)recognizer;
 - (IBAction)backAction:(id)sender;
 

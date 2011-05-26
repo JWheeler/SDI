@@ -205,8 +205,6 @@ static AppInfo *sharedAppInfo = nil;
         stringFile = [self readToMasterFile:masterName];
     }
     
-    //Debug(@"%@", stringFile);
-    
     // 파싱.
     StockCode *stockCode = [[StockCode alloc] init];
     NSArray *headers = stockCode.headers;
@@ -215,13 +213,7 @@ static AppInfo *sharedAppInfo = nil;
                                                 hasHeader:NO
                                                fieldNames:headers];
     self.stockCodeMasters = [NSArray array];
-    self.stockCodeMasters = [parser arrayOfParsedRows];
-//    Debug(@"%d", [stockCodeMasters count]);
-//    
-//    for (int i = 0; i < [stockCodeMasters count]; i++) {
-//        Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> %@", [[stockCodeMasters objectAtIndex:i] objectForKey:@"stockName"]);
-//    }
-        
+    self.stockCodeMasters = [parser arrayOfParsedRows];        
 }
 
 // TODO: 좀 더 효율적인 방법으로 수정할 것!

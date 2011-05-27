@@ -6,9 +6,9 @@
 //  Copyright 2011 Lilac Studio. All rights reserved.
 //
 
-//#define SERVER_URL @"ws://202.30.200.180:9090/socket.io/websocket/"     // 테스트 외부.
+//#define SERVER_URL @"ws://202.30.200.180:9090/socket.io/websocket/"    // 테스트 외부.
 #define SERVER_URL @"ws://10.200.2.47:9090/socket.io/websocket/"     // 테스트 내부.
-//#define SERVER_URL @"ws://172.35.1.130:10000/"
+
 
 // Node.js 프리 헤더: 데이터 전송 시 사용!
 #define NODE_PRE_HEADER @"~m~%d~m~"
@@ -24,6 +24,7 @@
 #define MDCLSF_iPAD @"382"              // 아이패드.
 #define MDCLSF_ANDROID_PAD @"383"       // 안드로이드 패드.
 
+// TODO: 전체 리얼 TR 코드 추가할 것.
 // TR 코드.
 #define TRCD_MAINSTRT @"MAINSTRT"       // SB 등록/해제/최초접속/접속종료.
 #define TRCD_MAINEXIT @"MAINEXIT"       // SB 접속종료.

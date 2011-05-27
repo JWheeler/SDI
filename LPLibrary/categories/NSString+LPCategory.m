@@ -30,5 +30,17 @@
 	return suggestedSize;
 }
 
+// URL 인코딩.
+- (NSString *)stringByUrlEncoding 
+{
+	return [(NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)self, NULL, CFSTR(":/?#[]@!$&’()*+,;="), kCFStringEncodingUTF8) autorelease];	
+}
+
+// URL 디코딩.
+- (NSString *)stringByUrlDecoding 
+{
+	return [self stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 
 @end

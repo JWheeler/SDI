@@ -13,5 +13,7 @@
 
 - (void)drawCenteredInRect:(CGRect)rect withFont:(UIFont *)font;
 - (CGSize)heightWithFont:(UIFont*)withFont width:(float)width linebreak:(UILineBreakMode)lineBreakMode;
+- (NSString *)stringByUrlEncoding;
+- (NSString *)stringByUrlDecoding;
 
 @end

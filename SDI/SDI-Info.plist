@@ -116,6 +116,16 @@
 				<string>smp</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>addNaviButton</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>smp</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>

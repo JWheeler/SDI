@@ -48,13 +48,13 @@ SOLogger *gLogger;
     {
         NSString *loginType = [dict objectForKey:@"loginType"];
         NSString *target = [dict objectForKey:@"target"];
-        NSString *jsName = [dict objectForKey:@"jsName"];
+        NSString *jsName = [dict objectForKey:@"jsName"];   // 자바스크립트 함수는 "사용자 계좌정보" 전달 시 사용함!
         
         //[self removeWebView:self.contentController.view.superview];
         
         [[AppInfo sharedAppInfo] user].loginType = loginType;
         
-        // !!!: 현재는 로그인 됐다는 전제하에, 데이터만 넘겨줌...
+        // !!!: 현재는 로그인 됐다는 전제 하에, 데이터만 넘겨줌...
         [[AppInfo sharedAppInfo] user].isLogin = YES;
         /////////////////////////////////////////////////
 		// 로그인 여부에 따른 분기.
@@ -139,6 +139,7 @@ SOLogger *gLogger;
         NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc postNotificationName:@"Real" object:self userInfo:realDict];
         
+        [sbDict release];
         [realDict release];
 	}
     
@@ -196,6 +197,14 @@ SOLogger *gLogger;
         [historyDict release];
 	}
     
+    // TODO: 웹에서 사용할 목록 확인 후 추가 할 것!
+    // 웹뷰에서 네이게이션바 우측의 버튼 생성 요청.
+    if ([[url host] isEqualToString:@"addNaviButton"]) 
+    {
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc postNotificationName:@"AddNaviButton" object:self userInfo:dict];
+    }
+    
     return YES;
 }
 
@@ -237,7 +246,7 @@ SOLogger *gLogger;
 //    [self performSelector:@selector(printViewHierarchy)
 //               withObject:nil
 //               afterDelay:2.0 /* 뷰가 세팅될 시간 확보 */ ];
-    
+
     return YES;
 }
 
@@ -270,6 +279,7 @@ SOLogger *gLogger;
     // SB 최초 접속 등록.
     TRGenerator *tr = [[TRGenerator alloc] init];
     [[DataHandler sharedDataHandler] sendMessage:[tr genInitOrFinishSB:TRCD_MAINSTRT andCMD:SB_CMD_INIT_OR_FINISH]];
+    [tr release];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -544,6 +554,8 @@ SOLogger *gLogger;
 	NSData *returnData = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 	NSLog(@"Register URL: %@", url);
 	NSLog(@"Return Data: %@", [NSString stringWithUTF8String:[returnData bytes]]);
+    
+    [url release];
 	
 #endif
 }
@@ -558,6 +570,7 @@ SOLogger *gLogger;
 #endif
 }
 
+// TODO: 정책에 맞게 수정할 것!
 // 앱이 실행되는 동안 원격 노티피케이션을 수신할 경우.
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo 
 {

@@ -7,7 +7,7 @@
 //
 
 // APNS Provider
-#define APNS_PROVIDER_URL @"10.200.2.47:8081/apns"  // 테스트.
+#define APNS_PROVIDER_URL @"10.200.2.47:8081/apns"  // 테스트 내부.
 
 // RQ/RP 서버.
 #define RQ_RP_SERVER_URL @"10.200.2.47"    // 테스트.

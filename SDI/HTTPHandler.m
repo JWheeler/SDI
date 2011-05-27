@@ -145,7 +145,7 @@
 }
 
 // 암호화된 데이터 전송.
-- (void)reqForEncryptForWeb:(NSString *)data
+- (void)reqEncryptForWeb:(NSString *)data
 {
     // 데이터 암호화.
     Encryption *encrypt = [[Encryption alloc] init];

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 
 @interface WebViewController : UIViewController <UIWebViewDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>

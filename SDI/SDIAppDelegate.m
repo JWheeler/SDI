@@ -56,15 +56,25 @@ SOLogger *gLogger;
         
         // !!!: 현재는 로그인 됐다는 전제 하에, 데이터만 넘겨줌...
         [[AppInfo sharedAppInfo] user].isLogin = YES;
+        NSString *ssn = @"7605131000011";
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"account" ofType:@"txt"];
+        NSString *account = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+        //account = [account stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+        
+        Debug(@">>>>>>>>>>>%@", account);
         /////////////////////////////////////////////////
 		// 로그인 여부에 따른 분기.
 		if ([[[AppInfo sharedAppInfo] user] isLogin]) 
         {
+            // TODO: 로그인 페이지 개발 후, 로그인 프로세스 완료 후 처리하도록 수정할 것!
 			// 로그인 정보 전달.
             NSMutableDictionary *loginDict = [[NSMutableDictionary alloc] init];
             [loginDict setObject:loginType forKey:@"loginType"];
             [loginDict setObject:@"0" forKey:@"loginState"];
+            [loginDict setObject:target forKey:@"target"];
             [loginDict setObject:jsName forKey:@"jsName"];
+            [loginDict setObject:ssn forKey:@"ssn"];
+            [loginDict setObject:account forKey:@"account"];
             
             NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
             [nc postNotificationName:@"Login" object:self userInfo:loginDict];
@@ -75,6 +85,9 @@ SOLogger *gLogger;
         {
 			// 로그인 화면으로 이동.
 		}
+        
+        // 로그인 관련 정보 전달해야함.
+        // target에 loginType, loginState, ssn 추가할 것. 
 	}
 	
 	// 웹뷰에서 홈을 호출했을 경우.
@@ -725,7 +738,6 @@ SOLogger *gLogger;
         case ReachableViaWiFi:
         {
             statusString= @"Reachable WiFi";
-            
             break;
         }
     }

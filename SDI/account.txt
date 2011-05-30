@@ -1,0 +1,14 @@
+[
+{"nwOldClsf":"2","rsdntRno":"7605131000011","oldAcNo":"00107203809","nwAcNo":"20117638201","acOwnNm":"박일영","gdsGrpCd":"07","gdsGrpNm":"선물옵션","gdsTypeCd":"070","slfAcClsf":"1","acNckNm":"테스트1"},
+{"nwOldClsf":"2","rsdntRno":"7605131000011","oldAcNo":"00111203809","nwAcNo":"20142851201","acOwnNm":"박일영","gdsGrpCd":"09","gdsGrpNm":"수익증권","gdsTypeCd":"090","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"2","rsdntRno":"7605131000011","oldAcNo":"00111221806","nwAcNo":"20146375001","acOwnNm":"박일영","gdsGrpCd":"09","gdsGrpNm":"수익증권","gdsTypeCd":"090","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"2","rsdntRno":"7605131000011","oldAcNo":"00130246185","nwAcNo":"20155559801","acOwnNm":"박일영","gdsGrpCd":"03","gdsGrpNm":"CMA","gdsTypeCd":"030","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"2","rsdntRno":"7605131000011","oldAcNo":"00161203809","nwAcNo":"20170199201","acOwnNm":"박일영","gdsGrpCd":"06","gdsGrpNm":"일반증권저축","gdsTypeCd":"060","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"1","rsdntRno":"7605131000011","oldAcNo":"","nwAcNo":"24418625901","acOwnNm":"박일영","gdsGrpCd":"01","gdsGrpNm":"종합위탁","gdsTypeCd":"210","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"1","rsdntRno":"7605131000011","oldAcNo":"","nwAcNo":"24418625902","acOwnNm":"박일영","gdsGrpCd":"09","gdsGrpNm":"금융상품","gdsTypeCd":"250","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"1","rsdntRno":"7605131000011","oldAcNo":"","nwAcNo":"24656553501","acOwnNm":"박일영","gdsGrpCd":"01","gdsGrpNm":"종합위탁","gdsTypeCd":"210","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"1","rsdntRno":"7605131000011","oldAcNo":"","nwAcNo":"24656553502","acOwnNm":"박일영","gdsGrpCd":"09","gdsGrpNm":"금융상품","gdsTypeCd":"250","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"1","rsdntRno":"7605131000011","oldAcNo":"","nwAcNo":"24656553503","acOwnNm":"박일영","gdsGrpCd":"03","gdsGrpNm":"CMA","gdsTypeCd":"230","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"1","rsdntRno":"7605131000011","oldAcNo":"","nwAcNo":"24656553504","acOwnNm":"박일영","gdsGrpCd":"07","gdsGrpNm":"선물옵션","gdsTypeCd":"270","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"1","rsdntRno":"7605131000011","oldAcNo":"","nwAcNo":"24766664901","acOwnNm":"박일영","gdsGrpCd":"03","gdsGrpNm":"CMA","gdsTypeCd":"230","slfAcClsf":"1","acNckNm":"테스트"},
+{"nwOldClsf":"2","rsdntRno":"7112032000146","oldAcNo":"09101207871","nwAcNo":"23449717601","acOwnNm":"김일순","gdsGrpCd":"01","gdsGrpNm":"위탁","gdsTypeCd":"010","slfAcClsf":"2","acNckNm":"테스트"}]

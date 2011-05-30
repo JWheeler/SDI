@@ -420,6 +420,7 @@
     navigationController.view.frame = ContentViewFrame;
     navigationController.view.tag = 1010;   // !!!: 뷰의 태그는 화면번호로 설정함!
     [self.view.superview.superview addSubview:navigationController.view];
+    [navigationController.view bringToFront];
     
     // TODO: 애니메이션 변경.
     // 전체메뉴를 모달로 띄움.

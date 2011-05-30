@@ -54,6 +54,11 @@
 {
     [super viewDidLoad];
     
+    // 웹뷰 설정.
+    web.scalesPageToFit = YES;
+	web.allowsInlineMediaPlayback = YES;
+	web.mediaPlaybackRequiresUserAction = NO;
+    
     // 이전화면 버튼.
     UIButton *backButton = [UIButton buttonWithType:101];
     [backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -79,6 +84,9 @@
     
     // 테스트.
     [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.200.2.47/common/html/list.html"]]];
+    //[web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://m.youfirst.co.kr/portal/pr/cf.html"]]];
+    
+    
 }
 
 - (void)viewDidUnload
@@ -121,12 +129,29 @@
 		return NO;
 	}
     
+    // 무비플레이어.
+	if (navigationType == UIWebViewNavigationTypeLinkClicked) 
+    {
+		if ([pathExtension isEqualToString:@"mp4"]) 
+        {
+            MPMoviePlayerViewController *mp = [[MPMoviePlayerViewController alloc] initWithContentURL:reqUrl];
+            
+            mp.moviePlayer.scalingMode = MPMovieScalingModeAspectFit; 
+            mp.moviePlayer.movieSourceType = MPMovieSourceTypeFile;
+            [mp.moviePlayer play];
+            
+            [self presentMoviePlayerViewControllerAnimated:mp];
+
+			return NO;
+		}
+	}
+    
 	return YES;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView 
 {
-    
+   
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView 
@@ -137,7 +162,7 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error 
 {
-	
+    
 }
 
 #pragma mark - 커스텀 메서드
@@ -239,7 +264,7 @@
 
 // 웹뷰로 로그인 정보 전달.
 - (void)runJavaScriptForLogin:(NSNotification *)notification
-{
+{    
     // JSON 포맷.
     NSString *json = [[notification userInfo] JSONRepresentation];
     json = [json stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
@@ -254,6 +279,9 @@
 // 네비게이션에 버튼 추가.
 - (void)addNaviButton:(NSNotification *)notification
 {
+    // 이전에 만든 버튼 삭제.
+    self.navigationItem.rightBarButtonItem = nil;
+    
     NSString *buttonType = [[notification userInfo] objectForKey:@"buttonType"];
     self.url = [[notification userInfo] objectForKey:@"target"];
     self.jsFunction = [[notification userInfo] objectForKey:@"jsName"];
@@ -303,8 +331,14 @@
 // 백버튼 액션.
 - (IBAction)backAction:(id)sender
 {
-    Debug(@"Back button tapped!");
-    [self.navigationController.view removeFromSuperview];
+    if (!self.web.canGoBack) 
+    {
+        [self.navigationController.view removeFromSuperview];
+    }
+    else
+    {
+        [self.web goBack];
+    }
 }
 
 // 웹뷰 리프레쉬.
@@ -322,20 +356,13 @@
 
 // 페이지 이동.
 - (void)goToPage:(id)sender
-{
+{    
     if (self.url != nil) 
     {
-        /**
-         *  !!!: 인코딩 확인 필요.
-         1. CP949: CFStringConvertEncodingToNSStringEncoding(0x0422)
-         2. EUC-KR: -2147481280
-         3. NSASCIIStringEncoding
-         4. NSUTF8StringEncoding
-         */
-        Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", self.url);
-        NSString *decoded = [self.url stringByUrlDecoding];  //[self.url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        Debug(@">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>%@", decoded);
-		[self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:decoded]]];
+        self.url = [self.url stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        self.url = [self.url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+		[self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.url]]];
 	}
 }
 
